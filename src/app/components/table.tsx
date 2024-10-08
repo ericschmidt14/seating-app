@@ -18,9 +18,10 @@ export default function TableGroup({
       <div className="flex flex-col gap-2">
         <SeatRow capacity={capacity / 2} firstId={1} tabledId={id} />
         <div
-          className={`w-full h-12 rounded flex justify-center items-center bg-white/30 ${
-            selected && "bg-[#b3193e]"
-          }`}
+          className="w-full h-12 rounded flex justify-center items-center bg-white/30"
+          style={{
+            background: selected ? "#b3193e" : "",
+          }}
         >
           {id}
         </div>

@@ -13,9 +13,14 @@ export default function Seat({ id, tableId }: { id: string; tableId: string }) {
 
   return (
     <div
-      className={`relative w-6 h-6 border border-white/60 rounded hover:bg-white/30 text-xs font-bold ${
-        taken && "bg-white/30"
-      } ${selected && "bg-[#b3193e]"}`}
+      className="relative w-6 h-6 border border-white/60 rounded hover:bg-white/30 text-xs font-bold"
+      style={{
+        background: selected
+          ? "#b3193e"
+          : taken
+          ? "rgba(255, 255, 255, 0.3)"
+          : "",
+      }}
     >
       <span
         className={`absolute inset-0 flex justify-center items-center cursor-pointer ${
