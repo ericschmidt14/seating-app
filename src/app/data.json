@@ -1,0 +1,57 @@
+[
+  {
+    "id": "96",
+    "capacity": 8,
+    "seats": [
+      {
+        "id": "1",
+        "occupant": {
+          "firstName": "Eric",
+          "lastName": "Schmidt",
+          "company": "CoMo Solution GmbH"
+        }
+      },
+      {
+        "id": "2",
+        "occupant": {
+          "firstName": "Marcus",
+          "lastName": "Prell",
+          "company": "CoMo Solution GmbH"
+        }
+      },
+      {
+        "id": "5",
+        "occupant": {
+          "firstName": "Volkmar",
+          "lastName": "Fritz",
+          "company": "CoMo Solution GmbH"
+        }
+      }
+    ]
+  },
+  {
+    "id": "97",
+    "capacity": 8,
+    "seats": []
+  },
+  {
+    "id": "98",
+    "capacity": 8,
+    "seats": []
+  },
+  {
+    "id": "99",
+    "capacity": 8,
+    "seats": []
+  },
+  {
+    "id": "100",
+    "capacity": 8,
+    "seats": []
+  },
+  {
+    "id": "101",
+    "capacity": 11,
+    "seats": []
+  }
+]
