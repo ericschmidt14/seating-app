@@ -77,7 +77,7 @@ export default function Home() {
           ))}
         </main>
       </div>
-      <aside className="w-[660px] flex flex-col gap-8 p-8 bg-black/90 shadow-2xl shadow-black">
+      <aside className="sticky top-0 w-[660px] h-screen overflow-y-scroll flex flex-col gap-8 p-8 bg-black/90 shadow-2xl shadow-black">
         <TextInput
           leftSection={<IconSearch size={16} />}
           rightSection={
