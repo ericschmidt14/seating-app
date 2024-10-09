@@ -14,6 +14,7 @@ interface SeatingContextType {
   setTables: Dispatch<SetStateAction<Table[]>>;
   selectedSeats: SelectedSeat[];
   setSelectedSeats: Dispatch<SetStateAction<SelectedSeat[]>>;
+  handleSeatClick: (seat: SelectedSeat) => void;
 }
 
 const SeatingContext = createContext<SeatingContextType | undefined>(undefined);
@@ -22,9 +23,30 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
   const [tables, setTables] = useState<Table[]>([]);
   const [selectedSeats, setSelectedSeats] = useState<SelectedSeat[]>([]);
 
+  const handleSeatClick = (seat: SelectedSeat) => {
+    setSelectedSeats((prevSelected: SelectedSeat[]) => {
+      const isAlreadySelected = prevSelected.some(
+        (s) => s.table === seat.table && s.seat === seat.seat
+      );
+      if (isAlreadySelected) {
+        return prevSelected.filter(
+          (s) => s.table !== seat.table || s.seat !== seat.seat
+        );
+      } else {
+        return [...prevSelected, seat];
+      }
+    });
+  };
+
   return (
     <SeatingContext.Provider
-      value={{ tables, setTables, selectedSeats, setSelectedSeats }}
+      value={{
+        tables,
+        setTables,
+        selectedSeats,
+        setSelectedSeats,
+        handleSeatClick,
+      }}
     >
       {children}
     </SeatingContext.Provider>

@@ -7,11 +7,10 @@ import { IconSearch, IconX } from "@tabler/icons-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useSeating } from "./context/seatingContext";
-import { SelectedSeat } from "./interfaces";
 import Tab from "./components/tabs";
 
 export default function Home() {
-  const { setTables, selectedSeats, setSelectedSeats } = useSeating();
+  const { setTables, selectedSeats, handleSeatClick } = useSeating();
   const [lounge, setLounge] = useState("1");
   const [search, setSearch] = useState("");
 
@@ -19,21 +18,6 @@ export default function Home() {
     setTables(tables);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const handleSeatClick = (seat: SelectedSeat) => {
-    setSelectedSeats((prevSelected: SelectedSeat[]) => {
-      const isAlreadySelected = prevSelected.some(
-        (s) => s.table === seat.table && s.seat === seat.seat
-      );
-      if (isAlreadySelected) {
-        return prevSelected.filter(
-          (s) => s.table !== seat.table || s.seat !== seat.seat
-        );
-      } else {
-        return [...prevSelected, seat];
-      }
-    });
-  };
 
   const keywords = search.trim().split(/\s+/);
 
@@ -77,9 +61,11 @@ export default function Home() {
           </div>
         </header>
         <main className="grid grid-cols-4 gap-8 p-8">
-          {tables.map((t, index) => (
-            <TableGroup key={index} id={t.id} capacity={t.capacity} />
-          ))}
+          {lounges
+            .find((l) => l.id === lounge)!
+            .tables.map((t, index) => (
+              <TableGroup key={index} id={t.id} capacity={t.capacity} />
+            ))}
         </main>
       </div>
       <aside className="w-[660px] flex flex-col gap-8 p-8 bg-black/90 shadow-2xl shadow-black">

@@ -1,7 +1,7 @@
 import { useSeating } from "../context/seatingContext";
 
 export default function Seat({ id, tableId }: { id: string; tableId: string }) {
-  const { tables, selectedSeats } = useSeating();
+  const { tables, selectedSeats, handleSeatClick } = useSeating();
 
   const taken = tables.find(
     (t) => t.id === tableId && t.seats.find((s) => s.id === id)
@@ -21,6 +21,7 @@ export default function Seat({ id, tableId }: { id: string; tableId: string }) {
           ? "rgba(255, 255, 255, 0.3)"
           : "",
       }}
+      onClick={() => handleSeatClick({ table: tableId, seat: id })}
     >
       <span
         className={`absolute inset-0 flex justify-center items-center cursor-pointer ${

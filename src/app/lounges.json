@@ -1,14 +1,39 @@
 [
   {
     "id": "1",
-    "name": "Kulmbacher Lounge"
+    "name": "Kulmbacher Lounge",
+    "tables": [
+      { "id": "96", "capacity": 8 },
+      {
+        "id": "97",
+        "capacity": 8
+      },
+      {
+        "id": "98",
+        "capacity": 8
+      },
+      {
+        "id": "99",
+        "capacity": 8
+      },
+      {
+        "id": "100",
+        "capacity": 8
+      },
+      {
+        "id": "101",
+        "capacity": 11
+      }
+    ]
   },
   {
     "id": "2",
-    "name": "Team Lounge"
+    "name": "Team Lounge",
+    "tables": []
   },
   {
     "id": "3",
-    "name": "Club Lounge"
+    "name": "Club Lounge",
+    "tables": []
   }
 ]
