@@ -20,6 +20,7 @@ export default function Home() {
   }, []);
 
   const keywords = search.trim().split(/\s+/);
+  const selectedLounge = lounges.find((l) => l.id === lounge)!;
 
   return (
     <div
@@ -27,7 +28,7 @@ export default function Home() {
         selectedSeats.length > 0 ? "bg-right" : "bg-left"
       } transition-all duration-300`}
     >
-      <div className="w-full h-screen flex flex-col">
+      <div className="w-full min-h-screen flex flex-col">
         <header className="flex flex-col gap-4 bg-black/50 shadow-md shadow-black/10">
           <div className="flex justify-between items-center px-8 pt-8">
             <div className="flex items-center gap-2">
@@ -60,12 +61,15 @@ export default function Home() {
             ))}
           </div>
         </header>
-        <main className="grid grid-cols-4 gap-8 p-8">
-          {lounges
-            .find((l) => l.id === lounge)!
-            .tables.map((t, index) => (
-              <TableGroup key={index} id={t.id} capacity={t.capacity} />
-            ))}
+        <main
+          className={`grid gap-4 p-8`}
+          style={{
+            gridTemplateColumns: `repeat(${selectedLounge.rows}, 1fr)`,
+          }}
+        >
+          {selectedLounge.tables.map((t, index) => (
+            <TableGroup key={index} id={t.id} capacity={t.capacity} />
+          ))}
         </main>
       </div>
       <aside className="w-[660px] flex flex-col gap-8 p-8 bg-black/90 shadow-2xl shadow-black">
