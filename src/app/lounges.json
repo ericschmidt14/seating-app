@@ -71,6 +71,26 @@
       {
         "id": "208",
         "capacity": 4
+      },
+      {
+        "id": "211",
+        "capacity": 8,
+        "round": true
+      },
+      {
+        "id": "210",
+        "capacity": 6,
+        "round": true
+      },
+      {
+        "id": "213",
+        "capacity": 8,
+        "round": true
+      },
+      {
+        "id": "212",
+        "capacity": 6,
+        "round": true
       }
     ]
   }

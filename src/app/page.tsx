@@ -68,7 +68,12 @@ export default function Home() {
           }}
         >
           {selectedLounge.tables.map((t, index) => (
-            <TableGroup key={index} id={t.id} capacity={t.capacity} />
+            <TableGroup
+              key={index}
+              id={t.id}
+              capacity={t.capacity}
+              round={t.round}
+            />
           ))}
         </main>
       </div>
