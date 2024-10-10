@@ -42,7 +42,24 @@
   {
     "id": "99",
     "capacity": 8,
-    "seats": []
+    "seats": [
+      {
+        "id": "1",
+        "occupant": {
+          "firstName": "Andrea",
+          "lastName": "Schmidt",
+          "company": "Hörluchs Hearing GmbH"
+        }
+      },
+      {
+        "id": "2",
+        "occupant": {
+          "firstName": "Dominic",
+          "lastName": "Schmidt",
+          "company": "Hörluchs Hearing GmbH"
+        }
+      }
+    ]
   },
   {
     "id": "100",
@@ -52,6 +69,31 @@
   {
     "id": "101",
     "capacity": 11,
-    "seats": []
+    "seats": [
+      {
+        "id": "5",
+        "occupant": {
+          "firstName": "",
+          "lastName": "",
+          "company": "Musterfirma AG"
+        }
+      },
+      {
+        "id": "10",
+        "occupant": {
+          "firstName": "",
+          "lastName": "",
+          "company": "Musterfirma AG"
+        }
+      },
+      {
+        "id": "11",
+        "occupant": {
+          "firstName": "",
+          "lastName": "",
+          "company": "Musterfirma AG"
+        }
+      }
+    ]
   }
 ]

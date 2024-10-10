@@ -7,13 +7,15 @@ import {
   useContext,
   useState,
 } from "react";
-import { SelectedSeat, Table } from "../interfaces";
+import { Seat, SelectedSeat, Table } from "../interfaces";
 
 interface SeatingContextType {
   tables: Table[];
   setTables: Dispatch<SetStateAction<Table[]>>;
   selectedSeats: SelectedSeat[];
   setSelectedSeats: Dispatch<SetStateAction<SelectedSeat[]>>;
+  selectedEmptySeats: Seat[];
+  setSelectedEmptySeats: Dispatch<SetStateAction<Seat[]>>;
   handleSeatClick: (seat: SelectedSeat) => void;
 }
 
@@ -22,6 +24,7 @@ const SeatingContext = createContext<SeatingContextType | undefined>(undefined);
 export const SeatingProvider = ({ children }: { children: ReactNode }) => {
   const [tables, setTables] = useState<Table[]>([]);
   const [selectedSeats, setSelectedSeats] = useState<SelectedSeat[]>([]);
+  const [selectedEmptySeats, setSelectedEmptySeats] = useState<Seat[]>([]);
 
   const handleSeatClick = (seat: SelectedSeat) => {
     setSelectedSeats((prevSelected: SelectedSeat[]) => {
@@ -45,6 +48,8 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
         setTables,
         selectedSeats,
         setSelectedSeats,
+        selectedEmptySeats,
+        setSelectedEmptySeats,
         handleSeatClick,
       }}
     >

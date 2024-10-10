@@ -21,7 +21,7 @@ export default function Seat({ id, tableId }: { id: string; tableId: string }) {
           ? "rgba(255, 255, 255, 0.3)"
           : "",
       }}
-      onClick={() => taken && handleSeatClick({ table: tableId, seat: id })}
+      onClick={() => handleSeatClick({ table: tableId, seat: id })}
     >
       <span
         className={`absolute inset-0 flex justify-center items-center cursor-pointer ${

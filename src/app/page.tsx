@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useSeating } from "./context/seatingContext";
 import Tab from "./components/tabs";
+import { Seat } from "./interfaces";
 
 export default function Home() {
   const { setTables, selectedSeats, handleSeatClick } = useSeating();
@@ -20,6 +21,14 @@ export default function Home() {
   }, []);
 
   const keywords = search.trim().split(/\s+/);
+  const searchKeyword = (seat: Seat) =>
+    keywords.every((keyword) =>
+      [
+        seat.occupant?.firstName,
+        seat.occupant?.lastName,
+        seat.occupant?.company,
+      ].some((s) => s!.toLowerCase().includes(keyword.toLowerCase()))
+    );
   const selectedLounge = lounges.find((l) => l.id === lounge)!;
 
   return (
@@ -96,52 +105,50 @@ export default function Home() {
           onChange={(event) => setSearch(event.currentTarget.value)}
         />
         <div className="flex flex-col gap-8">
-          {tables.map((t, index) => (
-            <div key={index} className="flex flex-col gap-2">
-              <h3 className="text-xl px-[10px]">Tisch {t.id}</h3>
-              <Table highlightOnHover>
-                <Table.Tbody>
-                  {t.seats
-                    .filter((seat) =>
-                      keywords.every((keyword) =>
-                        [
-                          seat.occupant?.firstName,
-                          seat.occupant?.lastName,
-                          seat.occupant?.company,
-                        ].some((s) =>
-                          s.toLowerCase().includes(keyword.toLowerCase())
-                        )
-                      )
-                    )
-                    .map((s, index) => (
-                      <Table.Tr
-                        key={index}
-                        className="cursor-pointer"
-                        bg={
-                          selectedSeats.find(
-                            (selected) =>
-                              selected.seat === s.id && selected.table === t.id
-                          )
-                            ? "#b3193e"
-                            : undefined
-                        }
-                        onClick={() =>
-                          handleSeatClick({ table: t.id, seat: s.id })
-                        }
-                      >
-                        <Table.Td>
-                          <b className="text-lg tracking-tighter">
-                            {s.occupant.firstName} {s.occupant.lastName}
-                          </b>
-                        </Table.Td>
-                        <Table.Td>{s.occupant.company}</Table.Td>
-                        <Table.Td>{s.id}</Table.Td>
-                      </Table.Tr>
-                    ))}
-                </Table.Tbody>
-              </Table>
-            </div>
-          ))}
+          {tables.map(
+            (t, index) =>
+              t.seats.length > 0 &&
+              t.seats.filter((seat) => searchKeyword(seat)).length > 0 && (
+                <div key={index} className="flex flex-col gap-1">
+                  <Table highlightOnHover>
+                    <Table.Tbody>
+                      {t.seats
+                        .filter((seat) => searchKeyword(seat))
+                        .map((s, index) => (
+                          <Table.Tr
+                            key={index}
+                            className="cursor-pointer"
+                            bg={
+                              selectedSeats.find(
+                                (selected) =>
+                                  selected.seat === s.id &&
+                                  selected.table === t.id
+                              )
+                                ? "#b3193e"
+                                : undefined
+                            }
+                            onClick={() =>
+                              handleSeatClick({ table: t.id, seat: s.id })
+                            }
+                          >
+                            <Table.Td>
+                              {s.occupant.lastName && (
+                                <b className="text-lg tracking-tighter pr-2">
+                                  {s.occupant.firstName} {s.occupant.lastName}{" "}
+                                </b>
+                              )}
+                              {s.occupant.company}
+                            </Table.Td>
+                            <Table.Td align="right">
+                              {t.id} – {s.id}
+                            </Table.Td>
+                          </Table.Tr>
+                        ))}
+                    </Table.Tbody>
+                  </Table>
+                </div>
+              )
+          )}
         </div>
       </aside>
     </div>
