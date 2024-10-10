@@ -1,7 +1,7 @@
 export interface Seat {
   id: string;
   tableId?: string;
-  occupant?: { firstName: string; lastName: string; company: string };
+  occupant?: { firstName: string; lastName: string; company: string } | null;
 }
 
 export interface Table {

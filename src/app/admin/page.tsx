@@ -1,19 +1,96 @@
 "use client";
-import tables from "../data.json";
-import { useEffect } from "react";
+import data from "../data.json";
+import { useEffect, useState } from "react";
 import { useSeating } from "../context/seatingContext";
 import Header from "../components/header";
 import Grid from "../components/grid";
-import { Autocomplete, Button, TextInput } from "@mantine/core";
+import { Button, TextInput } from "@mantine/core";
 import { IconDeviceFloppy } from "@tabler/icons-react";
 
 export default function Home() {
-  const { setTables, selectedSeats, setSelectedSeats } = useSeating();
+  const { tables, setTables, selectedSeats, setSelectedSeats } = useSeating();
+  const [occupantData, setOccupantData] = useState<
+    {
+      table: string;
+      seat: string;
+      firstName: string;
+      lastName: string;
+      company: string;
+    }[]
+  >([]);
 
   useEffect(() => {
-    setTables(tables);
+    setTables(data);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    setOccupantData(
+      selectedSeats.map((s) => ({
+        table: s.tableId!,
+        seat: s.id,
+        firstName: s.occupant?.firstName || "",
+        lastName: s.occupant?.lastName || "",
+        company: s.occupant?.company || "",
+      }))
+    );
+  }, [selectedSeats]);
+
+  useEffect(() => {
+    console.log(occupantData);
+  }, [occupantData]);
+
+  const handleInputChange = (
+    tabledId: string,
+    seatId: string,
+    field: string,
+    value: string
+  ) => {
+    setOccupantData((prev) =>
+      prev.map((seat) =>
+        seat.table === tabledId && seat.seat === seatId
+          ? { ...seat, [field]: value }
+          : seat
+      )
+    );
+  };
+
+  const handleSubmit = () => {
+    const updatedTables = tables.map((table) => {
+      if (selectedSeats.some((seat) => seat.tableId === table.id)) {
+        const updatedSeats = Array.from({ length: table.capacity }).map(
+          (_, index) => {
+            const seatNumber = (index + 1).toString();
+            const existingSeat = table.seats?.find((s) => s.id === seatNumber);
+            const occupantInfo = occupantData.find(
+              (s) => s.seat === seatNumber && s.table === table.id
+            );
+
+            // If occupant data exists, update the seat with occupant, otherwise keep the existing seat
+            if (occupantInfo) {
+              return {
+                id: seatNumber,
+                occupant: {
+                  firstName: occupantInfo.firstName,
+                  lastName: occupantInfo.lastName,
+                  company: occupantInfo.company,
+                },
+              };
+            }
+
+            // If no occupant data, return the existing seat (either occupied or empty)
+            return existingSeat || { id: seatNumber, occupant: null };
+          }
+        );
+
+        return { ...table, seats: updatedSeats };
+      }
+      return table;
+    });
+
+    setTables(updatedTables);
+    setSelectedSeats([]); // Reset selected seats after submitting
+  };
 
   return (
     <div
@@ -36,23 +113,42 @@ export default function Home() {
                 size="xs"
                 placeholder="Vorname"
                 defaultValue={s.occupant?.firstName}
+                onChange={(e) =>
+                  handleInputChange(
+                    s.tableId!,
+                    s.id,
+                    "firstName",
+                    e.target.value
+                  )
+                }
               />
               <TextInput
                 size="xs"
                 placeholder="Nachname"
                 defaultValue={s.occupant?.lastName}
+                onChange={(e) =>
+                  handleInputChange(
+                    s.tableId!,
+                    s.id,
+                    "lastName",
+                    e.target.value
+                  )
+                }
               />
-              <Autocomplete
+              <TextInput
                 size="xs"
                 placeholder="Firma"
                 defaultValue={s.occupant?.company}
-                data={Array.from(
-                  new Set(
-                    tables.flatMap((t) =>
-                      t.seats.flatMap((s) => s.occupant.company)
-                    )
-                  )
-                )}
+                onChange={(e) =>
+                  handleInputChange(s.tableId!, s.id, "company", e.target.value)
+                }
+                // data={Array.from(
+                //   new Set(
+                //     tables.flatMap((t) =>
+                //       t.seats.flatMap((s) => s.occupant!.company)
+                //     )
+                //   )
+                // )}
               />
               <div className="text-nowrap">
                 {s.tableId} – {s.id}
@@ -71,7 +167,7 @@ export default function Home() {
           <Button
             variant="light"
             leftSection={<IconDeviceFloppy size={16} />}
-            onClick={() => setSelectedSeats([])}
+            onClick={() => handleSubmit()}
           >
             Speichern
           </Button>

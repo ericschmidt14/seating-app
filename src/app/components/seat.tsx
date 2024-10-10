@@ -4,7 +4,10 @@ export default function Seat({ id, tableId }: { id: string; tableId: string }) {
   const { tables, selectedSeats, handleSeatClick } = useSeating();
 
   const taken = tables.find(
-    (t) => t.id === tableId && t.seats.find((s) => s.id === id)
+    (t) =>
+      t.id === tableId &&
+      t.seats.find((s) => s.id === id) &&
+      t.seats.find((s) => s.id === id)?.occupant !== null
   );
 
   const selected = selectedSeats.find(
