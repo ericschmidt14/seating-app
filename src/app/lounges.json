@@ -9,6 +9,8 @@
         "id": "97",
         "capacity": 8
       },
+      {},
+      {},
       {
         "id": "98",
         "capacity": 8
@@ -24,13 +26,95 @@
       {
         "id": "101",
         "capacity": 11
+      },
+      {},
+      {},
+      {
+        "id": "112",
+        "capacity": 11
+      },
+      {
+        "id": "113",
+        "capacity": 8
+      },
+      {
+        "id": "102",
+        "capacity": 8
+      },
+      {
+        "id": "103",
+        "capacity": 8
+      },
+      {},
+      {},
+      {
+        "id": "114",
+        "capacity": 8
+      },
+      {
+        "id": "115",
+        "capacity": 8
+      },
+      {
+        "id": "104",
+        "capacity": 8
+      },
+      {
+        "id": "105",
+        "capacity": 11
+      },
+      {},
+      {},
+      {
+        "id": "116",
+        "capacity": 11
+      },
+      {
+        "id": "117",
+        "capacity": 8
+      },
+      {
+        "id": "106",
+        "capacity": 8
+      },
+      {
+        "id": "107",
+        "capacity": 11
+      },
+      {},
+      {},
+      {
+        "id": "118",
+        "capacity": 11
+      },
+      {
+        "id": "119",
+        "capacity": 8
+      },
+      {
+        "id": "108",
+        "capacity": 8
+      },
+      {
+        "id": "109",
+        "capacity": 11
+      },
+      {},
+      {},
+      {
+        "id": "120",
+        "capacity": 11
+      },
+      {
+        "id": "121",
+        "capacity": 8
       }
     ]
   },
   {
     "id": "2",
     "name": "Kulmbacher Lounge",
-    "rows": "2",
+    "rows": "4",
     "tables": [
       {
         "id": "201",
@@ -40,6 +124,8 @@
         "id": "200",
         "capacity": 4
       },
+      {},
+      {},
       {
         "id": "203",
         "capacity": 8
@@ -48,6 +134,8 @@
         "id": "202",
         "capacity": 4
       },
+      {},
+      {},
       {
         "id": "205",
         "capacity": 8
@@ -56,6 +144,8 @@
         "id": "204",
         "capacity": 4
       },
+      {},
+      {},
       {
         "id": "207",
         "capacity": 8
@@ -64,6 +154,8 @@
         "id": "206",
         "capacity": 4
       },
+      {},
+      {},
       {
         "id": "209",
         "capacity": 8
@@ -72,6 +164,8 @@
         "id": "208",
         "capacity": 4
       },
+      {},
+      {},
       {
         "id": "211",
         "capacity": 8,
@@ -82,6 +176,8 @@
         "capacity": 6,
         "round": true
       },
+      {},
+      {},
       {
         "id": "213",
         "capacity": 8,

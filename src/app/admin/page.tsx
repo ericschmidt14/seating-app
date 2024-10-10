@@ -36,10 +36,6 @@ export default function Home() {
     );
   }, [selectedSeats]);
 
-  useEffect(() => {
-    console.log(occupantData);
-  }, [occupantData]);
-
   const handleInputChange = (
     tabledId: string,
     seatId: string,
@@ -66,7 +62,14 @@ export default function Home() {
               (s) => s.seat === seatNumber && s.table === table.id
             );
 
-            // If occupant data exists, update the seat with occupant, otherwise keep the existing seat
+            if (
+              occupantInfo?.firstName === "" &&
+              occupantInfo?.lastName === "" &&
+              occupantInfo?.company === ""
+            ) {
+              return { id: seatNumber, occupant: null };
+            }
+
             if (occupantInfo) {
               return {
                 id: seatNumber,
@@ -78,7 +81,6 @@ export default function Home() {
               };
             }
 
-            // If no occupant data, return the existing seat (either occupied or empty)
             return existingSeat || { id: seatNumber, occupant: null };
           }
         );

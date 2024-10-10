@@ -9,7 +9,7 @@ export default function Grid() {
 
   return (
     <main
-      className={`grid gap-4 p-8`}
+      className="grid gap-4 p-8"
       style={{
         gridTemplateColumns: `repeat(${selectedLounge.rows}, 1fr)`,
       }}
@@ -17,8 +17,8 @@ export default function Grid() {
       {selectedLounge.tables.map((t, index) => (
         <TableGroup
           key={index}
-          id={t.id}
-          capacity={t.capacity}
+          id={t.id || ""}
+          capacity={t.capacity || 0}
           round={t.round}
         />
       ))}
