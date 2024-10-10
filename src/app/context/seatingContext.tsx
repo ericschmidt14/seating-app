@@ -7,33 +7,33 @@ import {
   useContext,
   useState,
 } from "react";
-import { Seat, SelectedSeat, Table } from "../interfaces";
+import { Seat, Table } from "../interfaces";
 
 interface SeatingContextType {
+  lounge: string;
+  setLounge: Dispatch<SetStateAction<string>>;
   tables: Table[];
   setTables: Dispatch<SetStateAction<Table[]>>;
-  selectedSeats: SelectedSeat[];
-  setSelectedSeats: Dispatch<SetStateAction<SelectedSeat[]>>;
-  selectedEmptySeats: Seat[];
-  setSelectedEmptySeats: Dispatch<SetStateAction<Seat[]>>;
-  handleSeatClick: (seat: SelectedSeat) => void;
+  selectedSeats: Seat[];
+  setSelectedSeats: Dispatch<SetStateAction<Seat[]>>;
+  handleSeatClick: (seat: Seat) => void;
 }
 
 const SeatingContext = createContext<SeatingContextType | undefined>(undefined);
 
 export const SeatingProvider = ({ children }: { children: ReactNode }) => {
+  const [lounge, setLounge] = useState("1");
   const [tables, setTables] = useState<Table[]>([]);
-  const [selectedSeats, setSelectedSeats] = useState<SelectedSeat[]>([]);
-  const [selectedEmptySeats, setSelectedEmptySeats] = useState<Seat[]>([]);
+  const [selectedSeats, setSelectedSeats] = useState<Seat[]>([]);
 
-  const handleSeatClick = (seat: SelectedSeat) => {
-    setSelectedSeats((prevSelected: SelectedSeat[]) => {
+  const handleSeatClick = (seat: Seat) => {
+    setSelectedSeats((prevSelected: Seat[]) => {
       const isAlreadySelected = prevSelected.some(
-        (s) => s.table === seat.table && s.seat === seat.seat
+        (s) => s.tableId === seat.tableId && s.id === seat.id
       );
       if (isAlreadySelected) {
         return prevSelected.filter(
-          (s) => s.table !== seat.table || s.seat !== seat.seat
+          (s) => s.tableId !== seat.tableId || s.id !== seat.id
         );
       } else {
         return [...prevSelected, seat];
@@ -44,12 +44,12 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
   return (
     <SeatingContext.Provider
       value={{
+        lounge,
+        setLounge,
         tables,
         setTables,
         selectedSeats,
         setSelectedSeats,
-        selectedEmptySeats,
-        setSelectedEmptySeats,
         handleSeatClick,
       }}
     >

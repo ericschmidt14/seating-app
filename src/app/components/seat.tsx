@@ -8,7 +8,7 @@ export default function Seat({ id, tableId }: { id: string; tableId: string }) {
   );
 
   const selected = selectedSeats.find(
-    (s) => s.table === tableId && s.seat === id
+    (s) => s.tableId === tableId && s.id === id
   );
 
   return (
@@ -21,7 +21,13 @@ export default function Seat({ id, tableId }: { id: string; tableId: string }) {
           ? "rgba(255, 255, 255, 0.3)"
           : "",
       }}
-      onClick={() => taken && handleSeatClick({ table: tableId, seat: id })}
+      onClick={() =>
+        handleSeatClick({
+          tableId,
+          id,
+          occupant: taken?.seats.find((s) => s.id === id)?.occupant,
+        })
+      }
     >
       <span
         className={`absolute inset-0 flex justify-center items-center cursor-pointer ${

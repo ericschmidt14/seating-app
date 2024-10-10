@@ -15,6 +15,7 @@
 
 # production
 /build
+/src/app/favicon.ico
 
 # misc
 .DS_Store

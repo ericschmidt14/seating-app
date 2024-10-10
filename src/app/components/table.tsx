@@ -13,7 +13,7 @@ export default function TableGroup({
 }) {
   const { selectedSeats } = useSeating();
 
-  const selected = selectedSeats.find((s) => s.table === id);
+  const selected = selectedSeats.find((s) => s.tableId === id);
 
   const calculateSeatPosition = (index: number, totalSeats: number) => {
     const angle = (360 / totalSeats) * index;
