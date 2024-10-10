@@ -104,49 +104,47 @@ export default function Home() {
           value={search}
           onChange={(event) => setSearch(event.currentTarget.value)}
         />
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-4">
           {tables.map(
             (t, index) =>
               t.seats.length > 0 &&
               t.seats.filter((seat) => searchKeyword(seat)).length > 0 && (
-                <div key={index} className="flex flex-col gap-1">
-                  <Table highlightOnHover>
-                    <Table.Tbody>
-                      {t.seats
-                        .filter((seat) => searchKeyword(seat))
-                        .map((s, index) => (
-                          <Table.Tr
-                            key={index}
-                            className="cursor-pointer"
-                            bg={
-                              selectedSeats.find(
-                                (selected) =>
-                                  selected.seat === s.id &&
-                                  selected.table === t.id
-                              )
-                                ? "#b3193e"
-                                : undefined
-                            }
-                            onClick={() =>
-                              handleSeatClick({ table: t.id, seat: s.id })
-                            }
-                          >
-                            <Table.Td>
-                              {s.occupant.lastName && (
-                                <b className="text-lg tracking-tighter pr-2">
-                                  {s.occupant.firstName} {s.occupant.lastName}{" "}
-                                </b>
-                              )}
-                              {s.occupant.company}
-                            </Table.Td>
-                            <Table.Td align="right">
-                              {t.id} – {s.id}
-                            </Table.Td>
-                          </Table.Tr>
-                        ))}
-                    </Table.Tbody>
-                  </Table>
-                </div>
+                <Table highlightOnHover key={index}>
+                  <Table.Tbody>
+                    {t.seats
+                      .filter((seat) => searchKeyword(seat))
+                      .map((s, index) => (
+                        <Table.Tr
+                          key={index}
+                          className="cursor-pointer"
+                          bg={
+                            selectedSeats.find(
+                              (selected) =>
+                                selected.seat === s.id &&
+                                selected.table === t.id
+                            )
+                              ? "#b3193e"
+                              : undefined
+                          }
+                          onClick={() =>
+                            handleSeatClick({ table: t.id, seat: s.id })
+                          }
+                        >
+                          <Table.Td>
+                            {s.occupant.lastName && (
+                              <b className="text-lg tracking-tighter pr-2">
+                                {s.occupant.firstName} {s.occupant.lastName}{" "}
+                              </b>
+                            )}
+                            {s.occupant.company}
+                          </Table.Td>
+                          <Table.Td align="right">
+                            {t.id} – {s.id}
+                          </Table.Td>
+                        </Table.Tr>
+                      ))}
+                  </Table.Tbody>
+                </Table>
               )
           )}
         </div>
