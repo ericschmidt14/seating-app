@@ -4,8 +4,14 @@ import { useEffect, useState } from "react";
 import { useSeating } from "../context/seatingContext";
 import Header from "../components/header";
 import Grid from "../components/grid";
-import { ActionIcon, Button, Paper, TextInput } from "@mantine/core";
-import { IconDeviceFloppy, IconX } from "@tabler/icons-react";
+import {
+  ActionIcon,
+  Autocomplete,
+  Button,
+  Paper,
+  TextInput,
+} from "@mantine/core";
+import { IconChevronDown, IconDeviceFloppy, IconX } from "@tabler/icons-react";
 
 export default function Home() {
   const {
@@ -32,13 +38,15 @@ export default function Home() {
 
   useEffect(() => {
     setOccupantData(
-      selectedSeats.map((s) => ({
-        table: s.tableId!,
-        seat: s.id,
-        firstName: s.occupant?.firstName || "",
-        lastName: s.occupant?.lastName || "",
-        company: s.occupant?.company || "",
-      }))
+      selectedSeats
+        .filter((s) => s.occupant !== null)
+        .map((s) => ({
+          table: s.tableId!,
+          seat: s.id,
+          firstName: s.occupant?.firstName || "",
+          lastName: s.occupant?.lastName || "",
+          company: s.occupant?.company || "",
+        }))
     );
   }, [selectedSeats]);
 
@@ -61,17 +69,28 @@ export default function Home() {
     const updatedTables = [...tables];
 
     occupantData.forEach(({ table, seat, firstName, lastName, company }) => {
-      if (firstName !== "" || lastName !== "" || company !== "") {
-        let newTable = updatedTables.find((t) => t.id === table);
-        if (!newTable) {
-          newTable = {
-            id: table,
-            seats: [],
-          };
-          updatedTables.push(newTable);
+      const isOccupantEmpty =
+        !firstName.trim() && !lastName.trim() && !company.trim();
+
+      let newTable = updatedTables.find((t) => t.id === table);
+      if (!newTable) {
+        if (isOccupantEmpty) {
+          return;
         }
 
-        let newSeat = newTable.seats.find((s) => s.id === seat);
+        newTable = {
+          id: table,
+          seats: [],
+        };
+        updatedTables.push(newTable);
+      }
+
+      let newSeat = newTable.seats.find((s) => s.id === seat);
+      if (isOccupantEmpty) {
+        if (newSeat) {
+          newTable.seats = newTable.seats.filter((s) => s.id !== seat);
+        }
+      } else {
         if (!newSeat) {
           newSeat = {
             id: seat,
@@ -86,10 +105,13 @@ export default function Home() {
         };
       }
     });
+    const cleanedTables = updatedTables.filter(
+      (table) => table.seats.length > 0
+    );
 
-    console.log(updatedTables);
+    console.log(cleanedTables);
 
-    setTables(updatedTables);
+    setTables(cleanedTables);
     setSelectedSeats([]);
   };
 
@@ -116,6 +138,7 @@ export default function Home() {
                   key={index}
                   p="md"
                   bg="#161616"
+                  withBorder
                   className="relative grid grid-cols-2 justify-between items-center gap-2"
                 >
                   <TextInput
@@ -146,26 +169,24 @@ export default function Home() {
                       )
                     }
                   />
-                  <TextInput
+                  <Autocomplete
                     label="Firma"
                     size="xs"
                     placeholder="Firma"
                     defaultValue={s.occupant?.company}
                     onChange={(e) =>
-                      handleInputChange(
-                        s.tableId!,
-                        s.id,
-                        "company",
-                        e.target.value
-                      )
+                      handleInputChange(s.tableId!, s.id, "company", e)
                     }
-                    // data={Array.from(
-                    //   new Set(
-                    //     tables.flatMap((t) =>
-                    //       t.seats.flatMap((s) => s.occupant!.company)
-                    //     )
-                    //   )
-                    // )}
+                    data={Array.from(
+                      new Set(
+                        tables.flatMap((t) =>
+                          t.seats.flatMap((s) => s.occupant!.company)
+                        )
+                      )
+                    ).sort((a, b) =>
+                      a.localeCompare(b, undefined, { sensitivity: "base" })
+                    )}
+                    rightSection={<IconChevronDown size={16} />}
                   />
                   <TextInput
                     label="Tisch – Platz"
@@ -179,7 +200,7 @@ export default function Home() {
                     variant="light"
                     color="white"
                     onClick={() =>
-                      handleSeatClick({ tableId: s.tableId, id: s.id })
+                      handleSeatClick({ tableId: s.tableId, id: s.id }, true)
                     }
                   >
                     <IconX size={16} />
