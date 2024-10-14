@@ -8,20 +8,19 @@ export default function Grid() {
   const selectedLounge = lounges.find((l) => l.id === lounge)!;
 
   return (
-    <main
-      className="grid gap-4 p-8"
-      style={{
-        gridTemplateColumns: `repeat(${selectedLounge.rows}, 1fr)`,
-      }}
-    >
-      {selectedLounge.tables.map((t, index) => (
-        <TableGroup
-          key={index}
-          id={t.id || ""}
-          capacity={t.capacity || 0}
-          round={t.round}
-        />
-      ))}
+    <main className="p-8 w-full h-full overflow-scroll">
+      <div className="relative w-[200%] min-h-screen transform scale-75 origin-top-left">
+        {selectedLounge.tables.map((t, index) => (
+          <TableGroup
+            key={index}
+            id={t.id || ""}
+            capacity={t.capacity || 0}
+            x={t.x}
+            y={t.y}
+            round={t.round}
+          />
+        ))}
+      </div>
     </main>
   );
 }

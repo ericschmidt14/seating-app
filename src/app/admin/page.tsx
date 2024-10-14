@@ -104,7 +104,10 @@ export default function Home() {
         <Header />
         <Grid />
       </div>
-      <aside className="sticky top-0 w-[800px] h-screen overflow-y-scroll flex flex-col gap-8 p-8 bg-black/90 shadow-2xl shadow-black">
+      <aside
+        className="sticky top-0 h-screen overflow-x-hidden overflow-y-scroll flex flex-col gap-8 p-8 bg-black/90 shadow-2xl shadow-black transition-all duration-300"
+        style={{ maxWidth: selectedSeats.length === 0 ? "0px" : "800px" }}
+      >
         <div className="flex flex-col gap-2">
           {selectedSeats.map((s, index) => (
             <div
@@ -158,22 +161,24 @@ export default function Home() {
             </div>
           ))}
         </div>
-        <div className="flex justify-between gap-2">
-          <Button
-            variant="transparent"
-            color="dark"
-            onClick={() => setSelectedSeats([])}
-          >
-            Abbrechen
-          </Button>
-          <Button
-            variant="light"
-            leftSection={<IconDeviceFloppy size={16} />}
-            onClick={() => handleSubmit()}
-          >
-            Speichern
-          </Button>
-        </div>
+        {selectedSeats.length > 0 && (
+          <div className="flex justify-between gap-2">
+            <Button
+              variant="transparent"
+              color="dark"
+              onClick={() => setSelectedSeats([])}
+            >
+              Abbrechen
+            </Button>
+            <Button
+              variant="light"
+              leftSection={<IconDeviceFloppy size={16} />}
+              onClick={() => handleSubmit()}
+            >
+              Speichern
+            </Button>
+          </div>
+        )}
       </aside>
     </div>
   );

@@ -5,13 +5,19 @@ import Seat from "./seat";
 export default function TableGroup({
   id,
   capacity,
+  x,
+  y,
   round,
 }: {
   id: string;
   capacity: number;
+  x: number;
+  y: number;
   round?: boolean;
 }) {
   const { selectedSeats } = useSeating();
+  const tableWidth = 200;
+  const tableHeight = 140;
 
   const selected = selectedSeats.find((s) => s.tableId === id);
 
@@ -24,7 +30,10 @@ export default function TableGroup({
   };
 
   const rectangularTable = (
-    <div className="flex items-center gap-2">
+    <div
+      className="absolute flex items-center gap-2"
+      style={{ top: tableHeight * y, left: tableWidth * x }}
+    >
       <div className="flex flex-col gap-2">
         <SeatRow capacity={capacity / 2} firstId={1} tabledId={id} />
         <div
@@ -46,7 +55,10 @@ export default function TableGroup({
   );
 
   const circularTable = (
-    <div className="relative h-[120px]">
+    <div
+      className="absolute h-[120px]"
+      style={{ top: tableHeight * y, left: tableWidth * x }}
+    >
       <div
         className="w-12 h-12 top-9 left-9 bg-white/30 rounded-full absolute transform flex items-center justify-center"
         style={{
