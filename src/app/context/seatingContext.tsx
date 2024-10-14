@@ -39,6 +39,15 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
         return [...prevSelected, seat];
       }
     });
+
+    const seatElement = document.getElementById(`table-${seat.tableId}`);
+    if (seatElement) {
+      seatElement.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "center",
+      });
+    }
   };
 
   return (

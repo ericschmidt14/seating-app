@@ -31,6 +31,7 @@ export default function TableGroup({
 
   const rectangularTable = (
     <div
+      id={`table-${id}`}
       className="absolute flex items-center gap-2"
       style={{ top: tableHeight * y, left: tableWidth * x }}
     >
@@ -56,6 +57,7 @@ export default function TableGroup({
 
   const circularTable = (
     <div
+      id={`table-${id}`}
       className="absolute h-[120px]"
       style={{ top: tableHeight * y, left: tableWidth * x }}
     >

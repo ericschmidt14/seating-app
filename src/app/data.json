@@ -67,11 +67,19 @@
     "seats": []
   },
   {
-    "id": "101",
+    "id": "163",
     "capacity": 11,
     "seats": [
       {
         "id": "5",
+        "occupant": {
+          "firstName": "",
+          "lastName": "",
+          "company": "Musterfirma AG"
+        }
+      },
+      {
+        "id": "6",
         "occupant": {
           "firstName": "",
           "lastName": "",
@@ -88,6 +96,14 @@
       },
       {
         "id": "11",
+        "occupant": {
+          "firstName": "",
+          "lastName": "",
+          "company": "Musterfirma AG"
+        }
+      },
+      {
+        "id": "12",
         "occupant": {
           "firstName": "",
           "lastName": "",
