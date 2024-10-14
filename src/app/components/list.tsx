@@ -60,7 +60,7 @@ export default function List() {
                             : undefined
                         }
                         onClick={() =>
-                          handleSeatClick({ tableId: t.id, id: s.id })
+                          handleSeatClick({ tableId: t.id, id: s.id }, true)
                         }
                       >
                         <Table.Td>

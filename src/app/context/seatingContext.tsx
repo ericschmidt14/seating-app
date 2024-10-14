@@ -16,7 +16,7 @@ interface SeatingContextType {
   setTables: Dispatch<SetStateAction<Table[]>>;
   selectedSeats: Seat[];
   setSelectedSeats: Dispatch<SetStateAction<Seat[]>>;
-  handleSeatClick: (seat: Seat) => void;
+  handleSeatClick: (seat: Seat, scroll?: boolean) => void;
 }
 
 const SeatingContext = createContext<SeatingContextType | undefined>(undefined);
@@ -26,7 +26,7 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
   const [tables, setTables] = useState<Table[]>([]);
   const [selectedSeats, setSelectedSeats] = useState<Seat[]>([]);
 
-  const handleSeatClick = (seat: Seat) => {
+  const handleSeatClick = (seat: Seat, scroll?: boolean) => {
     setSelectedSeats((prevSelected: Seat[]) => {
       const isAlreadySelected = prevSelected.some(
         (s) => s.tableId === seat.tableId && s.id === seat.id
@@ -40,13 +40,15 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
       }
     });
 
-    const seatElement = document.getElementById(`table-${seat.tableId}`);
-    if (seatElement) {
-      seatElement.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-        inline: "center",
-      });
+    if (scroll) {
+      const seatElement = document.getElementById(`table-${seat.tableId}`);
+      if (seatElement) {
+        seatElement.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+          inline: "center",
+        });
+      }
     }
   };
 
