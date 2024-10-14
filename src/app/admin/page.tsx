@@ -4,11 +4,17 @@ import { useEffect, useState } from "react";
 import { useSeating } from "../context/seatingContext";
 import Header from "../components/header";
 import Grid from "../components/grid";
-import { Button, TextInput } from "@mantine/core";
-import { IconDeviceFloppy } from "@tabler/icons-react";
+import { ActionIcon, Button, Paper, TextInput } from "@mantine/core";
+import { IconDeviceFloppy, IconX } from "@tabler/icons-react";
 
 export default function Home() {
-  const { tables, setTables, selectedSeats, setSelectedSeats } = useSeating();
+  const {
+    tables,
+    setTables,
+    selectedSeats,
+    setSelectedSeats,
+    handleSeatClick,
+  } = useSeating();
   const [occupantData, setOccupantData] = useState<
     {
       table: string;
@@ -52,46 +58,39 @@ export default function Home() {
   };
 
   const handleSubmit = () => {
-    const updatedTables = tables.map((table) => {
-      if (selectedSeats.some((seat) => seat.tableId === table.id)) {
-        const updatedSeats = Array.from({ length: table.capacity }).map(
-          (_, index) => {
-            const seatNumber = (index + 1).toString();
-            const existingSeat = table.seats?.find((s) => s.id === seatNumber);
-            const occupantInfo = occupantData.find(
-              (s) => s.seat === seatNumber && s.table === table.id
-            );
+    const updatedTables = [...tables];
 
-            if (
-              occupantInfo?.firstName === "" &&
-              occupantInfo?.lastName === "" &&
-              occupantInfo?.company === ""
-            ) {
-              return { id: seatNumber, occupant: null };
-            }
+    occupantData.forEach(({ table, seat, firstName, lastName, company }) => {
+      if (firstName !== "" || lastName !== "" || company !== "") {
+        let newTable = updatedTables.find((t) => t.id === table);
+        if (!newTable) {
+          newTable = {
+            id: table,
+            seats: [],
+          };
+          updatedTables.push(newTable);
+        }
 
-            if (occupantInfo) {
-              return {
-                id: seatNumber,
-                occupant: {
-                  firstName: occupantInfo.firstName,
-                  lastName: occupantInfo.lastName,
-                  company: occupantInfo.company,
-                },
-              };
-            }
-
-            return existingSeat || { id: seatNumber, occupant: null };
-          }
-        );
-
-        return { ...table, seats: updatedSeats };
+        let newSeat = newTable.seats.find((s) => s.id === seat);
+        if (!newSeat) {
+          newSeat = {
+            id: seat,
+            occupant: null,
+          };
+          newTable.seats.push(newSeat);
+        }
+        newSeat.occupant = {
+          firstName,
+          lastName,
+          company,
+        };
       }
-      return table;
     });
 
+    console.log(updatedTables);
+
     setTables(updatedTables);
-    setSelectedSeats([]); // Reset selected seats after submitting
+    setSelectedSeats([]);
   };
 
   return (
@@ -105,79 +104,107 @@ export default function Home() {
         <Grid />
       </div>
       <aside
-        className="sticky top-0 h-screen overflow-x-hidden overflow-y-scroll flex flex-col gap-8 p-8 bg-black/90 shadow-2xl shadow-black transition-all duration-300"
+        className="sticky top-0 w-[660px] h-screen overflow-x-hidden overflow-y-scroll flex flex-col gap-4 p-8 bg-black/90 shadow-2xl shadow-black transition-all duration-300"
         style={{ maxWidth: selectedSeats.length === 0 ? "0px" : "800px" }}
       >
-        <div className="flex flex-col gap-2">
-          {selectedSeats.map((s, index) => (
-            <div
-              key={index}
-              className="flex justify-between items-center gap-2"
-            >
-              <TextInput
-                size="xs"
-                placeholder="Vorname"
-                defaultValue={s.occupant?.firstName}
-                onChange={(e) =>
-                  handleInputChange(
-                    s.tableId!,
-                    s.id,
-                    "firstName",
-                    e.target.value
-                  )
-                }
-              />
-              <TextInput
-                size="xs"
-                placeholder="Nachname"
-                defaultValue={s.occupant?.lastName}
-                onChange={(e) =>
-                  handleInputChange(
-                    s.tableId!,
-                    s.id,
-                    "lastName",
-                    e.target.value
-                  )
-                }
-              />
-              <TextInput
-                size="xs"
-                placeholder="Firma"
-                defaultValue={s.occupant?.company}
-                onChange={(e) =>
-                  handleInputChange(s.tableId!, s.id, "company", e.target.value)
-                }
-                // data={Array.from(
-                //   new Set(
-                //     tables.flatMap((t) =>
-                //       t.seats.flatMap((s) => s.occupant!.company)
-                //     )
-                //   )
-                // )}
-              />
-              <div className="text-nowrap">
-                {s.tableId} – {s.id}
-              </div>
-            </div>
-          ))}
-        </div>
         {selectedSeats.length > 0 && (
-          <div className="flex justify-between gap-2">
-            <Button
-              variant="transparent"
-              color="dark"
-              onClick={() => setSelectedSeats([])}
-            >
-              Abbrechen
-            </Button>
-            <Button
-              variant="light"
-              leftSection={<IconDeviceFloppy size={16} />}
-              onClick={() => handleSubmit()}
-            >
-              Speichern
-            </Button>
-          </div>
+          <>
+            <h2 className="text-2xl">Plätze zuordnen</h2>
+            <div className="flex flex-col gap-2">
+              {selectedSeats.map((s, index) => (
+                <Paper
+                  key={index}
+                  p="md"
+                  bg="#161616"
+                  className="relative grid grid-cols-2 justify-between items-center gap-2"
+                >
+                  <TextInput
+                    label="Vorname"
+                    size="xs"
+                    placeholder="Vorname"
+                    defaultValue={s.occupant?.firstName}
+                    onChange={(e) =>
+                      handleInputChange(
+                        s.tableId!,
+                        s.id,
+                        "firstName",
+                        e.target.value
+                      )
+                    }
+                  />
+                  <TextInput
+                    label="Nachname"
+                    size="xs"
+                    placeholder="Nachname"
+                    defaultValue={s.occupant?.lastName}
+                    onChange={(e) =>
+                      handleInputChange(
+                        s.tableId!,
+                        s.id,
+                        "lastName",
+                        e.target.value
+                      )
+                    }
+                  />
+                  <TextInput
+                    label="Firma"
+                    size="xs"
+                    placeholder="Firma"
+                    defaultValue={s.occupant?.company}
+                    onChange={(e) =>
+                      handleInputChange(
+                        s.tableId!,
+                        s.id,
+                        "company",
+                        e.target.value
+                      )
+                    }
+                    // data={Array.from(
+                    //   new Set(
+                    //     tables.flatMap((t) =>
+                    //       t.seats.flatMap((s) => s.occupant!.company)
+                    //     )
+                    //   )
+                    // )}
+                  />
+                  <TextInput
+                    label="Tisch – Platz"
+                    size="xs"
+                    defaultValue={`${s.tableId} – ${s.id}`}
+                    disabled
+                  />
+                  <ActionIcon
+                    className="absolute top-2 right-4"
+                    size="xs"
+                    variant="light"
+                    color="white"
+                    onClick={() =>
+                      handleSeatClick({ tableId: s.tableId, id: s.id })
+                    }
+                  >
+                    <IconX size={16} />
+                  </ActionIcon>
+                </Paper>
+              ))}
+            </div>
+
+            <div className="flex justify-between gap-2">
+              <Button
+                variant="transparent"
+                color="dark"
+                onClick={() => setSelectedSeats([])}
+              >
+                Abbrechen
+              </Button>
+              <Button
+                variant="light"
+                leftSection={<IconDeviceFloppy size={16} />}
+                onClick={() => handleSubmit()}
+              >
+                Speichern
+              </Button>
+            </div>
+          </>
         )}
       </aside>
     </div>

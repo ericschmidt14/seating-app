@@ -6,6 +6,6 @@ export interface Seat {
 
 export interface Table {
   id: string;
-  capacity: number;
+  capacity?: number;
   seats: Seat[];
 }
