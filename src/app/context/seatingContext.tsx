@@ -37,7 +37,7 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
       );
       if (isAlreadySelected) {
         return prevSelected.filter(
-          (s) => s.tableId !== seat.tableId || s.id !== seat.id
+          (s) => !(s.tableId === seat.tableId && s.id === seat.id)
         );
       } else {
         return [...prevSelected, seat];

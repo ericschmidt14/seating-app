@@ -4,23 +4,11 @@ import { useEffect, useState } from "react";
 import { useSeating } from "../context/seatingContext";
 import Header from "../components/header";
 import Grid from "../components/grid";
-import {
-  ActionIcon,
-  Autocomplete,
-  Button,
-  Paper,
-  TextInput,
-} from "@mantine/core";
-import { IconChevronDown, IconDeviceFloppy, IconX } from "@tabler/icons-react";
+import { Autocomplete, Button, Paper, TextInput } from "@mantine/core";
+import { IconChevronDown, IconDeviceFloppy } from "@tabler/icons-react";
 
 export default function Home() {
-  const {
-    tables,
-    setTables,
-    selectedSeats,
-    setSelectedSeats,
-    handleSeatClick,
-  } = useSeating();
+  const { tables, setTables, selectedSeats, setSelectedSeats } = useSeating();
   const [occupantData, setOccupantData] = useState<
     {
       table: string;
@@ -38,15 +26,13 @@ export default function Home() {
 
   useEffect(() => {
     setOccupantData(
-      selectedSeats
-        .filter((s) => s.occupant !== null)
-        .map((s) => ({
-          table: s.tableId!,
-          seat: s.id,
-          firstName: s.occupant?.firstName || "",
-          lastName: s.occupant?.lastName || "",
-          company: s.occupant?.company || "",
-        }))
+      selectedSeats.map((s) => ({
+        table: s.tableId!,
+        seat: s.id,
+        firstName: s.occupant?.firstName || "",
+        lastName: s.occupant?.lastName || "",
+        company: s.occupant?.company || "",
+      }))
     );
   }, [selectedSeats]);
 
@@ -138,49 +124,25 @@ export default function Home() {
           <>
             <h2 className="text-2xl">Plätze zuordnen</h2>
             <div className="flex flex-col gap-2">
-              {selectedSeats.map((s, index) => (
+              {occupantData.map((s, index) => (
                 <Paper
                   key={index}
-                  p="md"
+                  p="xs"
                   bg="#161616"
                   withBorder
                   className="relative grid grid-cols-2 justify-between items-center gap-2"
                 >
                   <TextInput
-                    label="Vorname"
                     size="xs"
-                    placeholder="Vorname"
-                    defaultValue={s.occupant?.firstName}
-                    onChange={(e) =>
-                      handleInputChange(
-                        s.tableId!,
-                        s.id,
-                        "firstName",
-                        e.target.value
-                      )
-                    }
-                  />
-                  <TextInput
-                    label="Nachname"
-                    size="xs"
-                    placeholder="Nachname"
-                    defaultValue={s.occupant?.lastName}
-                    onChange={(e) =>
-                      handleInputChange(
-                        s.tableId!,
-                        s.id,
-                        "lastName",
-                        e.target.value
-                      )
-                    }
+                    value={`Tisch ${s.table} – Platz ${s.seat}`}
+                    disabled
                   />
                   <Autocomplete
-                    label="Firma"
                     size="xs"
                     placeholder="Firma"
-                    defaultValue={s.occupant?.company}
+                    value={s.company}
                     onChange={(e) =>
-                      handleInputChange(s.tableId!, s.id, "company", e)
+                      handleInputChange(s.table, s.seat, "company", e)
                     }
                     data={Array.from(
                       new Set(
@@ -194,22 +156,31 @@ export default function Home() {
                     rightSection={<IconChevronDown size={16} />}
                   />
                   <TextInput
-                    label="Tisch – Platz"
                     size="xs"
-                    defaultValue={`${s.tableId} – ${s.id}`}
-                    disabled
-                  />
-                  <ActionIcon
-                    className="absolute top-2 right-4"
-                    size="xs"
-                    variant="light"
-                    color="white"
-                    onClick={() =>
-                      handleSeatClick({ tableId: s.tableId, id: s.id })
+                    placeholder="Vorname"
+                    value={s.firstName}
+                    onChange={(e) =>
+                      handleInputChange(
+                        s.table,
+                        s.seat,
+                        "firstName",
+                        e.target.value
+                      )
                     }
-                  >
-                    <IconX size={16} />
-                  </ActionIcon>
+                  />
+                  <TextInput
+                    size="xs"
+                    placeholder="Nachname"
+                    value={s.lastName}
+                    onChange={(e) =>
+                      handleInputChange(
+                        s.table,
+                        s.seat,
+                        "lastName",
+                        e.target.value
+                      )
+                    }
+                  />
                 </Paper>
               ))}
             </div>
