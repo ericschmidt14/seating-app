@@ -17,7 +17,7 @@ export default function TableGroup({
   round?: boolean;
   right?: boolean;
 }) {
-  const { selectedSeats } = useSeating();
+  const { selectedSeats, handleTableClick } = useSeating();
   const tableWidth = 200;
   const tableHeight = 140;
 
@@ -43,10 +43,11 @@ export default function TableGroup({
       <div className="flex flex-col gap-2">
         <SeatRow capacity={capacity / 2} firstId={1} tabledId={id} />
         <div
-          className="w-full h-12 rounded flex justify-center items-center bg-white/30"
+          className="w-full h-12 rounded flex justify-center items-center bg-white/30 cursor-pointer"
           style={{
             background: selected ? "#b3193e" : "",
           }}
+          onClick={() => handleTableClick(id, capacity)}
         >
           {id}
         </div>

@@ -19,6 +19,7 @@ interface SeatingContextType {
   selectedSeats: Seat[];
   setSelectedSeats: Dispatch<SetStateAction<Seat[]>>;
   handleSeatClick: (seat: Seat, scroll?: boolean) => void;
+  handleTableClick: (tableId: string, capacity: number) => void;
 }
 
 const SeatingContext = createContext<SeatingContextType | undefined>(undefined);
@@ -55,6 +56,50 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const handleTableClick = (tableId: string, capacity: number) => {
+    const tableSeatIds = Array.from({ length: capacity }, (_, i) =>
+      (i + 1).toString()
+    );
+
+    const table = tables.find((t) => t.id === tableId);
+    const occupiedSeats = table ? table.seats : [];
+
+    const allSeatIds = new Set([
+      ...tableSeatIds,
+      ...occupiedSeats.map((seat) => seat.id),
+    ]);
+
+    const areAllSeatsSelected = Array.from(allSeatIds).every((seatId) =>
+      selectedSeats.some((s) => s.id === seatId && s.tableId === tableId)
+    );
+
+    if (areAllSeatsSelected) {
+      setSelectedSeats((prev) => prev.filter((s) => s.tableId !== tableId));
+    } else {
+      setSelectedSeats((prev) => {
+        const seatsToSelect = Array.from(allSeatIds).map((seatId) => {
+          const occupiedSeat = occupiedSeats.find((seat) => seat.id === seatId);
+
+          return {
+            id: seatId,
+            tableId,
+            occupant: occupiedSeat
+              ? occupiedSeat.occupant
+              : { firstName: "", lastName: "", company: "" },
+          };
+        });
+
+        return [
+          ...prev,
+          ...seatsToSelect.filter(
+            (seat) =>
+              !prev.some((s) => s.id === seat.id && s.tableId === tableId)
+          ),
+        ];
+      });
+    }
+  };
+
   return (
     <SeatingContext.Provider
       value={{
@@ -67,6 +112,7 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
         selectedSeats,
         setSelectedSeats,
         handleSeatClick,
+        handleTableClick,
       }}
     >
       {children}
