@@ -32,8 +32,8 @@ export default function Header({
             </p>
             {showNav && (
               <div className="flex gap-8">
-                <NavItem href="/admin/assign/">Zuordnung</NavItem>
                 <NavItem href="/admin/games/">Begegnungen</NavItem>
+                <NavItem href="/admin/seats/">Bestuhlung</NavItem>
               </div>
             )}
           </div>
