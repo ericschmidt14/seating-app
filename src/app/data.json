@@ -105,5 +105,18 @@
         }
       }
     ]
+  },
+  {
+    "id": "200",
+    "seats": [
+      {
+        "id": "1",
+        "occupant": {
+          "firstName": "",
+          "lastName": "",
+          "company": "Musterfirma AG"
+        }
+      }
+    ]
   }
 ]

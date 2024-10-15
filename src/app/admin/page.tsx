@@ -109,8 +109,6 @@ export default function Home() {
       (table) => table.seats.length > 0
     );
 
-    console.log(cleanedTables);
-
     setTables(cleanedTables);
     setSelectedSeats([]);
   };
@@ -121,13 +119,20 @@ export default function Home() {
         selectedSeats.length > 0 ? "bg-right" : "bg-left"
       } transition-all duration-300`}
     >
-      <div className="w-full min-h-screen flex flex-col">
+      <div className="w-screen min-h-screen flex flex-col">
         <Header />
         <Grid />
       </div>
       <aside
-        className="sticky top-0 w-[660px] h-screen overflow-x-hidden overflow-y-scroll flex flex-col gap-4 p-8 bg-black/90 shadow-2xl shadow-black transition-all duration-300"
-        style={{ maxWidth: selectedSeats.length === 0 ? "0px" : "800px" }}
+        className={`sticky top-0 h-screen overflow-x-hidden overflow-y-scroll flex flex-col gap-4 bg-black/90 shadow-2xl shadow-black transition-all duration-300 ${
+          selectedSeats.length > 0 && "px-8"
+        } py-8`}
+        style={{
+          transform: `translateX(${
+            selectedSeats.length === 0 ? "800px" : "0px"
+          })`,
+          width: selectedSeats.length === 0 ? "0px" : "800px",
+        }}
       >
         {selectedSeats.length > 0 && (
           <>
@@ -200,7 +205,7 @@ export default function Home() {
                     variant="light"
                     color="white"
                     onClick={() =>
-                      handleSeatClick({ tableId: s.tableId, id: s.id }, true)
+                      handleSeatClick({ tableId: s.tableId, id: s.id })
                     }
                   >
                     <IconX size={16} />

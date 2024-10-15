@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Seat } from "../interfaces";
 
 export default function List() {
-  const { tables, selectedSeats, handleSeatClick } = useSeating();
+  const { lounge, tables, selectedSeats, handleSeatClick } = useSeating();
   const [search, setSearch] = useState("");
 
   const keywords = search.trim().split(/\s+/);
@@ -39,47 +39,50 @@ export default function List() {
         onChange={(event) => setSearch(event.currentTarget.value)}
       />
       <div className="flex flex-col gap-4">
-        {tables.map(
-          (t, index) =>
-            t.seats.length > 0 &&
-            t.seats.filter((seat) => searchKeyword(seat)).length > 0 && (
-              <Table highlightOnHover key={index}>
-                <Table.Tbody>
-                  {t.seats
-                    .filter((seat) => searchKeyword(seat))
-                    .map((s, index) => (
-                      <Table.Tr
-                        key={index}
-                        className="cursor-pointer"
-                        bg={
-                          selectedSeats.find(
-                            (selected) =>
-                              selected.id === s.id && selected.tableId === t.id
-                          )
-                            ? "#b3193e"
-                            : undefined
-                        }
-                        onClick={() =>
-                          handleSeatClick({ tableId: t.id, id: s.id }, true)
-                        }
-                      >
-                        <Table.Td>
-                          {s.occupant && s.occupant.lastName && (
-                            <b className="text-lg tracking-tighter pr-2">
-                              {s.occupant.firstName} {s.occupant.lastName}{" "}
-                            </b>
-                          )}
-                          {s.occupant && s.occupant.company}
-                        </Table.Td>
-                        <Table.Td align="right">
-                          {t.id} – {s.id}
-                        </Table.Td>
-                      </Table.Tr>
-                    ))}
-                </Table.Tbody>
-              </Table>
-            )
-        )}
+        {tables
+          .filter((t) => (lounge === "1" ? +t.id < 200 : +t.id >= 200))
+          .map(
+            (t, index) =>
+              t.seats.length > 0 &&
+              t.seats.filter((seat) => searchKeyword(seat)).length > 0 && (
+                <Table highlightOnHover key={index}>
+                  <Table.Tbody>
+                    {t.seats
+                      .filter((seat) => searchKeyword(seat))
+                      .map((s, index) => (
+                        <Table.Tr
+                          key={index}
+                          className="cursor-pointer"
+                          bg={
+                            selectedSeats.find(
+                              (selected) =>
+                                selected.id === s.id &&
+                                selected.tableId === t.id
+                            )
+                              ? "#b3193e"
+                              : undefined
+                          }
+                          onClick={() =>
+                            handleSeatClick({ tableId: t.id, id: s.id }, true)
+                          }
+                        >
+                          <Table.Td>
+                            {s.occupant && s.occupant.lastName && (
+                              <b className="text-lg tracking-tighter pr-2">
+                                {s.occupant.firstName} {s.occupant.lastName}{" "}
+                              </b>
+                            )}
+                            {s.occupant && s.occupant.company}
+                          </Table.Td>
+                          <Table.Td align="right">
+                            {t.id} – {s.id}
+                          </Table.Td>
+                        </Table.Tr>
+                      ))}
+                  </Table.Tbody>
+                </Table>
+              )
+          )}
       </div>
     </>
   );

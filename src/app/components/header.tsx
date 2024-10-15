@@ -4,9 +4,10 @@ import Image from "next/image";
 import Tab from "./tabs";
 import { useSeating } from "../context/seatingContext";
 import lounges from "../lounges.json";
+import games from "../games.json";
 
 export default function Header() {
-  const { lounge, setLounge } = useSeating();
+  const { game, setGame, lounge, setLounge } = useSeating();
 
   return (
     <header className="flex flex-col gap-4 bg-black/50 shadow-md shadow-black/10">
@@ -18,12 +19,11 @@ export default function Header() {
           </p>
         </div>
         <Select
-          data={[
-            { label: "Spieltag 8 – Preußen Münster", value: "8" },
-            { label: "Spieltag 10 – Jahn Regensburg", value: "10" },
-            { label: "Spieltag 12 – 1. FC Kaiserslautern", value: "12" },
-          ]}
-          defaultValue="8"
+          data={games.map((g) => {
+            return { label: `Spieltag ${g.id} – ${g.opponent}`, value: g.id };
+          })}
+          value={game}
+          onChange={setGame}
           withCheckIcon={false}
           allowDeselect={false}
           variant="light"

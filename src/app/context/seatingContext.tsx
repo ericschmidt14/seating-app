@@ -10,6 +10,8 @@ import {
 import { Seat, Table } from "../interfaces";
 
 interface SeatingContextType {
+  game: string | null;
+  setGame: Dispatch<SetStateAction<string | null>>;
   lounge: string;
   setLounge: Dispatch<SetStateAction<string>>;
   tables: Table[];
@@ -22,6 +24,7 @@ interface SeatingContextType {
 const SeatingContext = createContext<SeatingContextType | undefined>(undefined);
 
 export const SeatingProvider = ({ children }: { children: ReactNode }) => {
+  const [game, setGame] = useState<string | null>("8");
   const [lounge, setLounge] = useState("1");
   const [tables, setTables] = useState<Table[]>([]);
   const [selectedSeats, setSelectedSeats] = useState<Seat[]>([]);
@@ -55,6 +58,8 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
   return (
     <SeatingContext.Provider
       value={{
+        game,
+        setGame,
         lounge,
         setLounge,
         tables,
