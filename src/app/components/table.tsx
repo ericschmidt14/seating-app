@@ -8,12 +8,14 @@ export default function TableGroup({
   x,
   y,
   round,
+  right,
 }: {
   id: string;
   capacity: number;
   x: number;
   y: number;
   round?: boolean;
+  right?: boolean;
 }) {
   const { selectedSeats } = useSeating();
   const tableWidth = 200;
@@ -32,9 +34,12 @@ export default function TableGroup({
   const rectangularTable = (
     <div
       id={`table-${id}`}
-      className="absolute flex items-center gap-2"
-      style={{ top: tableHeight * y, left: tableWidth * x }}
+      className={`absolute flex items-center gap-2 ${right && "justify-end"}`}
+      style={{ top: tableHeight * y, left: tableWidth * x, width: tableWidth }}
     >
+      {right && capacity % 2 === 1 && (
+        <Seat id={capacity.toString()} tableId={id} />
+      )}
       <div className="flex flex-col gap-2">
         <SeatRow capacity={capacity / 2} firstId={1} tabledId={id} />
         <div
@@ -51,7 +56,9 @@ export default function TableGroup({
           tabledId={id}
         />
       </div>
-      {capacity % 2 === 1 && <Seat id={capacity.toString()} tableId={id} />}
+      {!right && capacity % 2 === 1 && (
+        <Seat id={capacity.toString()} tableId={id} />
+      )}
     </div>
   );
 

@@ -18,6 +18,7 @@ export default function Grid() {
             x={t.x}
             y={t.y}
             round={t.round}
+            right={t.right}
           />
         ))}
       </div>
