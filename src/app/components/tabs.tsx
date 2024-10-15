@@ -14,6 +14,8 @@ export default function Tab({
       } hover:text-white/100 transition-all`}
       style={{
         borderBottom: active ? "1px solid white" : "",
+        fontSize:
+          "var(--input-fz, var(--input-fz, var(--mantine-font-size-sm)))",
       }}
       onClick={onClick}
     >

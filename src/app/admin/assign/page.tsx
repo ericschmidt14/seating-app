@@ -1,11 +1,15 @@
 "use client";
-import data from "../data.json";
+import data from "../../data.json";
 import { useEffect, useState } from "react";
-import { useSeating } from "../context/seatingContext";
-import Header from "../components/header";
-import Grid from "../components/grid";
+import { useSeating } from "../../context/seatingContext";
+import Header from "../../components/header";
+import Grid from "../../components/grid";
 import { Autocomplete, Button, Paper, TextInput } from "@mantine/core";
-import { IconChevronDown, IconDeviceFloppy } from "@tabler/icons-react";
+import {
+  IconArmchair,
+  IconBuildingFactory2,
+  IconDeviceFloppy,
+} from "@tabler/icons-react";
 
 export default function Home() {
   const { tables, setTables, selectedSeats, setSelectedSeats } = useSeating();
@@ -106,7 +110,7 @@ export default function Home() {
       } transition-all duration-300`}
     >
       <div className="w-screen min-h-screen flex flex-col">
-        <Header />
+        <Header showNav={true} />
         <Grid />
       </div>
       <aside
@@ -123,19 +127,20 @@ export default function Home() {
         {selectedSeats.length > 0 && (
           <>
             <h2 className="text-2xl">Plätze zuordnen</h2>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-4">
               {occupantData.map((s, index) => (
                 <Paper
                   key={index}
                   p="xs"
-                  bg="#161616"
-                  withBorder
+                  bg="#181818"
+                  radius="md"
                   className="relative grid grid-cols-2 justify-between items-center gap-2"
                 >
                   <TextInput
                     size="xs"
                     value={`Tisch ${s.table} – Platz ${s.seat}`}
                     disabled
+                    rightSection={<IconArmchair size={16} />}
                   />
                   <Autocomplete
                     size="xs"
@@ -153,7 +158,7 @@ export default function Home() {
                     ).sort((a, b) =>
                       a.localeCompare(b, undefined, { sensitivity: "base" })
                     )}
-                    rightSection={<IconChevronDown size={16} />}
+                    rightSection={<IconBuildingFactory2 size={16} />}
                   />
                   <TextInput
                     size="xs"

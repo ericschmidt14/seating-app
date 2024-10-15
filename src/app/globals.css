@@ -35,3 +35,16 @@ body {
     text-wrap: balance;
   }
 }
+
+a:not(.logo):not(.mantine-Button-root),
+.link {
+  font-size: var(--input-fz, var(--input-fz, var(--mantine-font-size-sm)));
+  color: var(--mantine-color-dimmed);
+  transition: var(--transition);
+}
+
+a:not(.logo):not(.mantine-Button-root):hover,
+.link:hover {
+  color: var(--mantine-color-anchor);
+  cursor: pointer;
+}

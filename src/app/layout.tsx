@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
 import "./globals.css";
 import { ColorSchemeScript, createTheme, MantineProvider } from "@mantine/core";
 import { SeatingProvider } from "./context/seatingContext";

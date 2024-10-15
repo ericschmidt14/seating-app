@@ -9,3 +9,17 @@ export interface Table {
   capacity?: number;
   seats: Seat[];
 }
+
+export interface Game {
+  id: string;
+  opponent: string;
+  date: string;
+  lounges: Array<Lounge>;
+}
+
+export interface Lounge {
+  id: string;
+  name: string;
+  utilization: string;
+  tables: Array<Table>;
+}
