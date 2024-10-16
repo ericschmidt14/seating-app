@@ -7,8 +7,12 @@ import { IconCirclePlus } from "@tabler/icons-react";
 import { DatesProvider } from "@mantine/dates";
 import GameRow from "@/app/components/game";
 import { Game } from "@/app/interfaces";
+import GameDrawer from "@/app/components/drawer";
+import { useDisclosure } from "@mantine/hooks";
 
 export default function Home() {
+  const [opened, { open, close }] = useDisclosure(false);
+
   return (
     <DatesProvider settings={{ locale: "de" }}>
       <div className="min-w-screen min-h-screen flex justify-between bg-[length:300%_300%] bg-gradient-to-r from-[#b3193e] via-[#aa1124] via-30% to-[#220407] bg-right transition-all duration-300">
@@ -43,6 +47,7 @@ export default function Home() {
                 color="white"
                 leftSection={<IconCirclePlus size={16} />}
                 fullWidth
+                onClick={open}
               >
                 Weiteres Spiel hinzufügen
               </Button>
@@ -50,6 +55,7 @@ export default function Home() {
           </main>
         </div>
       </div>
+      <GameDrawer opened={opened} close={close} />
     </DatesProvider>
   );
 }

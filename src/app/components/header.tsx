@@ -17,6 +17,11 @@ export default function Header({
 }) {
   const { game, setGame, lounge, setLounge } = useSeating();
 
+  const nav = [
+    { label: "Begegnungen", href: "/admin/games/" },
+    { label: "Bestuhlung", href: "/admin/seats/" },
+  ];
+
   return (
     <header className="flex flex-col gap-4 bg-black/50 shadow-md shadow-black/10">
       <div
@@ -32,8 +37,11 @@ export default function Header({
             </p>
             {showNav && (
               <div className="flex gap-8">
-                <NavItem href="/admin/games/">Begegnungen</NavItem>
-                <NavItem href="/admin/seats/">Bestuhlung</NavItem>
+                {nav.map((n, index) => (
+                  <NavItem key={index} href={n.href}>
+                    {n.label}
+                  </NavItem>
+                ))}
               </div>
             )}
           </div>
