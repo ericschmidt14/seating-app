@@ -2,6 +2,7 @@ export interface Seat {
   id: string;
   tableId?: string;
   occupant?: { firstName: string; lastName: string; company: string } | null;
+  seasonTicket?: boolean;
 }
 
 export interface Table {

@@ -1,10 +1,10 @@
 "use client";
 import { ActionIcon, Table } from "@mantine/core";
-import { IconPencil } from "@tabler/icons-react";
-import { Game } from "../interfaces";
-import { format } from "date-fns";
-import { utilization } from "../values";
 import { useDisclosure } from "@mantine/hooks";
+import { IconPencil } from "@tabler/icons-react";
+import { format } from "date-fns";
+import { Game } from "../interfaces";
+import { utilization } from "../values";
 import GameDrawer from "./drawer";
 
 export default function GameRow({ game }: { game: Game }) {
@@ -15,7 +15,9 @@ export default function GameRow({ game }: { game: Game }) {
       <Table.Tr>
         <Table.Td>{game.id}</Table.Td>
         <Table.Td>{game.opponent}</Table.Td>
-        <Table.Td>{format(new Date(game.date), "dd.MM.yyyy")}</Table.Td>
+        <Table.Td>
+          {game.date && format(new Date(game.date), "dd.MM.yyyy")}
+        </Table.Td>
         <Table.Td>{utilization[game.lounges[0].utilization]}</Table.Td>
         <Table.Td>{utilization[game.lounges[1].utilization]}</Table.Td>
         <Table.Td className="text-right">

@@ -8,14 +8,16 @@
           "firstName": "Eric",
           "lastName": "Schmidt",
           "company": "CoMo Solution GmbH"
-        }
+        },
+        "seasonTicket": true
       },
       {
         "id": "2",
         "occupant": {
           "firstName": "Marcus",
           "lastName": "Prell",
-          "company": "CoMo Solution GmbH"
+          "company": "CoMo Solution GmbH",
+          "seasonTicket": true
         }
       },
       {
@@ -23,7 +25,8 @@
         "occupant": {
           "firstName": "Volkmar",
           "lastName": "Fritz",
-          "company": "CoMo Solution GmbH"
+          "company": "CoMo Solution GmbH",
+          "seasonTicket": true
         }
       }
     ]

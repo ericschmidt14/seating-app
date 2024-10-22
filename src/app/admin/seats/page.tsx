@@ -1,15 +1,15 @@
 "use client";
-import data from "../../data.json";
-import { useEffect, useState } from "react";
-import { useSeating } from "../../context/seatingContext";
-import Header from "../../components/header";
-import Grid from "../../components/grid";
 import { Autocomplete, Button, Paper, TextInput } from "@mantine/core";
 import {
   IconArmchair,
   IconBuildingFactory2,
   IconDeviceFloppy,
 } from "@tabler/icons-react";
+import { useEffect, useState } from "react";
+import Grid from "../../components/grid";
+import Header from "../../components/header";
+import { useSeating } from "../../context/seatingContext";
+import data from "../../data.json";
 
 export default function Home() {
   const { tables, setTables, selectedSeats, setSelectedSeats } = useSeating();
@@ -128,66 +128,82 @@ export default function Home() {
           <>
             <h2 className="text-2xl">Plätze zuordnen</h2>
             <div className="flex flex-col gap-4">
-              {occupantData.map((s, index) => (
-                <Paper
-                  key={index}
-                  p="xs"
-                  bg="#181818"
-                  radius="md"
-                  className="relative grid grid-cols-2 justify-between items-center gap-2"
-                >
-                  <TextInput
-                    size="xs"
-                    value={`Tisch ${s.table} – Platz ${s.seat}`}
-                    disabled
-                    rightSection={<IconArmchair size={16} />}
-                  />
-                  <Autocomplete
-                    size="xs"
-                    placeholder="Firma"
-                    value={s.company}
-                    onChange={(e) =>
-                      handleInputChange(s.table, s.seat, "company", e)
-                    }
-                    data={Array.from(
-                      new Set(
-                        tables.flatMap((t) =>
-                          t.seats.flatMap((s) => s.occupant!.company)
+              {occupantData
+                .sort((a, b) => {
+                  const tableA = parseInt(a.table, 10);
+                  const tableB = parseInt(b.table, 10);
+
+                  // First, compare the table numbers
+                  if (tableA !== tableB) {
+                    return tableA - tableB;
+                  }
+
+                  // If table numbers are the same, compare seat numbers
+                  const seatA = parseInt(a.seat, 10);
+                  const seatB = parseInt(b.seat, 10);
+
+                  return seatA - seatB;
+                })
+                .map((s, index) => (
+                  <Paper
+                    key={index}
+                    p="xs"
+                    bg="#181818"
+                    radius="md"
+                    className="relative grid grid-cols-2 justify-between items-center gap-2"
+                  >
+                    <TextInput
+                      size="xs"
+                      value={`Tisch ${s.table} – Platz ${s.seat}`}
+                      disabled
+                      rightSection={<IconArmchair size={16} />}
+                    />
+                    <Autocomplete
+                      size="xs"
+                      placeholder="Firma"
+                      value={s.company}
+                      onChange={(e) =>
+                        handleInputChange(s.table, s.seat, "company", e)
+                      }
+                      data={Array.from(
+                        new Set(
+                          tables.flatMap((t) =>
+                            t.seats.flatMap((s) => s.occupant!.company)
+                          )
                         )
-                      )
-                    ).sort((a, b) =>
-                      a.localeCompare(b, undefined, { sensitivity: "base" })
-                    )}
-                    rightSection={<IconBuildingFactory2 size={16} />}
-                  />
-                  <TextInput
-                    size="xs"
-                    placeholder="Vorname"
-                    value={s.firstName}
-                    onChange={(e) =>
-                      handleInputChange(
-                        s.table,
-                        s.seat,
-                        "firstName",
-                        e.target.value
-                      )
-                    }
-                  />
-                  <TextInput
-                    size="xs"
-                    placeholder="Nachname"
-                    value={s.lastName}
-                    onChange={(e) =>
-                      handleInputChange(
-                        s.table,
-                        s.seat,
-                        "lastName",
-                        e.target.value
-                      )
-                    }
-                  />
-                </Paper>
-              ))}
+                      ).sort((a, b) =>
+                        a.localeCompare(b, undefined, { sensitivity: "base" })
+                      )}
+                      rightSection={<IconBuildingFactory2 size={16} />}
+                    />
+                    <TextInput
+                      size="xs"
+                      placeholder="Vorname"
+                      value={s.firstName}
+                      onChange={(e) =>
+                        handleInputChange(
+                          s.table,
+                          s.seat,
+                          "firstName",
+                          e.target.value
+                        )
+                      }
+                    />
+                    <TextInput
+                      size="xs"
+                      placeholder="Nachname"
+                      value={s.lastName}
+                      onChange={(e) =>
+                        handleInputChange(
+                          s.table,
+                          s.seat,
+                          "lastName",
+                          e.target.value
+                        )
+                      }
+                    />
+                  </Paper>
+                ))}
             </div>
 
             <div className="flex justify-between gap-2">

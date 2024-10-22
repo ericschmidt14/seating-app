@@ -1,5 +1,14 @@
 [
   {
+    "opponent": "Saisontickets 2024/2025",
+    "id": "0",
+    "date": null,
+    "lounges": [
+      { "id": "1", "utilization": "1" },
+      { "id": "2", "utilization": "1" }
+    ]
+  },
+  {
     "opponent": "Preußen Münster",
     "id": "8",
     "date": "2024-10-05T03:24:00",

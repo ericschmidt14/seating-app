@@ -1,12 +1,12 @@
 "use client";
 import { Select } from "@mantine/core";
 import Image from "next/image";
-import Tab from "./tabs";
-import { useSeating } from "../context/seatingContext";
-import lounges from "../lounges.json";
-import games from "../games.json";
-import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useSeating } from "../context/seatingContext";
+import games from "../games.json";
+import lounges from "../lounges.json";
+import Tab from "./tabs";
 
 export default function Header({
   showNav,
@@ -48,7 +48,11 @@ export default function Header({
         </div>
         <Select
           data={games.map((g) => {
-            return { label: `Spieltag ${g.id} – ${g.opponent}`, value: g.id };
+            return {
+              label:
+                +g.id > 0 ? `Spieltag ${g.id} – ${g.opponent}` : g.opponent,
+              value: g.id,
+            };
           })}
           value={game}
           onChange={setGame}
