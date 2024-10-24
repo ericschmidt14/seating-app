@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
+import { ColorSchemeScript, createTheme, MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
-import "./globals.css";
-import { ColorSchemeScript, createTheme, MantineProvider } from "@mantine/core";
+import "@mantine/spotlight/styles.css";
+import type { Metadata } from "next";
 import { SeatingProvider } from "./context/seatingContext";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Club Seating App",

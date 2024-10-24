@@ -1,10 +1,9 @@
 "use client";
-import tables from "./data.json";
 import { useEffect } from "react";
-import { useSeating } from "./context/seatingContext";
-import Header from "./components/header";
 import Grid from "./components/grid";
-import List from "./components/list";
+import Header from "./components/header";
+import { useSeating } from "./context/seatingContext";
+import tables from "./data.json";
 
 export default function Home() {
   const { setTables, selectedSeats } = useSeating();
@@ -24,9 +23,6 @@ export default function Home() {
         <Header />
         <Grid />
       </div>
-      <aside className="sticky top-0 w-[660px] h-screen overflow-y-scroll flex flex-col gap-8 p-8 bg-black/90 shadow-2xl shadow-black">
-        <List />
-      </aside>
     </div>
   );
 }

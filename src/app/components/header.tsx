@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useSeating } from "../context/seatingContext";
 import games from "../games.json";
 import lounges from "../lounges.json";
+import Search from "./search";
 import Tab from "./tabs";
 
 export default function Header({
@@ -23,7 +24,7 @@ export default function Header({
   ];
 
   return (
-    <header className="flex flex-col gap-4 bg-black/50 shadow-md shadow-black/10">
+    <header className="sticky top-0 z-50 flex flex-col gap-4 backdrop-blur-md bg-black/50 shadow-md shadow-black/20">
       <div
         className={`flex justify-between items-center px-8 ${
           hideTabs ? "py-8" : "pt-8"
@@ -46,21 +47,23 @@ export default function Header({
             )}
           </div>
         </div>
-        <Select
-          data={games.map((g) => {
-            return {
-              label:
-                +g.id > 0 ? `Spieltag ${g.id} – ${g.opponent}` : g.opponent,
-              value: g.id,
-            };
-          })}
-          value={game}
-          onChange={setGame}
-          withCheckIcon={false}
-          allowDeselect={false}
-          variant="light"
-          w={260}
-        />
+        <div className="flex gap-2">
+          <Select
+            data={games.map((g) => {
+              return {
+                label:
+                  +g.id > 0 ? `Spieltag ${g.id} – ${g.opponent}` : g.opponent,
+                value: g.id,
+              };
+            })}
+            value={game}
+            onChange={setGame}
+            withCheckIcon={false}
+            allowDeselect={false}
+            w={260}
+          />
+          <Search />
+        </div>
       </div>
       {!hideTabs && (
         <div className="flex gap-8 px-8">
