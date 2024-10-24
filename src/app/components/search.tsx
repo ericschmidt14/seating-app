@@ -1,6 +1,6 @@
 import { Button, rem } from "@mantine/core";
 import { Spotlight, SpotlightActionData, spotlight } from "@mantine/spotlight";
-import { IconSearch } from "@tabler/icons-react";
+import { IconArmchair, IconDesk, IconSearch } from "@tabler/icons-react";
 import { useState } from "react";
 import { useSeating } from "../context/seatingContext";
 import { Seat } from "../interfaces";
@@ -35,9 +35,16 @@ export default function Search() {
                 true
               ),
             rightSection: (
-              <p>
-                {t.id} – {s.id}
-              </p>
+              <div className="flex items-center gap-2">
+                <div className="w-8 flex flex-col items-center">
+                  <IconDesk size={16} />
+                  <p className="text-white">{t.id}</p>
+                </div>
+                <div className="w-8 flex flex-col items-center">
+                  <IconArmchair size={16} />
+                  <p className="text-white">{s.id}</p>
+                </div>
+              </div>
             ),
           };
         })
