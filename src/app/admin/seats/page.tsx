@@ -5,7 +5,7 @@ import {
   IconBuildingFactory2,
   IconDeviceFloppy,
 } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Grid from "../../components/grid";
 import Header from "../../components/header";
 import { useSeating } from "../../context/seatingContext";
@@ -13,86 +13,69 @@ import data from "../../data.json";
 
 export default function Home() {
   const { tables, setTables, selectedSeats, setSelectedSeats } = useSeating();
-  const [occupantData, setOccupantData] = useState<
-    {
-      table: string;
-      seat: string;
-      firstName: string;
-      lastName: string;
-      company: string;
-    }[]
-  >([]);
 
   useEffect(() => {
     setTables(data);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    setOccupantData(
-      selectedSeats.map((s) => ({
-        table: s.tableId!,
-        seat: s.id,
-        firstName: s.occupant?.firstName || "",
-        lastName: s.occupant?.lastName || "",
-        company: s.occupant?.company || "",
-      }))
-    );
-  }, [selectedSeats]);
-
   const handleInputChange = (
     tabledId: string,
     seatId: string,
-    field: string,
+    field: "firstName" | "lastName" | "company",
     value: string
   ) => {
-    setOccupantData((prev) =>
-      prev.map((seat) =>
-        seat.table === tabledId && seat.seat === seatId
-          ? { ...seat, [field]: value }
-          : seat
-      )
+    setSelectedSeats((prev) =>
+      prev.map((seat) => {
+        if (seat.tableId === tabledId && seat.id === seatId) {
+          const occupant = seat.occupant
+            ? seat.occupant
+            : { firstName: "", lastName: "", company: "" };
+          occupant[field] = value;
+          return { ...seat, occupant };
+        } else {
+          return seat;
+        }
+      })
     );
   };
 
   const handleSubmit = () => {
     const updatedTables = [...tables];
 
-    occupantData.forEach(({ table, seat, firstName, lastName, company }) => {
+    selectedSeats.forEach(({ tableId, id, occupant }) => {
       const isOccupantEmpty =
-        !firstName.trim() && !lastName.trim() && !company.trim();
+        !occupant!.firstName.trim() &&
+        !occupant!.lastName.trim() &&
+        !occupant!.company.trim();
 
-      let newTable = updatedTables.find((t) => t.id === table);
+      let newTable = updatedTables.find((t) => t.id === tableId);
       if (!newTable) {
         if (isOccupantEmpty) {
           return;
         }
 
         newTable = {
-          id: table,
+          id: tableId!,
           seats: [],
         };
         updatedTables.push(newTable);
       }
 
-      let newSeat = newTable.seats.find((s) => s.id === seat);
+      let newSeat = newTable.seats.find((s) => s.id === id);
       if (isOccupantEmpty) {
         if (newSeat) {
-          newTable.seats = newTable.seats.filter((s) => s.id !== seat);
+          newTable.seats = newTable.seats.filter((s) => s.id !== id);
         }
       } else {
         if (!newSeat) {
           newSeat = {
-            id: seat,
+            id: id,
             occupant: null,
           };
           newTable.seats.push(newSeat);
         }
-        newSeat.occupant = {
-          firstName,
-          lastName,
-          company,
-        };
+        newSeat.occupant = occupant;
       }
     });
     const cleanedTables = updatedTables.filter(
@@ -128,20 +111,16 @@ export default function Home() {
           <>
             <h2 className="text-2xl">Plätze zuordnen</h2>
             <div className="flex flex-col gap-4">
-              {occupantData
+              {selectedSeats
                 .sort((a, b) => {
-                  const tableA = parseInt(a.table, 10);
-                  const tableB = parseInt(b.table, 10);
-
-                  // First, compare the table numbers
+                  const tableA = parseInt(a.tableId!, 10);
+                  const tableB = parseInt(b.tableId!, 10);
                   if (tableA !== tableB) {
                     return tableA - tableB;
                   }
 
-                  // If table numbers are the same, compare seat numbers
-                  const seatA = parseInt(a.seat, 10);
-                  const seatB = parseInt(b.seat, 10);
-
+                  const seatA = parseInt(a.id, 10);
+                  const seatB = parseInt(b.id, 10);
                   return seatA - seatB;
                 })
                 .map((s, index) => (
@@ -154,16 +133,16 @@ export default function Home() {
                   >
                     <TextInput
                       size="xs"
-                      value={`Tisch ${s.table} – Platz ${s.seat}`}
+                      value={`Tisch ${s.tableId} – Platz ${s.id}`}
                       disabled
                       rightSection={<IconArmchair size={16} />}
                     />
                     <Autocomplete
                       size="xs"
                       placeholder="Firma"
-                      value={s.company}
+                      value={s.occupant?.company || ""}
                       onChange={(e) =>
-                        handleInputChange(s.table, s.seat, "company", e)
+                        handleInputChange(s.tableId!, s.id, "company", e)
                       }
                       data={Array.from(
                         new Set(
@@ -179,11 +158,11 @@ export default function Home() {
                     <TextInput
                       size="xs"
                       placeholder="Vorname"
-                      value={s.firstName}
+                      value={s.occupant?.firstName || ""}
                       onChange={(e) =>
                         handleInputChange(
-                          s.table,
-                          s.seat,
+                          s.tableId!,
+                          s.id,
                           "firstName",
                           e.target.value
                         )
@@ -192,11 +171,11 @@ export default function Home() {
                     <TextInput
                       size="xs"
                       placeholder="Nachname"
-                      value={s.lastName}
+                      value={s.occupant?.lastName || ""}
                       onChange={(e) =>
                         handleInputChange(
-                          s.table,
-                          s.seat,
+                          s.tableId!,
+                          s.id,
                           "lastName",
                           e.target.value
                         )
