@@ -40,6 +40,10 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
           (s) => !(s.tableId === seat.tableId && s.id === seat.id)
         );
       } else {
+        const occupant = seat.occupant
+          ? seat.occupant
+          : { firstName: "", lastName: "", company: "" };
+        seat.occupant = occupant;
         return [...prevSelected, seat];
       }
     });
