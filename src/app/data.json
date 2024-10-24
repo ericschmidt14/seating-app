@@ -120,5 +120,18 @@
         }
       }
     ]
+  },
+  {
+    "id": "229",
+    "seats": [
+      {
+        "id": "6",
+        "occupant": {
+          "firstName": "Lara",
+          "lastName": "Burkhardt",
+          "company": "ING Diba"
+        }
+      }
+    ]
   }
 ]

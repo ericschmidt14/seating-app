@@ -47,23 +47,25 @@ export default function Header({
             )}
           </div>
         </div>
-        <div className="flex gap-2">
-          <Select
-            data={games.map((g) => {
-              return {
-                label:
-                  +g.id > 0 ? `Spieltag ${g.id} – ${g.opponent}` : g.opponent,
-                value: g.id,
-              };
-            })}
-            value={game}
-            onChange={setGame}
-            withCheckIcon={false}
-            allowDeselect={false}
-            w={260}
-          />
-          <Search />
-        </div>
+        {!hideTabs && (
+          <div className="flex gap-2">
+            <Select
+              data={games.map((g) => {
+                return {
+                  label:
+                    +g.id > 0 ? `Spieltag ${g.id} – ${g.opponent}` : g.opponent,
+                  value: g.id,
+                };
+              })}
+              value={game}
+              onChange={setGame}
+              withCheckIcon={false}
+              allowDeselect={false}
+              w={260}
+            />
+            <Search />
+          </div>
+        )}
       </div>
       {!hideTabs && (
         <div className="flex gap-8 px-8">
