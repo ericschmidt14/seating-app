@@ -1,14 +1,14 @@
 "use client";
-import "dayjs/locale/de";
-import { Button, Paper, Table } from "@mantine/core";
-import Header from "../../components/header";
-import games from "../../games.json";
-import { IconCirclePlus } from "@tabler/icons-react";
-import { DatesProvider } from "@mantine/dates";
+import GameDrawer from "@/app/components/drawer";
 import GameRow from "@/app/components/game";
 import { Game } from "@/app/interfaces";
-import GameDrawer from "@/app/components/drawer";
+import { Button, Paper, Table } from "@mantine/core";
+import { DatesProvider } from "@mantine/dates";
 import { useDisclosure } from "@mantine/hooks";
+import { IconCirclePlus } from "@tabler/icons-react";
+import "dayjs/locale/de";
+import Header from "../../components/header";
+import games from "../../games.json";
 
 export default function Home() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -29,6 +29,7 @@ export default function Home() {
                 <Table.Thead>
                   <Table.Tr>
                     <Table.Th>Spieltag</Table.Th>
+                    <Table.Th>Saison</Table.Th>
                     <Table.Th>Gegner</Table.Th>
                     <Table.Th>Datum</Table.Th>
                     <Table.Th>Club Lounge</Table.Th>
@@ -37,9 +38,10 @@ export default function Home() {
                   </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>
-                  {games.map((g, index) => (
-                    <GameRow key={index} game={g as Game} />
-                  ))}
+                  {games.map(
+                    (g, index) =>
+                      g.id !== "0" && <GameRow key={index} game={g as Game} />
+                  )}
                 </Table.Tbody>
               </Table>
               <Button

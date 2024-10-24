@@ -4,6 +4,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { IconPencil } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { Game } from "../interfaces";
+import { getSeason } from "../utils";
 import { utilization } from "../values";
 import GameDrawer from "./drawer";
 
@@ -14,6 +15,7 @@ export default function GameRow({ game }: { game: Game }) {
     <>
       <Table.Tr>
         <Table.Td>{game.id}</Table.Td>
+        <Table.Td>{getSeason(game.season || "").label}</Table.Td>
         <Table.Td>{game.opponent}</Table.Td>
         <Table.Td>
           {game.date && format(new Date(game.date), "dd.MM.yyyy")}

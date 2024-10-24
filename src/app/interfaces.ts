@@ -1,8 +1,12 @@
 export interface Seat {
   id: string;
   tableId?: string;
-  occupant?: { firstName: string; lastName: string; company: string } | null;
-  seasonTicket?: boolean;
+  occupant?: {
+    firstName: string;
+    lastName: string;
+    company: string;
+    seasonTicket?: boolean;
+  } | null;
 }
 
 export interface Table {
@@ -13,6 +17,7 @@ export interface Table {
 
 export interface Game {
   id: string;
+  season?: string;
   opponent: string;
   date: string;
   lounges: Array<Lounge>;

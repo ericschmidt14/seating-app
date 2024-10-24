@@ -1,9 +1,10 @@
 "use client";
 import { Button, Drawer, Select, TextInput } from "@mantine/core";
+import { DatePickerInput } from "@mantine/dates";
+import { IconCalendar, IconDeviceFloppy } from "@tabler/icons-react";
 import { useState } from "react";
 import { Game } from "../interfaces";
-import { DatePickerInput } from "@mantine/dates";
-import { IconDeviceFloppy } from "@tabler/icons-react";
+import { getCurrentSeason, getSeasons } from "../utils";
 
 export default function GameDrawer({
   game,
@@ -15,6 +16,9 @@ export default function GameDrawer({
   close: () => void;
 }) {
   const [id, setId] = useState<string>(game ? game.id : "1");
+  const [season, setSeason] = useState<string | null>(
+    game?.season ? game.season : getCurrentSeason().toString()
+  );
   const [opponent, setOpponent] = useState<string>(game ? game.opponent : "");
   const [date, setDate] = useState<Date | null>(
     game ? new Date(game.date) : new Date()
@@ -29,7 +33,6 @@ export default function GameDrawer({
   const utilizations = [
     { label: "Teilauslastung", value: "1" },
     { label: "Vollauslastung", value: "2" },
-    { label: "Maximalauslastung", value: "3" },
   ];
 
   return (
@@ -55,13 +58,26 @@ export default function GameDrawer({
             data-autofocus
           />
         )}
+        <Select
+          label="Saison"
+          data={getSeasons()}
+          value={season}
+          onChange={setSeason}
+          allowDeselect={false}
+          checkIconPosition="right"
+        />
         <TextInput
           label="Gegner"
           value={opponent}
           onChange={(event) => setOpponent(event.currentTarget.value)}
           data-autofocus
         />
-        <DatePickerInput label="Datum" value={date} onChange={setDate} />
+        <DatePickerInput
+          label="Datum"
+          value={date}
+          onChange={setDate}
+          rightSection={<IconCalendar size={16} />}
+        />
         <Select
           label="Club Lounge"
           data={utilizations}
