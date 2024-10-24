@@ -67,6 +67,8 @@ export default function Search() {
         onQueryChange={setQuery}
         nothingFound="Keine Treffer."
         filter={(_, actions) => actions}
+        scrollable
+        radius="md"
         searchProps={{
           leftSection: (
             <IconSearch
