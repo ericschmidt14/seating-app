@@ -1,7 +1,12 @@
+"use client";
+import { Popover } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { IconArmchair, IconDesk } from "@tabler/icons-react";
 import { useSeating } from "../context/seatingContext";
 
 export default function Seat({ id, tableId }: { id: string; tableId: string }) {
   const { tables, selectedSeats, handleSeatClick } = useSeating();
+  const [opened, { close, open }] = useDisclosure(false);
 
   const taken = tables.find(
     (t) =>
@@ -9,6 +14,8 @@ export default function Seat({ id, tableId }: { id: string; tableId: string }) {
       t.seats.find((s) => s.id === id) &&
       t.seats.find((s) => s.id === id)?.occupant !== null
   );
+
+  const occupant = taken?.seats.find((s) => s.id === id)?.occupant;
 
   const seasonTicket = taken?.seats.find(
     (s) => s.id === id && s.occupant?.seasonTicket
@@ -31,7 +38,7 @@ export default function Seat({ id, tableId }: { id: string; tableId: string }) {
     return "";
   };
 
-  return (
+  const seat = (
     <div
       className="relative w-6 h-6 border border-white/60 rounded hover:bg-white/30 text-xs font-bold"
       style={{
@@ -41,7 +48,7 @@ export default function Seat({ id, tableId }: { id: string; tableId: string }) {
         handleSeatClick({
           tableId,
           id,
-          occupant: taken?.seats.find((s) => s.id === id)?.occupant,
+          occupant,
         })
       }
     >
@@ -53,5 +60,44 @@ export default function Seat({ id, tableId }: { id: string; tableId: string }) {
         {id}
       </span>
     </div>
+  );
+
+  return taken ? (
+    <Popover
+      width={200}
+      position="bottom"
+      withArrow
+      shadow="md"
+      opened={opened}
+    >
+      <Popover.Target>
+        <span onMouseEnter={open} onMouseLeave={close}>
+          {seat}
+        </span>
+      </Popover.Target>
+      <Popover.Dropdown
+        style={{ pointerEvents: "none" }}
+        className="flex flex-col gap-2"
+      >
+        <div className="flex flex-col">
+          <p className="font-bold">
+            {occupant && `${occupant.firstName} ${occupant.lastName}`}
+          </p>
+          <p className="text-sm">{occupant && `${occupant.company}`}</p>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1">
+            <IconDesk size={16} />
+            <p className="text-white">{tableId}</p>
+          </div>
+          <div className="flex items-center gap-1">
+            <IconArmchair size={16} />
+            <p className="text-white">{id}</p>
+          </div>
+        </div>
+      </Popover.Dropdown>
+    </Popover>
+  ) : (
+    seat
   );
 }
