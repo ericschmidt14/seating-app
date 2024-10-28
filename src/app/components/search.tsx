@@ -1,6 +1,11 @@
 import { Button, rem } from "@mantine/core";
 import { Spotlight, SpotlightActionData, spotlight } from "@mantine/spotlight";
-import { IconArmchair, IconDesk, IconSearch } from "@tabler/icons-react";
+import {
+  IconArmchair,
+  IconCalendarRepeat,
+  IconDesk,
+  IconSearch,
+} from "@tabler/icons-react";
 import { useState } from "react";
 import { useSeating } from "../context/seatingContext";
 import { Seat } from "../interfaces";
@@ -35,7 +40,7 @@ export default function Search() {
                 true
               ),
             rightSection: (
-              <div className="flex items-center gap-2">
+              <div className="flex items-start gap-2">
                 <div className="w-8 flex flex-col items-center">
                   <IconDesk size={16} className="muted" />
                   <p className="text-white">{t.id}</p>
@@ -43,6 +48,11 @@ export default function Search() {
                 <div className="w-8 flex flex-col items-center">
                   <IconArmchair size={16} className="muted" />
                   <p className="text-white">{s.id}</p>
+                </div>
+                <div className="w-8 flex flex-col items-center">
+                  {s.occupant?.seasonTicket && (
+                    <IconCalendarRepeat size={16} className="muted" />
+                  )}
                 </div>
               </div>
             ),

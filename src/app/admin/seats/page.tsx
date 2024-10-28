@@ -184,7 +184,6 @@ export default function Home() {
                   </Paper>
                 ))}
             </div>
-
             <div className="flex justify-between gap-2">
               <Button
                 variant="transparent"

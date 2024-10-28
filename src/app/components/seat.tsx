@@ -1,7 +1,11 @@
 "use client";
 import { Popover } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconArmchair, IconDesk } from "@tabler/icons-react";
+import {
+  IconArmchair,
+  IconCalendarRepeat,
+  IconDesk,
+} from "@tabler/icons-react";
 import { useSeating } from "../context/seatingContext";
 
 export default function Seat({ id, tableId }: { id: string; tableId: string }) {
@@ -67,7 +71,7 @@ export default function Seat({ id, tableId }: { id: string; tableId: string }) {
       width={200}
       position="bottom"
       withArrow
-      shadow="lg"
+      shadow="xl"
       radius="md"
       opened={opened}
     >
@@ -95,6 +99,7 @@ export default function Seat({ id, tableId }: { id: string; tableId: string }) {
             <IconArmchair size={16} className="muted" />
             <p className="text-white">{id}</p>
           </div>
+          {seasonTicket && <IconCalendarRepeat size={16} className="muted" />}
         </div>
       </Popover.Dropdown>
     </Popover>
