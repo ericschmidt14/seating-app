@@ -97,14 +97,15 @@ export default function Home() {
         <Grid />
       </div>
       <aside
-        className={`sticky top-0 h-screen overflow-x-hidden overflow-y-scroll flex flex-col gap-4 bg-black/90 shadow-2xl shadow-black transition-all duration-300 ${
+        className={`fixed top-0 right-0 h-screen overflow-y-scroll flex flex-col gap-4 bg-black/90 shadow-2xl shadow-black transition-all duration-300 ${
           selectedSeats.length > 0 && "px-8"
         } py-8`}
         style={{
+          zIndex: 1000,
           transform: `translateX(${
-            selectedSeats.length === 0 ? "800px" : "0px"
+            selectedSeats.length === 0 ? "480px" : "0px"
           })`,
-          width: selectedSeats.length === 0 ? "0px" : "800px",
+          width: selectedSeats.length === 0 ? "0px" : "480px",
         }}
       >
         {selectedSeats.length > 0 && (
