@@ -48,3 +48,7 @@ a:not(.logo):not(.mantine-Button-root):hover,
   color: var(--mantine-color-anchor);
   cursor: pointer;
 }
+
+.muted {
+  color: var(--mantine-color-dimmed);
+}

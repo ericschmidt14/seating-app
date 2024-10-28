@@ -67,7 +67,8 @@ export default function Seat({ id, tableId }: { id: string; tableId: string }) {
       width={200}
       position="bottom"
       withArrow
-      shadow="md"
+      shadow="lg"
+      radius="md"
       opened={opened}
     >
       <Popover.Target>
@@ -83,15 +84,15 @@ export default function Seat({ id, tableId }: { id: string; tableId: string }) {
           <p className="font-bold">
             {occupant && `${occupant.firstName} ${occupant.lastName}`}
           </p>
-          <p className="text-sm">{occupant && `${occupant.company}`}</p>
+          <p className="text-sm muted">{occupant && `${occupant.company}`}</p>
         </div>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-1">
-            <IconDesk size={16} />
+            <IconDesk size={16} className="muted" />
             <p className="text-white">{tableId}</p>
           </div>
           <div className="flex items-center gap-1">
-            <IconArmchair size={16} />
+            <IconArmchair size={16} className="muted" />
             <p className="text-white">{id}</p>
           </div>
         </div>

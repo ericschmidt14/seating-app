@@ -37,11 +37,11 @@ export default function Search() {
             rightSection: (
               <div className="flex items-center gap-2">
                 <div className="w-8 flex flex-col items-center">
-                  <IconDesk size={16} />
+                  <IconDesk size={16} className="muted" />
                   <p className="text-white">{t.id}</p>
                 </div>
                 <div className="w-8 flex flex-col items-center">
-                  <IconArmchair size={16} />
+                  <IconArmchair size={16} className="muted" />
                   <p className="text-white">{s.id}</p>
                 </div>
               </div>
