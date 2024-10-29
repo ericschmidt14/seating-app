@@ -14,6 +14,11 @@ export default function Grid() {
   const zoomMin = 0.4;
   const zoomMax = 1.2;
 
+  const handleZoomChange = (newZoom: number) => {
+    const clampedZoom = Math.min(zoomMax, Math.max(zoomMin, newZoom));
+    setZoom(parseFloat(clampedZoom.toFixed(1)));
+  };
+
   return (
     <main className="p-8 w-full h-full overflow-scroll">
       <div
@@ -42,7 +47,7 @@ export default function Grid() {
             aria-label="Zoom Out"
             variant="default"
             size="xl"
-            onClick={() => setZoom(zoom - zoomStep)}
+            onClick={() => handleZoomChange(zoom - zoomStep)}
             disabled={zoom <= zoomMin}
           >
             <IconZoomOut />
@@ -51,18 +56,18 @@ export default function Grid() {
             aria-label="Zoom In"
             variant="default"
             size="xl"
-            onClick={() => setZoom(zoom + zoomStep)}
+            onClick={() => handleZoomChange(zoom + zoomStep)}
             disabled={zoom >= zoomMax}
           >
             <IconZoomIn />
           </ActionIcon>
         </ActionIcon.Group>
         <Slider
-          color="dark"
+          color="yellow"
           w={120}
           label={null}
           value={zoom}
-          onChange={setZoom}
+          onChange={(value) => handleZoomChange(value)}
           min={zoomMin}
           max={zoomMax}
           step={zoomStep}

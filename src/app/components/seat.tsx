@@ -34,7 +34,7 @@ export default function Seat({ id, tableId }: { id: string; tableId: string }) {
       return "#b3193e";
     }
     if (seasonTicket) {
-      return "#f59e0b";
+      return "var(--mantine-color-yellow-filled)";
     }
     if (taken) {
       return "rgba(255, 255, 255, 0.3)";
