@@ -1,4 +1,4 @@
-import { ActionIcon } from "@mantine/core";
+import { ActionIcon, Slider } from "@mantine/core";
 import { IconZoomIn, IconZoomOut } from "@tabler/icons-react";
 import { useState } from "react";
 import { useSeating } from "../context/seatingContext";
@@ -11,6 +11,8 @@ export default function Grid() {
 
   const selectedLounge = lounges.find((l) => l.id === lounge)!;
   const zoomStep = 0.1;
+  const zoomMin = 0.4;
+  const zoomMax = 1.2;
 
   return (
     <main className="p-8 w-full h-full overflow-scroll">
@@ -34,24 +36,38 @@ export default function Grid() {
           />
         ))}
       </div>
-      <ActionIcon.Group className="fixed bottom-8 left-8 z-50">
-        <ActionIcon
-          aria-label="Zoom In"
-          variant="default"
-          size="xl"
-          onClick={() => setZoom(zoom + zoomStep)}
-        >
-          <IconZoomIn />
-        </ActionIcon>
-        <ActionIcon
-          aria-label="Zoom Out"
-          variant="default"
-          size="xl"
-          onClick={() => setZoom(zoom - zoomStep)}
-        >
-          <IconZoomOut />
-        </ActionIcon>
-      </ActionIcon.Group>
+      <div className="fixed bottom-8 left-8 z-50 flex items-center gap-4">
+        <ActionIcon.Group>
+          <ActionIcon
+            aria-label="Zoom Out"
+            variant="default"
+            size="xl"
+            onClick={() => setZoom(zoom - zoomStep)}
+            disabled={zoom <= zoomMin}
+          >
+            <IconZoomOut />
+          </ActionIcon>
+          <ActionIcon
+            aria-label="Zoom In"
+            variant="default"
+            size="xl"
+            onClick={() => setZoom(zoom + zoomStep)}
+            disabled={zoom >= zoomMax}
+          >
+            <IconZoomIn />
+          </ActionIcon>
+        </ActionIcon.Group>
+        <Slider
+          color="dark"
+          w={120}
+          label={null}
+          value={zoom}
+          onChange={setZoom}
+          min={zoomMin}
+          max={zoomMax}
+          step={zoomStep}
+        />
+      </div>
     </main>
   );
 }
