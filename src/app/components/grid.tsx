@@ -7,7 +7,7 @@ import TableGroup from "./table";
 
 export default function Grid() {
   const { lounge } = useSeating();
-  const [zoom, setZoom] = useState(0.75);
+  const [zoom, setZoom] = useState(0.8);
 
   const selectedLounge = lounges.find((l) => l.id === lounge)!;
   const zoomStep = 0.1;
@@ -15,12 +15,11 @@ export default function Grid() {
   return (
     <main className="p-8 w-full h-full overflow-scroll">
       <div
-        className={`relative w-[${
-          selectedLounge.id === "1" ? "200" : "300"
-        }%] min-h-screen transform origin-top-left`}
+        className="relative min-h-screen transform origin-top-left"
         style={{
           transform: `scale(${zoom})`,
           transition: "300ms transform ease-in-out",
+          minWidth: selectedLounge.id === "1" ? "200%" : "300%",
         }}
       >
         {selectedLounge.tables.map((t, index) => (
