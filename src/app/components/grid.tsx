@@ -15,8 +15,13 @@ export default function Grid() {
   return (
     <main className="p-8 w-full h-full overflow-scroll">
       <div
-        className={`relative w-[200%] min-h-screen transform origin-top-left`}
-        style={{ transform: `scale(${zoom})` }}
+        className={`relative w-[${
+          selectedLounge.id === "1" ? "200" : "300"
+        }%] min-h-screen transform origin-top-left`}
+        style={{
+          transform: `scale(${zoom})`,
+          transition: "300ms transform ease-in-out",
+        }}
       >
         {selectedLounge.tables.map((t, index) => (
           <TableGroup
