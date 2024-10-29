@@ -6,13 +6,15 @@ import lounges from "../lounges.json";
 import TableGroup from "./table";
 
 export default function Grid() {
-  const { lounge } = useSeating();
-  const [zoom, setZoom] = useState(0.8);
-
-  const selectedLounge = lounges.find((l) => l.id === lounge)!;
   const zoomStep = 0.1;
   const zoomMin = 0.4;
+  const zoomInit = 0.8;
   const zoomMax = 1.2;
+
+  const { lounge } = useSeating();
+  const [zoom, setZoom] = useState(zoomInit);
+
+  const selectedLounge = lounges.find((l) => l.id === lounge)!;
 
   const handleZoomChange = (newZoom: number) => {
     const clampedZoom = Math.min(zoomMax, Math.max(zoomMin, newZoom));
@@ -71,6 +73,7 @@ export default function Grid() {
           min={zoomMin}
           max={zoomMax}
           step={zoomStep}
+          marks={[{ value: zoomInit }]}
         />
       </div>
     </main>
