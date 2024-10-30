@@ -1,10 +1,19 @@
 "use client";
-import { Autocomplete, Button, Paper, TextInput } from "@mantine/core";
+import {
+  ActionIcon,
+  Autocomplete,
+  Button,
+  Paper,
+  TextInput,
+  Tooltip,
+} from "@mantine/core";
 import {
   IconArmchair,
   IconBuildingFactory2,
+  IconDeselect,
   IconDesk,
   IconDeviceFloppy,
+  IconTrash,
 } from "@tabler/icons-react";
 import { useEffect } from "react";
 import Grid from "../../components/grid";
@@ -13,7 +22,13 @@ import { useSeating } from "../../context/seatingContext";
 import data from "../../data.json";
 
 export default function Home() {
-  const { tables, setTables, selectedSeats, setSelectedSeats } = useSeating();
+  const {
+    tables,
+    setTables,
+    selectedSeats,
+    setSelectedSeats,
+    handleSeatClick,
+  } = useSeating();
 
   useEffect(() => {
     setTables(data);
@@ -132,15 +147,69 @@ export default function Home() {
                     radius="md"
                     className="relative grid grid-cols-2 justify-between items-center gap-2"
                   >
-                    <div className="col-span-2 flex items-center gap-4">
-                      <div className="flex items-center gap-1">
-                        <IconDesk size={16} className="muted" />
-                        <p className="text-white">{s.tableId}</p>
+                    <div className="col-span-2 flex justify-between">
+                      <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-1">
+                          <IconDesk size={16} className="muted" />
+                          <p className="text-white">{s.tableId}</p>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <IconArmchair size={16} className="muted" />
+                          <p className="text-white">{s.id}</p>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <IconArmchair size={16} className="muted" />
-                        <p className="text-white">{s.id}</p>
-                      </div>
+                      <ActionIcon.Group>
+                        {(s.occupant?.company !== "" ||
+                          s.occupant?.firstName !== "" ||
+                          s.occupant?.lastName !== "") && (
+                          <Tooltip
+                            label="Eintrag löschen"
+                            color="dark"
+                            position="left"
+                            withArrow
+                          >
+                            <ActionIcon
+                              aria-label="Löschen"
+                              variant="light"
+                              onClick={() =>
+                                ["company", "firstName", "lastName"].forEach(
+                                  (value) =>
+                                    handleInputChange(
+                                      s.tableId!,
+                                      s.id,
+                                      value as
+                                        | "firstName"
+                                        | "lastName"
+                                        | "company",
+                                      ""
+                                    )
+                                )
+                              }
+                            >
+                              <IconTrash size={16} />
+                            </ActionIcon>
+                          </Tooltip>
+                        )}
+                        <Tooltip
+                          label="Eintrag abwählen"
+                          color="dark"
+                          position="left"
+                          withArrow
+                        >
+                          <ActionIcon
+                            aria-label="Abwählen"
+                            variant="default"
+                            onClick={() =>
+                              handleSeatClick({
+                                id: s.id,
+                                tableId: s.tableId,
+                              })
+                            }
+                          >
+                            <IconDeselect size={16} />
+                          </ActionIcon>
+                        </Tooltip>
+                      </ActionIcon.Group>
                     </div>
                     <Autocomplete
                       className="col-span-2"
@@ -199,7 +268,6 @@ export default function Home() {
                 Abbrechen
               </Button>
               <Button
-                variant="light"
                 leftSection={<IconDeviceFloppy size={16} />}
                 onClick={() => handleSubmit()}
               >
