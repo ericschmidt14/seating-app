@@ -55,6 +55,7 @@ export default function GameDrawer({
             label="Spieltag"
             value={id}
             onChange={(event) => setId(event.currentTarget.value)}
+            error={id === "0" && "Spieltag 0 ist reserviert für Saisontickets"}
             data-autofocus
           />
         )}
@@ -100,7 +101,9 @@ export default function GameDrawer({
           </Button>
           <Button
             variant="light"
-            disabled={id.trim() === "" || opponent.trim() === ""}
+            disabled={
+              id.trim() === "" || id.trim() === "0" || opponent.trim() === ""
+            }
             onClick={() => {
               console.log(
                 JSON.stringify({

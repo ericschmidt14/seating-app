@@ -7,7 +7,9 @@ import {
   useContext,
   useState,
 } from "react";
-import { Seat, Table } from "../interfaces";
+import games from "../games.json";
+import { Game, Seat, Table } from "../interfaces";
+import { getNextGame } from "../utils";
 
 interface SeatingContextType {
   game: string | null;
@@ -25,7 +27,7 @@ interface SeatingContextType {
 const SeatingContext = createContext<SeatingContextType | undefined>(undefined);
 
 export const SeatingProvider = ({ children }: { children: ReactNode }) => {
-  const [game, setGame] = useState<string | null>("8");
+  const [game, setGame] = useState<string | null>(getNextGame(games as Game[]));
   const [lounge, setLounge] = useState("1");
   const [tables, setTables] = useState<Table[]>([]);
   const [selectedSeats, setSelectedSeats] = useState<Seat[]>([]);

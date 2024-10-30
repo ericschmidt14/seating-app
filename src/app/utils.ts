@@ -1,3 +1,5 @@
+import { Game } from "./interfaces";
+
 export function getSeasons() {
   const today = new Date();
   const currentYear = today.getFullYear();
@@ -45,4 +47,14 @@ export function getSeason(year: string) {
     value: `${year}`,
     label: `Saison ${year}/${+year + 1 - 2000}`,
   };
+}
+
+export function getNextGame(games: Game[]) {
+  const now = new Date();
+
+  const upcomingGames = games
+    .filter((game) => new Date(game.date) > now)
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+  return upcomingGames.length > 0 ? upcomingGames[0].id : "0";
 }
