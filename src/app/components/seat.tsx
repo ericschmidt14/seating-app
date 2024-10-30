@@ -1,12 +1,8 @@
 "use client";
 import { Popover } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import {
-  IconArmchair,
-  IconCalendarRepeat,
-  IconDesk,
-} from "@tabler/icons-react";
 import { useSeating } from "../context/seatingContext";
+import SeatInfo from "./seatInfo";
 
 export default function Seat({ id, tableId }: { id: string; tableId: string }) {
   const { tables, selectedSeats, handleSeatClick } = useSeating();
@@ -90,17 +86,11 @@ export default function Seat({ id, tableId }: { id: string; tableId: string }) {
           </p>
           <p className="text-sm muted">{occupant && `${occupant.company}`}</p>
         </div>
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1">
-            <IconDesk size={16} className="muted" />
-            <p className="text-white">{tableId}</p>
-          </div>
-          <div className="flex items-center gap-1">
-            <IconArmchair size={16} className="muted" />
-            <p className="text-white">{id}</p>
-          </div>
-          {seasonTicket && <IconCalendarRepeat size={16} className="muted" />}
-        </div>
+        <SeatInfo
+          tableId={tableId}
+          id={id}
+          seasonTicket={seasonTicket?.occupant?.seasonTicket}
+        />
       </Popover.Dropdown>
     </Popover>
   ) : (

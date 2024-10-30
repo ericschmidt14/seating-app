@@ -1,4 +1,5 @@
 "use client";
+import SeatInfo from "@/app/components/seatInfo";
 import {
   ActionIcon,
   Autocomplete,
@@ -8,10 +9,8 @@ import {
   Tooltip,
 } from "@mantine/core";
 import {
-  IconArmchair,
   IconBuildingFactory2,
   IconDeselect,
-  IconDesk,
   IconDeviceFloppy,
   IconTrash,
 } from "@tabler/icons-react";
@@ -126,7 +125,7 @@ export default function Home() {
         {selectedSeats.length > 0 && (
           <>
             <h2 className="text-2xl">Plätze zuordnen</h2>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
               {selectedSeats
                 .sort((a, b) => {
                   const tableA = parseInt(a.tableId!, 10);
@@ -148,16 +147,7 @@ export default function Home() {
                     className="relative grid grid-cols-2 justify-between items-center gap-2"
                   >
                     <div className="col-span-2 flex justify-between">
-                      <div className="flex items-center gap-4">
-                        <div className="flex items-center gap-1">
-                          <IconDesk size={16} className="muted" />
-                          <p className="text-white">{s.tableId}</p>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <IconArmchair size={16} className="muted" />
-                          <p className="text-white">{s.id}</p>
-                        </div>
-                      </div>
+                      <SeatInfo tableId={s.tableId!} id={s.id} />
                       <ActionIcon.Group>
                         {(s.occupant?.company !== "" ||
                           s.occupant?.firstName !== "" ||
