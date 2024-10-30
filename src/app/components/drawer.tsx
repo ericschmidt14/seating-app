@@ -44,12 +44,13 @@ export default function GameDrawer({
       overlayProps={{ backgroundOpacity: 0 }}
       styles={{
         content: {
-          backgroundColor: "#000000",
+          backgroundColor: "rgba(0, 0, 0, 0.4)",
+          backdropFilter: "blur(12px)",
         },
       }}
     >
       <div className="flex flex-col gap-4">
-        <h2 className="text-2xl">Spiel bearbeiten</h2>
+        <h2 className="text-2xl">Spiel {game ? "bearbeiten" : "hinzufügen"}</h2>
         {!game && (
           <TextInput
             label="Spieltag"
