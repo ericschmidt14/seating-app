@@ -3,6 +3,7 @@ import { Autocomplete, Button, Paper, TextInput } from "@mantine/core";
 import {
   IconArmchair,
   IconBuildingFactory2,
+  IconDesk,
   IconDeviceFloppy,
 } from "@tabler/icons-react";
 import { useEffect } from "react";
@@ -97,14 +98,14 @@ export default function Home() {
         <Grid />
       </div>
       <aside
-        className={`fixed top-0 right-0 z-50 h-screen overflow-y-scroll flex flex-col gap-4 bg-black/90 shadow-2xl shadow-black transition-all duration-300 ${
+        className={`fixed top-0 right-0 z-50 h-screen overflow-y-scroll flex flex-col gap-4 backdrop-blur-md bg-black/60 shadow-2xl shadow-black transition-all duration-300 ${
           selectedSeats.length > 0 && "px-8"
         } py-8`}
         style={{
           transform: `translateX(${
-            selectedSeats.length === 0 ? "480px" : "0px"
+            selectedSeats.length === 0 ? "400px" : "0px"
           })`,
-          width: selectedSeats.length === 0 ? "0px" : "480px",
+          width: selectedSeats.length === 0 ? "0px" : "400px",
         }}
       >
         {selectedSeats.length > 0 && (
@@ -131,13 +132,18 @@ export default function Home() {
                     radius="md"
                     className="relative grid grid-cols-2 justify-between items-center gap-2"
                   >
-                    <TextInput
-                      size="xs"
-                      value={`Tisch ${s.tableId} – Platz ${s.id}`}
-                      disabled
-                      rightSection={<IconArmchair size={16} />}
-                    />
+                    <div className="col-span-2 flex items-center gap-4">
+                      <div className="flex items-center gap-1">
+                        <IconDesk size={16} className="muted" />
+                        <p className="text-white">{s.tableId}</p>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <IconArmchair size={16} className="muted" />
+                        <p className="text-white">{s.id}</p>
+                      </div>
+                    </div>
                     <Autocomplete
+                      className="col-span-2"
                       size="xs"
                       placeholder="Firma"
                       value={s.occupant?.company || ""}
