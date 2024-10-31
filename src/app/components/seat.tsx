@@ -1,10 +1,13 @@
 "use client";
 import { Popover } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { usePathname } from "next/navigation";
 import { useSeating } from "../context/seatingContext";
+import { isAdminPage } from "../utils";
 import SeatInfo from "./seatInfo";
 
 export default function Seat({ id, tableId }: { id: string; tableId: string }) {
+  const path = usePathname();
   const { tables, selectedSeats, handleSeatClick } = useSeating();
   const [opened, { close, open }] = useDisclosure(false);
 
@@ -45,6 +48,7 @@ export default function Seat({ id, tableId }: { id: string; tableId: string }) {
         background: getBackground(),
       }}
       onClick={() =>
+        isAdminPage(path) &&
         handleSeatClick({
           tableId,
           id,

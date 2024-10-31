@@ -1,6 +1,10 @@
 import { Game } from "./interfaces";
 
-export function getSeasons() {
+export const isAdminPage = (path: string) => {
+  return path.includes("/admin");
+};
+
+export const getSeasons = () => {
   const today = new Date();
   const currentYear = today.getFullYear();
   const startYear = 2024;
@@ -10,12 +14,7 @@ export function getSeasons() {
     const seasonStart = new Date(year, 6, 1);
     const seasonEnd = new Date(year + 1, 4, 31);
 
-    if (today >= seasonStart && today <= seasonEnd) {
-      seasons.push({
-        value: `${year}`,
-        label: `Saison ${year}/${year + 1 - 2000}`,
-      });
-    } else if (today > seasonEnd) {
+    if ((today >= seasonStart && today <= seasonEnd) || today > seasonEnd) {
       seasons.push({
         value: `${year}`,
         label: `Saison ${year}/${year + 1 - 2000}`,
@@ -24,9 +23,9 @@ export function getSeasons() {
   }
 
   return seasons;
-}
+};
 
-export function getCurrentSeason() {
+export const getCurrentSeason = () => {
   const today = new Date();
 
   const currentYear = today.getFullYear();
@@ -40,16 +39,16 @@ export function getCurrentSeason() {
   }
 
   return seasonStartYear;
-}
+};
 
-export function getSeason(year: string) {
+export const getSeason = (year: string) => {
   return {
     value: `${year}`,
     label: `Saison ${year}/${+year + 1 - 2000}`,
   };
-}
+};
 
-export function getNextGame(games: Game[]) {
+export const getNextGame = (games: Game[]) => {
   const now = new Date();
 
   const upcomingGames = games
@@ -57,4 +56,4 @@ export function getNextGame(games: Game[]) {
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
   return upcomingGames.length > 0 ? upcomingGames[0].id : "0";
-}
+};

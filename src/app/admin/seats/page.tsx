@@ -1,5 +1,4 @@
 "use client";
-import SeatInfo from "@/app/components/seatInfo";
 import {
   ActionIcon,
   Autocomplete,
@@ -17,6 +16,7 @@ import {
 import { useEffect } from "react";
 import Grid from "../../components/grid";
 import Header from "../../components/header";
+import SeatInfo from "../../components/seatInfo";
 import { useSeating } from "../../context/seatingContext";
 import data from "../../data.json";
 

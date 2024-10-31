@@ -1,4 +1,6 @@
+import { usePathname } from "next/navigation";
 import { useSeating } from "../context/seatingContext";
+import { isAdminPage } from "../utils";
 import SeatRow from "./row";
 import Seat from "./seat";
 
@@ -17,6 +19,7 @@ export default function TableGroup({
   round?: boolean;
   right?: boolean;
 }) {
+  const path = usePathname();
   const { selectedSeats, handleTableClick } = useSeating();
   const tableWidth = 200;
   const tableHeight = 140;
@@ -47,7 +50,7 @@ export default function TableGroup({
           style={{
             background: selected ? "#b3193e" : "",
           }}
-          onClick={() => handleTableClick(id, capacity)}
+          onClick={() => isAdminPage(path) && handleTableClick(id, capacity)}
         >
           {id}
         </div>
