@@ -46,7 +46,9 @@ export default function TableGroup({
       <div className="flex flex-col gap-2">
         <SeatRow capacity={capacity / 2} firstId={1} tabledId={id} />
         <div
-          className="w-full h-12 rounded flex justify-center items-center bg-white/30 cursor-pointer"
+          className={`w-full h-12 rounded flex justify-center items-center bg-white/30 ${
+            isAdminPage(path) ? "cursor-pointer" : "cursor-default"
+          }`}
           style={{
             background: selected ? "#b3193e" : "",
           }}
@@ -73,11 +75,13 @@ export default function TableGroup({
       style={{ top: tableHeight * y, left: tableWidth * x }}
     >
       <div
-        className="w-12 h-12 top-9 left-9 bg-white/30 rounded-full absolute transform flex items-center justify-center cursor-pointer"
+        className={`w-12 h-12 top-9 left-9 bg-white/30 rounded-full absolute transform flex items-center justify-center ${
+          isAdminPage(path) ? "cursor-pointer" : "cursor-default"
+        }`}
         style={{
           background: selected ? "#b3193e" : "",
         }}
-        onClick={() => handleTableClick(id, capacity)}
+        onClick={() => isAdminPage(path) && handleTableClick(id, capacity)}
       >
         {id}
       </div>

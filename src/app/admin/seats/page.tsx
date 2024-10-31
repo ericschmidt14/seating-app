@@ -153,7 +153,7 @@ export default function Home() {
                           s.occupant?.firstName !== "" ||
                           s.occupant?.lastName !== "") && (
                           <Tooltip
-                            label="Eintrag löschen"
+                            label="Zuordnung löschen"
                             color="dark"
                             position="left"
                             withArrow
@@ -181,7 +181,7 @@ export default function Home() {
                           </Tooltip>
                         )}
                         <Tooltip
-                          label="Eintrag abwählen"
+                          label="Sitz abwählen"
                           color="dark"
                           position="left"
                           withArrow

@@ -4,13 +4,13 @@ export interface Game {
   opponent: string;
   date: string;
   lounges: Array<Lounge>;
+  tables: Array<Table>;
 }
 
 export interface Lounge {
   id: string;
   name: string;
   utilization: string;
-  tables: Array<Table>;
 }
 
 export interface Table {

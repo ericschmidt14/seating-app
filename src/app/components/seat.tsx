@@ -57,9 +57,9 @@ export default function Seat({ id, tableId }: { id: string; tableId: string }) {
       }
     >
       <span
-        className={`absolute inset-0 flex justify-center items-center cursor-pointer ${
-          !selected && "opacity-0 hover:opacity-100"
-        } transition-opacity`}
+        className={`absolute inset-0 flex justify-center items-center ${
+          isAdminPage(path) ? "cursor-pointer" : "cursor-default"
+        } ${!selected && "opacity-0 hover:opacity-100"} transition-opacity`}
       >
         {id}
       </span>
