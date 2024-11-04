@@ -1,9 +1,9 @@
 [
   {
-    "id": "96",
+    "id": 96,
     "seats": [
       {
-        "id": "1",
+        "id": 1,
         "occupant": {
           "firstName": "Eric",
           "lastName": "Schmidt",
@@ -11,7 +11,7 @@
         }
       },
       {
-        "id": "2",
+        "id": 2,
         "occupant": {
           "firstName": "Marcus",
           "lastName": "Prell",
@@ -20,7 +20,7 @@
         }
       },
       {
-        "id": "6",
+        "id": 4,
         "occupant": {
           "firstName": "Volkmar",
           "lastName": "Fritz",
@@ -31,18 +31,10 @@
     ]
   },
   {
-    "id": "97",
-    "seats": []
-  },
-  {
-    "id": "98",
-    "seats": []
-  },
-  {
-    "id": "99",
+    "id": 99,
     "seats": [
       {
-        "id": "1",
+        "id": 1,
         "occupant": {
           "firstName": "Andrea",
           "lastName": "Schmidt",
@@ -50,7 +42,7 @@
         }
       },
       {
-        "id": "2",
+        "id": 2,
         "occupant": {
           "firstName": "Dominic",
           "lastName": "Schmidt",
@@ -60,14 +52,10 @@
     ]
   },
   {
-    "id": "100",
-    "seats": []
-  },
-  {
-    "id": "163",
+    "id": 163,
     "seats": [
       {
-        "id": "5",
+        "id": 7,
         "occupant": {
           "firstName": "",
           "lastName": "",
@@ -75,7 +63,7 @@
         }
       },
       {
-        "id": "6",
+        "id": 9,
         "occupant": {
           "firstName": "",
           "lastName": "",
@@ -83,7 +71,7 @@
         }
       },
       {
-        "id": "10",
+        "id": 10,
         "occupant": {
           "firstName": "",
           "lastName": "",
@@ -91,7 +79,7 @@
         }
       },
       {
-        "id": "11",
+        "id": 11,
         "occupant": {
           "firstName": "",
           "lastName": "",
@@ -99,7 +87,7 @@
         }
       },
       {
-        "id": "12",
+        "id": 12,
         "occupant": {
           "firstName": "",
           "lastName": "",
@@ -109,10 +97,10 @@
     ]
   },
   {
-    "id": "200",
+    "id": 200,
     "seats": [
       {
-        "id": "1",
+        "id": 1,
         "occupant": {
           "firstName": "",
           "lastName": "",
@@ -122,10 +110,10 @@
     ]
   },
   {
-    "id": "229",
+    "id": 229,
     "seats": [
       {
-        "id": "6",
+        "id": 6,
         "occupant": {
           "firstName": "Lara",
           "lastName": "Burkhardt",

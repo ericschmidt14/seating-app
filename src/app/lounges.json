@@ -1,345 +1,87 @@
 [
   {
-    "id": "1",
+    "id": 1,
     "name": "Club Lounge",
+    "utilization": "1",
     "tables": [
-      { "id": "96", "capacity": 8, "x": 0, "y": 0, "round": false },
-      {
-        "id": "97",
-        "capacity": 8,
-        "x": 1,
-        "y": 0
-      },
-      {
-        "id": "98",
-        "capacity": 8,
-        "x": 6,
-        "y": 0,
-        "right": true
-      },
-      {
-        "id": "99",
-        "capacity": 8,
-        "x": 7,
-        "y": 0,
-        "right": true
-      },
-      {
-        "id": "100",
-        "capacity": 8,
-        "x": 0,
-        "y": 1
-      },
-      {
-        "id": "101",
-        "capacity": 11,
-        "x": 1,
-        "y": 1
-      },
-      {
-        "id": "112",
-        "capacity": 11,
-        "x": 6,
-        "y": 1,
-        "right": true
-      },
-      {
-        "id": "113",
-        "capacity": 8,
-        "x": 7,
-        "y": 1,
-        "right": true
-      },
-      {
-        "id": "102",
-        "capacity": 8,
-        "x": 0,
-        "y": 2
-      },
-      {
-        "id": "103",
-        "capacity": 8,
-        "x": 1,
-        "y": 2
-      },
-      {
-        "id": "114",
-        "capacity": 8,
-        "x": 6,
-        "y": 2,
-        "right": true
-      },
-      {
-        "id": "115",
-        "capacity": 8,
-        "x": 7,
-        "y": 2,
-        "right": true
-      },
-      {
-        "id": "104",
-        "capacity": 8,
-        "x": 0,
-        "y": 3
-      },
-      {
-        "id": "105",
-        "capacity": 11,
-        "x": 1,
-        "y": 3
-      },
-      {
-        "id": "116",
-        "capacity": 11,
-        "x": 6,
-        "y": 3,
-        "right": true
-      },
-      {
-        "id": "117",
-        "capacity": 8,
-        "x": 7,
-        "y": 3,
-        "right": true
-      },
-      {
-        "id": "106",
-        "capacity": 8,
-        "x": 0,
-        "y": 4
-      },
-      {
-        "id": "107",
-        "capacity": 11,
-        "x": 1,
-        "y": 4
-      },
-      {
-        "id": "118",
-        "capacity": 11,
-        "x": 6,
-        "y": 4,
-        "right": true
-      },
-      {
-        "id": "119",
-        "capacity": 8,
-        "x": 7,
-        "y": 4,
-        "right": true
-      },
-      {
-        "id": "108",
-        "capacity": 8,
-        "x": 0,
-        "y": 5
-      },
-      {
-        "id": "109",
-        "capacity": 11,
-        "x": 1,
-        "y": 5
-      },
-      {
-        "id": "120",
-        "capacity": 11,
-        "x": 6,
-        "y": 5,
-        "right": true
-      },
-      {
-        "id": "121",
-        "capacity": 8,
-        "x": 7,
-        "y": 5,
-        "right": true
-      },
-      { "id": "110", "capacity": 8, "x": 0, "y": 6 },
-      {
-        "id": "111",
-        "capacity": 8,
-        "x": 1,
-        "y": 6
-      },
-      {
-        "id": "122",
-        "capacity": 8,
-        "x": 6,
-        "y": 6,
-        "right": true
-      },
-      {
-        "id": "123",
-        "capacity": 8,
-        "x": 7,
-        "y": 6,
-        "right": true
-      },
-
-      {
-        "id": "151",
-        "capacity": 4,
-        "x": 3,
-        "y": 0
-      },
-      {
-        "id": "153",
-        "capacity": 4,
-        "x": 3.5,
-        "y": 0
-      },
-      {
-        "id": "154",
-        "capacity": 4,
-        "x": 4,
-        "y": 0
-      },
-      {
-        "id": "157",
-        "capacity": 4,
-        "x": 4.5,
-        "y": 0
-      },
-      {
-        "id": "152",
-        "capacity": 4,
-        "x": 3,
-        "y": 1
-      },
-      {
-        "id": "155",
-        "capacity": 4,
-        "x": 3.5,
-        "y": 1
-      },
-      {
-        "id": "156",
-        "capacity": 4,
-        "x": 4,
-        "y": 1
-      },
-      {
-        "id": "158",
-        "capacity": 4,
-        "x": 4.5,
-        "y": 1
-      },
-
-      {
-        "id": "159",
-        "capacity": 6,
-        "x": 3,
-        "y": 6
-      },
-      {
-        "id": "160",
-        "capacity": 10,
-        "x": 3.6,
-        "y": 6
-      },
-      {
-        "id": "161",
-        "capacity": 6,
-        "x": 4.5,
-        "y": 6
-      },
-      {
-        "id": "162",
-        "capacity": 12,
-        "x": 3,
-        "y": 7
-      },
-      {
-        "id": "163",
-        "capacity": 12,
-        "x": 4.06,
-        "y": 7
-      }
+      { "id": 96, "capacity": 8, "x": 0, "y": 0, "round": false },
+      { "id": 97, "capacity": 8, "x": 1, "y": 0 },
+      { "id": 98, "capacity": 8, "x": 6, "y": 0, "right": true },
+      { "id": 99, "capacity": 8, "x": 7, "y": 0, "right": true },
+      { "id": 100, "capacity": 8, "x": 0, "y": 1 },
+      { "id": 101, "capacity": 11, "x": 1, "y": 1 },
+      { "id": 112, "capacity": 11, "x": 6, "y": 1, "right": true },
+      { "id": 113, "capacity": 8, "x": 7, "y": 1, "right": true },
+      { "id": 102, "capacity": 8, "x": 0, "y": 2 },
+      { "id": 103, "capacity": 8, "x": 1, "y": 2 },
+      { "id": 114, "capacity": 8, "x": 6, "y": 2, "right": true },
+      { "id": 115, "capacity": 8, "x": 7, "y": 2, "right": true },
+      { "id": 104, "capacity": 8, "x": 0, "y": 3 },
+      { "id": 105, "capacity": 11, "x": 1, "y": 3 },
+      { "id": 116, "capacity": 11, "x": 6, "y": 3, "right": true },
+      { "id": 117, "capacity": 8, "x": 7, "y": 3, "right": true },
+      { "id": 106, "capacity": 8, "x": 0, "y": 4 },
+      { "id": 107, "capacity": 11, "x": 1, "y": 4 },
+      { "id": 118, "capacity": 11, "x": 6, "y": 4, "right": true },
+      { "id": 119, "capacity": 8, "x": 7, "y": 4, "right": true },
+      { "id": 108, "capacity": 8, "x": 0, "y": 5 },
+      { "id": 109, "capacity": 11, "x": 1, "y": 5 },
+      { "id": 120, "capacity": 11, "x": 6, "y": 5, "right": true },
+      { "id": 121, "capacity": 8, "x": 7, "y": 5, "right": true },
+      { "id": 110, "capacity": 8, "x": 0, "y": 6 },
+      { "id": 111, "capacity": 8, "x": 1, "y": 6 },
+      { "id": 122, "capacity": 8, "x": 6, "y": 6, "right": true },
+      { "id": 123, "capacity": 8, "x": 7, "y": 6, "right": true },
+      { "id": 151, "capacity": 4, "x": 3, "y": 0 },
+      { "id": 153, "capacity": 4, "x": 3.5, "y": 0 },
+      { "id": 154, "capacity": 4, "x": 4, "y": 0 },
+      { "id": 157, "capacity": 4, "x": 4.5, "y": 0 },
+      { "id": 152, "capacity": 4, "x": 3, "y": 1 },
+      { "id": 155, "capacity": 4, "x": 3.5, "y": 1 },
+      { "id": 156, "capacity": 4, "x": 4, "y": 1 },
+      { "id": 158, "capacity": 4, "x": 4.5, "y": 1 },
+      { "id": 159, "capacity": 6, "x": 3, "y": 6 },
+      { "id": 160, "capacity": 10, "x": 3.6, "y": 6 },
+      { "id": 161, "capacity": 6, "x": 4.5, "y": 6 },
+      { "id": 162, "capacity": 12, "x": 3, "y": 7 },
+      { "id": 163, "capacity": 12, "x": 4.06, "y": 7 }
     ]
   },
   {
-    "id": "2",
+    "id": 2,
     "name": "Kulmbacher Lounge",
+    "utilization": "1",
     "tables": [
-      { "id": "200", "capacity": 4, "x": 0, "y": 0 },
-      { "id": "202", "capacity": 4, "x": 1, "y": 0 },
-      { "id": "204", "capacity": 4, "x": 2, "y": 0 },
-      { "id": "206", "capacity": 4, "x": 3, "y": 0 },
-      { "id": "208", "capacity": 4, "x": 4, "y": 0 },
-      {
-        "id": "210",
-        "capacity": 6,
-        "x": 5,
-        "y": 0,
-        "round": true
-      },
-      {
-        "id": "212",
-        "capacity": 6,
-        "x": 6,
-        "y": 0,
-        "round": true
-      },
-      {
-        "id": "214",
-        "capacity": 6,
-        "x": 7,
-        "y": 0,
-        "round": true
-      },
-      {
-        "id": "216",
-        "capacity": 6,
-        "x": 8,
-        "y": 0,
-        "round": true
-      },
-      { "id": "218", "capacity": 4, "x": 9, "y": 0 },
-      { "id": "220", "capacity": 4, "x": 10, "y": 0 },
-      { "id": "222", "capacity": 4, "x": 11, "y": 0 },
-      { "id": "224", "capacity": 6, "x": 12, "y": 0 },
-      { "id": "226", "capacity": 6, "x": 13, "y": 0 },
-      { "id": "228", "capacity": 6, "x": 14, "y": 0 },
-
-      { "id": "201", "capacity": 8, "x": 0, "y": 1 },
-      { "id": "203", "capacity": 8, "x": 1, "y": 1 },
-      { "id": "205", "capacity": 8, "x": 2, "y": 1 },
-      { "id": "207", "capacity": 8, "x": 3, "y": 1 },
-      { "id": "209", "capacity": 8, "x": 4, "y": 1 },
-      {
-        "id": "211",
-        "capacity": 8,
-        "x": 5,
-        "y": 1,
-        "round": true
-      },
-      {
-        "id": "213",
-        "capacity": 8,
-        "x": 6,
-        "y": 1,
-        "round": true
-      },
-      {
-        "id": "215",
-        "capacity": 8,
-        "x": 7,
-        "y": 1,
-        "round": true
-      },
-      {
-        "id": "217",
-        "capacity": 8,
-        "x": 8,
-        "y": 1,
-        "round": true
-      },
-      { "id": "219", "capacity": 8, "x": 9, "y": 1 },
-      { "id": "221", "capacity": 8, "x": 10, "y": 1 },
-      { "id": "223", "capacity": 8, "x": 11, "y": 1 },
-      { "id": "225", "capacity": 6, "x": 12, "y": 1 },
-      { "id": "227", "capacity": 6, "x": 13, "y": 1 },
-      { "id": "229", "capacity": 6, "x": 14, "y": 1 }
+      { "id": 200, "capacity": 4, "x": 0, "y": 0, "right": false },
+      { "id": 202, "capacity": 4, "x": 1, "y": 0 },
+      { "id": 204, "capacity": 4, "x": 2, "y": 0 },
+      { "id": 206, "capacity": 4, "x": 3, "y": 0 },
+      { "id": 208, "capacity": 4, "x": 4, "y": 0 },
+      { "id": 210, "capacity": 6, "x": 5, "y": 0, "round": true },
+      { "id": 212, "capacity": 6, "x": 6, "y": 0, "round": true },
+      { "id": 214, "capacity": 6, "x": 7, "y": 0, "round": true },
+      { "id": 216, "capacity": 6, "x": 8, "y": 0, "round": true },
+      { "id": 218, "capacity": 4, "x": 9, "y": 0 },
+      { "id": 220, "capacity": 4, "x": 10, "y": 0 },
+      { "id": 222, "capacity": 4, "x": 11, "y": 0 },
+      { "id": 224, "capacity": 6, "x": 12, "y": 0 },
+      { "id": 226, "capacity": 6, "x": 13, "y": 0 },
+      { "id": 228, "capacity": 6, "x": 14, "y": 0 },
+      { "id": 201, "capacity": 8, "x": 0, "y": 1 },
+      { "id": 203, "capacity": 8, "x": 1, "y": 1 },
+      { "id": 205, "capacity": 8, "x": 2, "y": 1 },
+      { "id": 207, "capacity": 8, "x": 3, "y": 1 },
+      { "id": 209, "capacity": 8, "x": 4, "y": 1 },
+      { "id": 211, "capacity": 8, "x": 5, "y": 1, "round": true },
+      { "id": 213, "capacity": 8, "x": 6, "y": 1, "round": true },
+      { "id": 215, "capacity": 8, "x": 7, "y": 1, "round": true },
+      { "id": 217, "capacity": 8, "x": 8, "y": 1, "round": true },
+      { "id": 219, "capacity": 8, "x": 9, "y": 1 },
+      { "id": 221, "capacity": 8, "x": 10, "y": 1 },
+      { "id": 223, "capacity": 8, "x": 11, "y": 1 },
+      { "id": 225, "capacity": 6, "x": 12, "y": 1 },
+      { "id": 227, "capacity": 6, "x": 13, "y": 1 },
+      { "id": 229, "capacity": 6, "x": 14, "y": 1 }
     ]
   }
 ]

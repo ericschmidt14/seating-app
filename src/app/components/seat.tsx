@@ -6,7 +6,7 @@ import { useSeating } from "../context/seatingContext";
 import { isAdminPage } from "../utils";
 import SeatInfo from "./seatInfo";
 
-export default function Seat({ id, tableId }: { id: string; tableId: string }) {
+export default function Seat({ id, tableId }: { id: number; tableId: number }) {
   const path = usePathname();
   const { tables, selectedSeats, handleSeatClick } = useSeating();
   const [opened, { close, open }] = useDisclosure(false);

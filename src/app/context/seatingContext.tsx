@@ -14,21 +14,21 @@ import { getNextGame } from "../utils";
 interface SeatingContextType {
   game: string | null;
   setGame: Dispatch<SetStateAction<string | null>>;
-  lounge: string;
-  setLounge: Dispatch<SetStateAction<string>>;
+  lounge: number;
+  setLounge: Dispatch<SetStateAction<number>>;
   tables: Table[];
   setTables: Dispatch<SetStateAction<Table[]>>;
   selectedSeats: Seat[];
   setSelectedSeats: Dispatch<SetStateAction<Seat[]>>;
   handleSeatClick: (seat: Seat, scroll?: boolean) => void;
-  handleTableClick: (tableId: string, capacity: number) => void;
+  handleTableClick: (tableId: number, capacity: number) => void;
 }
 
 const SeatingContext = createContext<SeatingContextType | undefined>(undefined);
 
 export const SeatingProvider = ({ children }: { children: ReactNode }) => {
   const [game, setGame] = useState<string | null>(getNextGame(games as Game[]));
-  const [lounge, setLounge] = useState("1");
+  const [lounge, setLounge] = useState(1);
   const [tables, setTables] = useState<Table[]>([]);
   const [selectedSeats, setSelectedSeats] = useState<Seat[]>([]);
 
@@ -62,11 +62,8 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const handleTableClick = (tableId: string, capacity: number) => {
-    const tableSeatIds = Array.from({ length: capacity }, (_, i) =>
-      (i + 1).toString()
-    );
-
+  const handleTableClick = (tableId: number, capacity: number) => {
+    const tableSeatIds = Array.from({ length: capacity }, (_, i) => i + 1);
     const table = tables.find((t) => t.id === tableId);
     const occupiedSeats = table ? table.seats : [];
 

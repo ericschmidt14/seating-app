@@ -9,8 +9,8 @@ export default function SeatInfo({
   id,
   seasonTicket,
 }: {
-  tableId: string;
-  id: string;
+  tableId: number;
+  id: number;
   seasonTicket?: boolean;
 }) {
   return (

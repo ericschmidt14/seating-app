@@ -28,16 +28,16 @@ export default function Grid() {
         style={{
           transform: `scale(${zoom})`,
           transition: "300ms transform ease-in-out",
-          minWidth: selectedLounge.id === "1" ? "200%" : "300%",
+          minWidth: selectedLounge.id === 1 ? "200%" : "300%",
         }}
       >
         {selectedLounge.tables.map((t, index) => (
           <TableGroup
             key={index}
-            id={t.id || ""}
+            id={t.id}
             capacity={t.capacity || 0}
-            x={t.x}
-            y={t.y}
+            x={t.x || 0}
+            y={t.y || 0}
             round={t.round}
             right={t.right}
           />

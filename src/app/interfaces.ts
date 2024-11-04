@@ -4,24 +4,28 @@ export interface Game {
   opponent: string;
   date: string;
   lounges: Array<Lounge>;
-  tables: Array<Table>;
 }
 
 export interface Lounge {
-  id: string;
+  id: number;
   name: string;
   utilization: string;
+  tables: Array<Table>;
 }
 
 export interface Table {
-  id: string;
+  id: number;
   capacity?: number;
+  round?: boolean;
+  right?: boolean;
+  x?: number;
+  y?: number;
   seats: Seat[];
 }
 
 export interface Seat {
-  id: string;
-  tableId?: string;
+  id: number;
+  tableId?: number;
   occupant?: Occupant | null;
 }
 

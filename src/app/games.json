@@ -4,8 +4,8 @@
     "id": "0",
     "date": null,
     "lounges": [
-      { "id": "1", "utilization": "1" },
-      { "id": "2", "utilization": "1" }
+      { "id": 1, "utilization": "1" },
+      { "id": 2, "utilization": "1" }
     ]
   },
   {
@@ -14,8 +14,8 @@
     "season": "2024",
     "date": "2024-10-05T03:24:00",
     "lounges": [
-      { "id": "1", "utilization": "1" },
-      { "id": "2", "utilization": "1" }
+      { "id": 1, "utilization": "1" },
+      { "id": 2, "utilization": "1" }
     ]
   },
   {
@@ -24,8 +24,8 @@
     "season": "2024",
     "date": "2024-10-25T03:24:00",
     "lounges": [
-      { "id": "1", "utilization": "1" },
-      { "id": "2", "utilization": "1" }
+      { "id": 1, "utilization": "1" },
+      { "id": 2, "utilization": "1" }
     ]
   },
   {
@@ -34,8 +34,8 @@
     "season": "2024",
     "date": "2024-11-08T03:24:00",
     "lounges": [
-      { "id": "1", "utilization": "2" },
-      { "id": "2", "utilization": "2" }
+      { "id": 1, "utilization": "2" },
+      { "id": 2, "utilization": "2" }
     ]
   }
 ]

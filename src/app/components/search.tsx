@@ -25,7 +25,7 @@ export default function Search() {
     );
 
   const data: SpotlightActionData[] = tables
-    .filter((t) => (lounge === "1" ? +t.id < 200 : +t.id >= 200))
+    .filter((t) => (lounge === 1 ? +t.id < 200 : +t.id >= 200))
     .flatMap((t) =>
       t.seats
         .filter((seat) => searchKeyword(seat))

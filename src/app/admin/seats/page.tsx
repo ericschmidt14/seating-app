@@ -35,8 +35,8 @@ export default function Home() {
   }, []);
 
   const handleInputChange = (
-    tabledId: string,
-    seatId: string,
+    tabledId: number,
+    seatId: number,
     field: "firstName" | "lastName" | "company",
     value: string
   ) => {
@@ -128,15 +128,11 @@ export default function Home() {
             <div className="flex flex-col gap-2">
               {selectedSeats
                 .sort((a, b) => {
-                  const tableA = parseInt(a.tableId!, 10);
-                  const tableB = parseInt(b.tableId!, 10);
-                  if (tableA !== tableB) {
-                    return tableA - tableB;
+                  if (a.tableId! !== b.tableId!) {
+                    return a.tableId! - b.tableId!;
                   }
 
-                  const seatA = parseInt(a.id, 10);
-                  const seatB = parseInt(b.id, 10);
-                  return seatA - seatB;
+                  return a.id - b.id;
                 })
                 .map((s, index) => (
                   <Paper
