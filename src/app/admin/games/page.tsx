@@ -38,10 +38,9 @@ export default function Home() {
                   </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>
-                  {games.map(
-                    (g, index) =>
-                      g.id !== "0" && <GameRow key={index} game={g as Game} />
-                  )}
+                  {games.map((g, index) => (
+                    <GameRow key={index} game={g as Game} />
+                  ))}
                 </Table.Tbody>
               </Table>
               <Button

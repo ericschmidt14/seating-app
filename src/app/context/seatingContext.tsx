@@ -9,13 +9,17 @@ import {
 } from "react";
 import games from "../games.json";
 import { Game, Seat, Table } from "../interfaces";
-import { getNextGame } from "../utils";
+import { getCurrentSeason, getNextGame } from "../utils";
 
 interface SeatingContextType {
+  season: number;
+  setSeason: Dispatch<SetStateAction<number>>;
   game: string | null;
   setGame: Dispatch<SetStateAction<string | null>>;
   lounge: number;
   setLounge: Dispatch<SetStateAction<number>>;
+  data: Game | undefined;
+  setData: Dispatch<SetStateAction<Game | undefined>>;
   tables: Table[];
   setTables: Dispatch<SetStateAction<Table[]>>;
   selectedSeats: Seat[];
@@ -27,8 +31,10 @@ interface SeatingContextType {
 const SeatingContext = createContext<SeatingContextType | undefined>(undefined);
 
 export const SeatingProvider = ({ children }: { children: ReactNode }) => {
+  const [season, setSeason] = useState<number>(getCurrentSeason());
   const [game, setGame] = useState<string | null>(getNextGame(games as Game[]));
   const [lounge, setLounge] = useState(1);
+  const [data, setData] = useState<Game | undefined>();
   const [tables, setTables] = useState<Table[]>([]);
   const [selectedSeats, setSelectedSeats] = useState<Seat[]>([]);
 
@@ -106,10 +112,14 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
   return (
     <SeatingContext.Provider
       value={{
+        season,
+        setSeason,
         game,
         setGame,
         lounge,
         setLounge,
+        data,
+        setData,
         tables,
         setTables,
         selectedSeats,

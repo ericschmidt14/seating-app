@@ -4,7 +4,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { IconPencil } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { Game } from "../interfaces";
-import { getSeason } from "../utils";
+import { getSeason, getUtilization } from "../utils";
 import { utilization } from "../values";
 import GameDrawer from "./drawer";
 
@@ -14,14 +14,14 @@ export default function GameRow({ game }: { game: Game }) {
   return (
     <>
       <Table.Tr>
-        <Table.Td>{game.id}</Table.Td>
-        <Table.Td>{getSeason(game.season || "").label}</Table.Td>
+        <Table.Td>{game.day}</Table.Td>
+        <Table.Td>{getSeason(game.year).label}</Table.Td>
         <Table.Td>{game.opponent}</Table.Td>
         <Table.Td>
           {game.date && format(new Date(game.date), "dd.MM.yyyy")}
         </Table.Td>
-        <Table.Td>{utilization[game.lounges[0].utilization]}</Table.Td>
-        <Table.Td>{utilization[game.lounges[1].utilization]}</Table.Td>
+        <Table.Td>{utilization[getUtilization(game, 1)]}</Table.Td>
+        <Table.Td>{utilization[getUtilization(game, 2)]}</Table.Td>
         <Table.Td className="text-right">
           <ActionIcon variant="light" onClick={open}>
             <IconPencil size={16} />

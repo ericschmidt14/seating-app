@@ -4,7 +4,7 @@ import { DatePickerInput } from "@mantine/dates";
 import { IconCalendar, IconDeviceFloppy } from "@tabler/icons-react";
 import { useState } from "react";
 import { Game } from "../interfaces";
-import { getCurrentSeason, getSeasons } from "../utils";
+import { getCurrentSeason, getSeasons, getUtilization } from "../utils";
 
 export default function GameDrawer({
   game,
@@ -15,19 +15,21 @@ export default function GameDrawer({
   opened: boolean;
   close: () => void;
 }) {
-  const [id, setId] = useState<string>(game ? game.id : "1");
-  const [season, setSeason] = useState<string | null>(
-    game?.season ? game.season : getCurrentSeason().toString()
+  const [day, seatDay] = useState<string>(
+    game && game.day ? game.day.toString() : "1"
+  );
+  const [year, setYear] = useState<string | null>(
+    game?.year ? game.year.toString() : getCurrentSeason().toString()
   );
   const [opponent, setOpponent] = useState<string>(game ? game.opponent : "");
   const [date, setDate] = useState<Date | null>(
     game ? new Date(game.date) : new Date()
   );
   const [utilizationLounge0, setUtilizationLounge0] = useState<string | null>(
-    game ? game.lounges[0].utilization : "1"
+    game ? getUtilization(game, 1) : "1"
   );
   const [utilizationLounge1, setUtilizationLounge1] = useState<string | null>(
-    game ? game.lounges[1].utilization : "1"
+    game ? getUtilization(game, 2) : "1"
   );
 
   const utilizations = [
@@ -51,20 +53,20 @@ export default function GameDrawer({
     >
       <div className="flex flex-col gap-4">
         <h2 className="text-2xl">Spiel {game ? "bearbeiten" : "hinzufügen"}</h2>
-        {!game && (
-          <TextInput
-            label="Spieltag"
-            value={id}
-            onChange={(event) => setId(event.currentTarget.value)}
-            error={id === "0" && "Spieltag 0 ist reserviert für Saisontickets"}
-            data-autofocus
-          />
-        )}
+        <TextInput
+          label="Spieltag"
+          value={day}
+          onChange={(event) => seatDay(event.currentTarget.value)}
+          error={day === "0" && "Spieltag 0 ist reserviert für Saisontickets"}
+          data-autofocus
+        />
         <Select
           label="Saison"
-          data={getSeasons()}
-          value={season}
-          onChange={setSeason}
+          data={getSeasons().map((s) => {
+            return { label: s.label, value: s.value.toString() };
+          })}
+          value={year}
+          onChange={setYear}
           allowDeselect={false}
           checkIconPosition="right"
         />
@@ -103,17 +105,18 @@ export default function GameDrawer({
           <Button
             variant="light"
             disabled={
-              id.trim() === "" || id.trim() === "0" || opponent.trim() === ""
+              day.trim() === "" || day.trim() === "0" || opponent.trim() === ""
             }
             onClick={() => {
               console.log(
                 JSON.stringify({
-                  id: id,
+                  day,
+                  year,
                   opponent,
                   date: date?.toISOString(),
                   lounges: [
-                    { id: 0, utilization: utilizationLounge0 },
-                    { id: 1, utilization: utilizationLounge1 },
+                    { id: 1, utilization: utilizationLounge0 },
+                    { id: 2, utilization: utilizationLounge1 },
                   ],
                 })
               );

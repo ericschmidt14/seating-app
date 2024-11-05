@@ -3,13 +3,13 @@ import { useEffect } from "react";
 import Grid from "./components/grid";
 import Header from "./components/header";
 import { useSeating } from "./context/seatingContext";
-import tables from "./data.json";
+import data from "./data.json";
 
 export default function Home() {
   const { setTables, selectedSeats } = useSeating();
 
   useEffect(() => {
-    setTables(tables);
+    setTables(data.lounges.flatMap((l) => l.tables));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

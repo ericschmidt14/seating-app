@@ -38,8 +38,8 @@ export default function Grid() {
             capacity={t.capacity || 0}
             x={t.x || 0}
             y={t.y || 0}
-            round={t.round}
-            right={t.right}
+            round={t.isRound}
+            right={t.isRight}
           />
         ))}
       </div>

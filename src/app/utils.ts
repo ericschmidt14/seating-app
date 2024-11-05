@@ -8,7 +8,7 @@ export const getSeasons = () => {
   const today = new Date();
   const currentYear = today.getFullYear();
   const startYear = 2024;
-  const seasons: { value: string; label: string }[] = [];
+  const seasons: { value: number; label: string }[] = [];
 
   for (let year = startYear; year <= currentYear; year++) {
     const seasonStart = new Date(year, 6, 1);
@@ -16,7 +16,7 @@ export const getSeasons = () => {
 
     if ((today >= seasonStart && today <= seasonEnd) || today > seasonEnd) {
       seasons.push({
-        value: `${year}`,
+        value: year,
         label: `Saison ${year}/${year + 1 - 2000}`,
       });
     }
@@ -41,10 +41,10 @@ export const getCurrentSeason = () => {
   return seasonStartYear;
 };
 
-export const getSeason = (year: string) => {
+export const getSeason = (year: number) => {
   return {
-    value: `${year}`,
-    label: `Saison ${year}/${+year + 1 - 2000}`,
+    value: year,
+    label: `Saison ${year}/${year + 1 - 2000}`,
   };
 };
 
@@ -55,5 +55,10 @@ export const getNextGame = (games: Game[]) => {
     .filter((game) => new Date(game.date) > now)
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-  return upcomingGames.length > 0 ? upcomingGames[0].id : "0";
+  return upcomingGames.length > 0 ? upcomingGames[0].day.toString() : "0";
+};
+
+export const getUtilization = (game: Game, id: number) => {
+  const u = game.lounges.find((l) => l.id === id)?.utilization;
+  return u ? u : "1";
 };

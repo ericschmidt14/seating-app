@@ -1,6 +1,6 @@
 export interface Game {
-  id: string;
-  season?: string;
+  year: number;
+  day: number;
   opponent: string;
   date: string;
   lounges: Array<Lounge>;
@@ -8,7 +8,7 @@ export interface Game {
 
 export interface Lounge {
   id: number;
-  name: string;
+  name?: string;
   utilization: string;
   tables: Array<Table>;
 }
@@ -16,8 +16,8 @@ export interface Lounge {
 export interface Table {
   id: number;
   capacity?: number;
-  round?: boolean;
-  right?: boolean;
+  isRound?: boolean;
+  isRight?: boolean;
   x?: number;
   y?: number;
   seats: Seat[];

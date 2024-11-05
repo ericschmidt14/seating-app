@@ -30,7 +30,7 @@ export default function Home() {
   } = useSeating();
 
   useEffect(() => {
-    setTables(data);
+    setTables(data.lounges.flatMap((l) => l.tables));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
