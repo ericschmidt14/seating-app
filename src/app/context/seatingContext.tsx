@@ -41,11 +41,12 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
   const handleSeatClick = (seat: Seat, scroll?: boolean) => {
     setSelectedSeats((prevSelected: Seat[]) => {
       const isAlreadySelected = prevSelected.some(
-        (s) => s.tableId === seat.tableId && s.id === seat.id
+        (s) => s.tableId === seat.tableId && s.seatNumber === seat.seatNumber
       );
       if (isAlreadySelected) {
         return prevSelected.filter(
-          (s) => !(s.tableId === seat.tableId && s.id === seat.id)
+          (s) =>
+            !(s.tableId === seat.tableId && s.seatNumber === seat.seatNumber)
         );
       } else {
         const occupant = seat.occupant
@@ -75,22 +76,26 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
 
     const allSeatIds = new Set([
       ...tableSeatIds,
-      ...occupiedSeats.map((seat) => seat.id),
+      ...occupiedSeats.map((seat) => seat.seatNumber),
     ]);
 
     const areAllSeatsSelected = Array.from(allSeatIds).every((seatId) =>
-      selectedSeats.some((s) => s.id === seatId && s.tableId === tableId)
+      selectedSeats.some(
+        (s) => s.seatNumber === seatId && s.tableId === tableId
+      )
     );
 
     if (areAllSeatsSelected) {
       setSelectedSeats((prev) => prev.filter((s) => s.tableId !== tableId));
     } else {
       setSelectedSeats((prev) => {
-        const seatsToSelect = Array.from(allSeatIds).map((seatId) => {
-          const occupiedSeat = occupiedSeats.find((seat) => seat.id === seatId);
+        const seatsToSelect = Array.from(allSeatIds).map((seatNumber) => {
+          const occupiedSeat = occupiedSeats.find(
+            (seat) => seat.seatNumber === seatNumber
+          );
 
           return {
-            id: seatId,
+            seatNumber,
             tableId,
             occupant: occupiedSeat
               ? occupiedSeat.occupant
@@ -102,7 +107,9 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
           ...prev,
           ...seatsToSelect.filter(
             (seat) =>
-              !prev.some((s) => s.id === seat.id && s.tableId === tableId)
+              !prev.some(
+                (s) => s.seatNumber === seat.seatNumber && s.tableId === tableId
+              )
           ),
         ];
       });

@@ -40,7 +40,9 @@ export default function TableGroup({
       className={`absolute flex items-center gap-2 ${right && "justify-end"}`}
       style={{ top: tableHeight * y, left: tableWidth * x, width: tableWidth }}
     >
-      {right && capacity % 2 === 1 && <Seat id={capacity} tableId={id} />}
+      {right && capacity % 2 === 1 && (
+        <Seat seatNumber={capacity} tableId={id} />
+      )}
       <div className="flex flex-col gap-2">
         <SeatRow capacity={capacity / 2} firstId={1} tabledId={id} />
         <div
@@ -56,7 +58,9 @@ export default function TableGroup({
         </div>
         <SeatRow capacity={capacity / 2} firstId={2} tabledId={id} />
       </div>
-      {!right && capacity % 2 === 1 && <Seat id={capacity} tableId={id} />}
+      {!right && capacity % 2 === 1 && (
+        <Seat seatNumber={capacity} tableId={id} />
+      )}
     </div>
   );
 
@@ -86,7 +90,7 @@ export default function TableGroup({
             style={{ transform: `translate(${x}px, ${y}px)` }}
             className="absolute top-12 left-12 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center"
           >
-            <Seat id={index + 1} tableId={id} />
+            <Seat seatNumber={index + 1} tableId={id} />
           </div>
         );
       })}

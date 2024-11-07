@@ -6,7 +6,13 @@ import { useSeating } from "../context/seatingContext";
 import { isAdminPage } from "../utils";
 import SeatInfo from "./seatInfo";
 
-export default function Seat({ id, tableId }: { id: number; tableId: number }) {
+export default function Seat({
+  seatNumber,
+  tableId,
+}: {
+  seatNumber: number;
+  tableId: number;
+}) {
   const path = usePathname();
   const { tables, selectedSeats, handleSeatClick } = useSeating();
   const [opened, { close, open }] = useDisclosure(false);
@@ -14,18 +20,20 @@ export default function Seat({ id, tableId }: { id: number; tableId: number }) {
   const taken = tables.find(
     (t) =>
       t.id === tableId &&
-      t.seats.find((s) => s.id === id) &&
-      t.seats.find((s) => s.id === id)?.occupant !== null
+      t.seats.find((s) => s.seatNumber === seatNumber) &&
+      t.seats.find((s) => s.seatNumber === seatNumber)?.occupant !== null
   );
 
-  const occupant = taken?.seats.find((s) => s.id === id)?.occupant;
+  const occupant = taken?.seats.find(
+    (s) => s.seatNumber === seatNumber
+  )?.occupant;
 
   const seasonTicket = taken?.seats.find(
-    (s) => s.id === id && s.occupant?.seasonTicket
+    (s) => s.seatNumber === seatNumber && s.occupant?.seasonTicket
   );
 
   const selected = selectedSeats.find(
-    (s) => s.tableId === tableId && s.id === id
+    (s) => s.tableId === tableId && s.seatNumber === seatNumber
   );
 
   const getBackground = () => {
@@ -51,7 +59,7 @@ export default function Seat({ id, tableId }: { id: number; tableId: number }) {
         isAdminPage(path) &&
         handleSeatClick({
           tableId,
-          id,
+          seatNumber,
           occupant,
         })
       }
@@ -61,7 +69,7 @@ export default function Seat({ id, tableId }: { id: number; tableId: number }) {
           isAdminPage(path) ? "cursor-pointer" : "cursor-default"
         } ${!selected && "opacity-0 hover:opacity-100"} transition-opacity`}
       >
-        {id}
+        {seatNumber}
       </span>
     </div>
   );
@@ -92,7 +100,7 @@ export default function Seat({ id, tableId }: { id: number; tableId: number }) {
         </div>
         <SeatInfo
           tableId={tableId}
-          id={id}
+          seatNumber={seatNumber}
           seasonTicket={seasonTicket?.occupant?.seasonTicket}
         />
       </Popover.Dropdown>

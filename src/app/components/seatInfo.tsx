@@ -6,11 +6,11 @@ import {
 
 export default function SeatInfo({
   tableId,
-  id,
+  seatNumber,
   seasonTicket,
 }: {
   tableId: number;
-  id: number;
+  seatNumber: number;
   seasonTicket?: boolean;
 }) {
   return (
@@ -21,7 +21,7 @@ export default function SeatInfo({
       </div>
       <div className="flex items-center gap-1">
         <IconArmchair size={16} className="muted" />
-        <p className="text-white">{id}</p>
+        <p className="text-white">{seatNumber}</p>
       </div>
       {seasonTicket && <IconCalendarRepeat size={16} className="muted" />}
     </div>

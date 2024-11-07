@@ -10,7 +10,7 @@
           "id": 96,
           "seats": [
             {
-              "id": 1,
+              "seatNumber": 1,
               "occupant": {
                 "firstName": "Eric",
                 "lastName": "Schmidt",
@@ -18,7 +18,7 @@
               }
             },
             {
-              "id": 2,
+              "seatNumber": 2,
               "occupant": {
                 "firstName": "Marcus",
                 "lastName": "Prell",
@@ -27,7 +27,7 @@
               }
             },
             {
-              "id": 4,
+              "seatNumber": 4,
               "occupant": {
                 "firstName": "Volkmar",
                 "lastName": "Fritz",
@@ -41,7 +41,7 @@
           "id": 99,
           "seats": [
             {
-              "id": 1,
+              "seatNumber": 1,
               "occupant": {
                 "firstName": "Andrea",
                 "lastName": "Schmidt",
@@ -49,7 +49,7 @@
               }
             },
             {
-              "id": 2,
+              "seatNumber": 2,
               "occupant": {
                 "firstName": "Dominic",
                 "lastName": "Schmidt",
@@ -62,7 +62,7 @@
           "id": 163,
           "seats": [
             {
-              "id": 7,
+              "seatNumber": 7,
               "occupant": {
                 "firstName": "",
                 "lastName": "",
@@ -70,7 +70,7 @@
               }
             },
             {
-              "id": 9,
+              "seatNumber": 9,
               "occupant": {
                 "firstName": "",
                 "lastName": "",
@@ -78,7 +78,7 @@
               }
             },
             {
-              "id": 10,
+              "seatNumber": 10,
               "occupant": {
                 "firstName": "",
                 "lastName": "",
@@ -86,7 +86,7 @@
               }
             },
             {
-              "id": 11,
+              "seatNumber": 11,
               "occupant": {
                 "firstName": "",
                 "lastName": "",
@@ -94,7 +94,7 @@
               }
             },
             {
-              "id": 12,
+              "seatNumber": 12,
               "occupant": {
                 "firstName": "",
                 "lastName": "",
@@ -113,7 +113,7 @@
           "id": 200,
           "seats": [
             {
-              "id": 1,
+              "seatNumber": 1,
               "occupant": {
                 "firstName": "",
                 "lastName": "",
@@ -126,7 +126,7 @@
           "id": 229,
           "seats": [
             {
-              "id": 6,
+              "seatNumber": 6,
               "occupant": {
                 "firstName": "Lara",
                 "lastName": "Burkhardt",

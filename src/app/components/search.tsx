@@ -31,12 +31,16 @@ export default function Search() {
         .filter((seat) => searchKeyword(seat))
         .map((s, index) => {
           return {
-            id: `${index}-${t.id}-${s.id}`,
+            id: `${index}-${t.id}-${s.seatNumber}`,
             label: `${s.occupant?.firstName} ${s.occupant?.lastName}`,
             description: s.occupant?.company,
             onClick: () =>
               handleSeatClick(
-                { tableId: t.id, id: s.id, occupant: s.occupant },
+                {
+                  tableId: t.id,
+                  seatNumber: s.seatNumber,
+                  occupant: s.occupant,
+                },
                 true
               ),
             rightSection: (
@@ -47,7 +51,7 @@ export default function Search() {
                 </div>
                 <div className="w-8 flex flex-col items-center">
                   <IconArmchair size={16} className="muted" />
-                  <p className="text-white">{s.id}</p>
+                  <p className="text-white">{s.seatNumber}</p>
                 </div>
                 <div className="w-8 flex flex-col items-center">
                   {s.occupant?.seasonTicket && (

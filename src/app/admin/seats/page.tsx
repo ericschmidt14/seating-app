@@ -42,7 +42,7 @@ export default function Home() {
   ) => {
     setSelectedSeats((prev) =>
       prev.map((seat) => {
-        if (seat.tableId === tabledId && seat.id === seatId) {
+        if (seat.tableId === tabledId && seat.seatNumber === seatId) {
           const occupant = seat.occupant
             ? seat.occupant
             : { firstName: "", lastName: "", company: "" };
@@ -58,7 +58,7 @@ export default function Home() {
   const handleSubmit = () => {
     const updatedTables = [...tables];
 
-    selectedSeats.forEach(({ tableId, id, occupant }) => {
+    selectedSeats.forEach(({ tableId, seatNumber, occupant }) => {
       const isOccupantEmpty =
         !occupant!.firstName.trim() &&
         !occupant!.lastName.trim() &&
@@ -77,15 +77,17 @@ export default function Home() {
         updatedTables.push(newTable);
       }
 
-      let newSeat = newTable.seats.find((s) => s.id === id);
+      let newSeat = newTable.seats.find((s) => s.seatNumber === seatNumber);
       if (isOccupantEmpty) {
         if (newSeat) {
-          newTable.seats = newTable.seats.filter((s) => s.id !== id);
+          newTable.seats = newTable.seats.filter(
+            (s) => s.seatNumber !== seatNumber
+          );
         }
       } else {
         if (!newSeat) {
           newSeat = {
-            id: id,
+            seatNumber,
             occupant: null,
           };
           newTable.seats.push(newSeat);
@@ -132,7 +134,7 @@ export default function Home() {
                     return a.tableId! - b.tableId!;
                   }
 
-                  return a.id - b.id;
+                  return a.seatNumber - b.seatNumber;
                 })
                 .map((s, index) => (
                   <Paper
@@ -143,7 +145,10 @@ export default function Home() {
                     className="relative grid grid-cols-2 justify-between items-center gap-2"
                   >
                     <div className="col-span-2 flex justify-between">
-                      <SeatInfo tableId={s.tableId!} id={s.id} />
+                      <SeatInfo
+                        tableId={s.tableId!}
+                        seatNumber={s.seatNumber}
+                      />
                       <ActionIcon.Group>
                         {(s.occupant?.company !== "" ||
                           s.occupant?.firstName !== "" ||
@@ -162,7 +167,7 @@ export default function Home() {
                                   (value) =>
                                     handleInputChange(
                                       s.tableId!,
-                                      s.id,
+                                      s.seatNumber,
                                       value as
                                         | "firstName"
                                         | "lastName"
@@ -187,7 +192,7 @@ export default function Home() {
                             variant="default"
                             onClick={() =>
                               handleSeatClick({
-                                id: s.id,
+                                seatNumber: s.seatNumber,
                                 tableId: s.tableId,
                               })
                             }
@@ -203,7 +208,12 @@ export default function Home() {
                       placeholder="Firma"
                       value={s.occupant?.company || ""}
                       onChange={(e) =>
-                        handleInputChange(s.tableId!, s.id, "company", e)
+                        handleInputChange(
+                          s.tableId!,
+                          s.seatNumber,
+                          "company",
+                          e
+                        )
                       }
                       data={Array.from(
                         new Set(
@@ -223,7 +233,7 @@ export default function Home() {
                       onChange={(e) =>
                         handleInputChange(
                           s.tableId!,
-                          s.id,
+                          s.seatNumber,
                           "firstName",
                           e.target.value
                         )
@@ -236,7 +246,7 @@ export default function Home() {
                       onChange={(e) =>
                         handleInputChange(
                           s.tableId!,
-                          s.id,
+                          s.seatNumber,
                           "lastName",
                           e.target.value
                         )

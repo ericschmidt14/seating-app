@@ -24,7 +24,7 @@ export interface Table {
 }
 
 export interface Seat {
-  id: number;
+  seatNumber: number;
   tableId?: number;
   occupant?: Occupant | null;
 }
@@ -34,4 +34,10 @@ export interface Occupant {
   lastName: string;
   company: string;
   seasonTicket?: boolean;
+}
+
+export interface App {
+  game: Array<Game>;
+  games: Array<Game>;
+  tables: Array<Table>;
 }

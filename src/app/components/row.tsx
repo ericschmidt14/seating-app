@@ -12,7 +12,7 @@ export default function SeatRow({
   return (
     <div className="flex gap-2">
       {Array.from({ length: capacity }).map((_, index) => (
-        <Seat key={index} id={index * 2 + firstId} tableId={tabledId} />
+        <Seat key={index} seatNumber={index * 2 + firstId} tableId={tabledId} />
       ))}
     </div>
   );
