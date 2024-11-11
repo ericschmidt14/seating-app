@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSeating } from "../context/seatingContext";
-import games from "../games.json";
 import lounges from "../lounges.json";
 import Search from "./search";
 import Tab from "./tabs";
@@ -16,7 +15,8 @@ export default function Header({
   showNav?: boolean;
   hideTabs?: boolean;
 }) {
-  const { game, setGame, lounge, setLounge } = useSeating();
+  const { games, selectedGame, setSelectedGame, lounge, setLounge } =
+    useSeating();
 
   const nav = [
     { label: "Begegnungen", href: "/admin/games/" },
@@ -56,8 +56,8 @@ export default function Header({
                   value: g.day.toString(),
                 };
               })}
-              value={game}
-              onChange={setGame}
+              value={selectedGame}
+              onChange={setSelectedGame}
               withCheckIcon={false}
               allowDeselect={false}
               w={260}

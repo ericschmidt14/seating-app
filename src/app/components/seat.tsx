@@ -7,9 +7,11 @@ import { isAdminPage } from "../utils";
 import SeatInfo from "./seatInfo";
 
 export default function Seat({
+  tableName,
   seatNumber,
   tableId,
 }: {
+  tableName: string;
   seatNumber: number;
   tableId: number;
 }) {
@@ -20,15 +22,15 @@ export default function Seat({
   const taken = tables.find(
     (t) =>
       t.id === tableId &&
-      t.seats.find((s) => s.seatNumber === seatNumber) &&
-      t.seats.find((s) => s.seatNumber === seatNumber)?.occupant !== null
+      t.seats?.find((s) => s.seatNumber === seatNumber) &&
+      t.seats?.find((s) => s.seatNumber === seatNumber)?.occupant !== null
   );
 
-  const occupant = taken?.seats.find(
+  const occupant = taken?.seats?.find(
     (s) => s.seatNumber === seatNumber
   )?.occupant;
 
-  const seasonTicket = taken?.seats.find(
+  const seasonTicket = taken?.seats?.find(
     (s) => s.seatNumber === seatNumber && s.occupant?.seasonTicket
   );
 
@@ -99,7 +101,7 @@ export default function Seat({
           <p className="text-sm muted">{occupant && `${occupant.company}`}</p>
         </div>
         <SeatInfo
-          tableId={tableId}
+          tableName={tableName}
           seatNumber={seatNumber}
           seasonTicket={seasonTicket?.occupant?.seasonTicket}
         />

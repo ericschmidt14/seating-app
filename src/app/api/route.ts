@@ -1,7 +1,7 @@
 import { FCN_WEB_API } from "@/app/constants";
 
 export async function GET() {
-  const res = await fetch(FCN_WEB_API, {
+  const res = await fetch(`${FCN_WEB_API}/game`, {
     method: "GET",
     headers: {
       Accept: "*/*",

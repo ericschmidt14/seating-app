@@ -5,11 +5,11 @@ import {
 } from "@tabler/icons-react";
 
 export default function SeatInfo({
-  tableId,
+  tableName,
   seatNumber,
   seasonTicket,
 }: {
-  tableId: number;
+  tableName: string;
   seatNumber: number;
   seasonTicket?: boolean;
 }) {
@@ -17,7 +17,7 @@ export default function SeatInfo({
     <div className="flex items-center gap-4">
       <div className="flex items-center gap-1">
         <IconDesk size={16} className="muted" />
-        <p className="text-white">{tableId}</p>
+        <p className="text-white">{tableName}</p>
       </div>
       <div className="flex items-center gap-1">
         <IconArmchair size={16} className="muted" />

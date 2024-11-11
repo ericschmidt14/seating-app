@@ -5,21 +5,23 @@ import {
   ReactNode,
   SetStateAction,
   useContext,
+  useEffect,
   useState,
 } from "react";
-import games from "../games.json";
 import { Game, Seat, Table } from "../interfaces";
-import { getCurrentSeason, getNextGame } from "../utils";
+import { getCurrentSeason } from "../utils";
 
 interface SeatingContextType {
   season: number;
   setSeason: Dispatch<SetStateAction<number>>;
-  game: string | null;
-  setGame: Dispatch<SetStateAction<string | null>>;
+  games: Game[];
+  setGames: Dispatch<SetStateAction<Game[]>>;
+  game: Game;
+  setGame: Dispatch<SetStateAction<Game>>;
+  selectedGame: string | null;
+  setSelectedGame: Dispatch<SetStateAction<string | null>>;
   lounge: number;
   setLounge: Dispatch<SetStateAction<number>>;
-  data: Game | undefined;
-  setData: Dispatch<SetStateAction<Game | undefined>>;
   tables: Table[];
   setTables: Dispatch<SetStateAction<Table[]>>;
   selectedSeats: Seat[];
@@ -32,11 +34,37 @@ const SeatingContext = createContext<SeatingContextType | undefined>(undefined);
 
 export const SeatingProvider = ({ children }: { children: ReactNode }) => {
   const [season, setSeason] = useState<number>(getCurrentSeason());
-  const [game, setGame] = useState<string | null>(getNextGame(games as Game[]));
+  const [game, setGame] = useState<Game>({
+    year: getCurrentSeason(),
+    day: 1,
+    opponent: "Loading",
+    date: "",
+  });
+  const [selectedGame, setSelectedGame] = useState<string | null>("");
+  const [games, setGames] = useState<Game[]>([]);
   const [lounge, setLounge] = useState(1);
-  const [data, setData] = useState<Game | undefined>();
   const [tables, setTables] = useState<Table[]>([]);
   const [selectedSeats, setSelectedSeats] = useState<Seat[]>([]);
+
+  useEffect(() => {
+    fetch("/api", {
+      method: "GET",
+      cache: "no-store",
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setGame(res.game);
+        setSelectedGame(res.game[0].day.toString());
+        setTables(res.tables);
+        setGames(res.games);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
+  useEffect(() => {
+    // TODO: handle game select
+    console.log(selectedGame);
+  }, [selectedGame]);
 
   const handleSeatClick = (seat: Seat, scroll?: boolean) => {
     setSelectedSeats((prevSelected: Seat[]) => {
@@ -72,19 +100,16 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
   const handleTableClick = (tableId: number, capacity: number) => {
     const tableSeatIds = Array.from({ length: capacity }, (_, i) => i + 1);
     const table = tables.find((t) => t.id === tableId);
-    const occupiedSeats = table ? table.seats : [];
-
+    const occupiedSeats = table && table.seats !== null ? table.seats : [];
     const allSeatIds = new Set([
       ...tableSeatIds,
       ...occupiedSeats.map((seat) => seat.seatNumber),
     ]);
-
     const areAllSeatsSelected = Array.from(allSeatIds).every((seatId) =>
       selectedSeats.some(
         (s) => s.seatNumber === seatId && s.tableId === tableId
       )
     );
-
     if (areAllSeatsSelected) {
       setSelectedSeats((prev) => prev.filter((s) => s.tableId !== tableId));
     } else {
@@ -93,7 +118,6 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
           const occupiedSeat = occupiedSeats.find(
             (seat) => seat.seatNumber === seatNumber
           );
-
           return {
             seatNumber,
             tableId,
@@ -102,7 +126,6 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
               : { firstName: "", lastName: "", company: "" },
           };
         });
-
         return [
           ...prev,
           ...seatsToSelect.filter(
@@ -121,12 +144,14 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
       value={{
         season,
         setSeason,
+        games,
+        setGames,
         game,
         setGame,
+        selectedGame,
+        setSelectedGame,
         lounge,
         setLounge,
-        data,
-        setData,
         tables,
         setTables,
         selectedSeats,

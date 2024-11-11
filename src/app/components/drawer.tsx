@@ -2,6 +2,7 @@
 import { Button, Drawer, Select, TextInput } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { IconCalendar, IconDeviceFloppy } from "@tabler/icons-react";
+import dayjs from "dayjs";
 import { useState } from "react";
 import { Game } from "../interfaces";
 import { getCurrentSeason, getSeasons, getUtilization } from "../utils";
@@ -15,7 +16,7 @@ export default function GameDrawer({
   opened: boolean;
   close: () => void;
 }) {
-  const [day, seatDay] = useState<string>(
+  const [day, setDay] = useState<string>(
     game && game.day ? game.day.toString() : "1"
   );
   const [year, setYear] = useState<string | null>(
@@ -56,7 +57,7 @@ export default function GameDrawer({
         <TextInput
           label="Spieltag"
           value={day}
-          onChange={(event) => seatDay(event.currentTarget.value)}
+          onChange={(event) => setDay(event.currentTarget.value)}
           error={day === "0" && "Spieltag 0 ist reserviert für Saisontickets"}
           data-autofocus
         />
@@ -108,18 +109,23 @@ export default function GameDrawer({
               day.trim() === "" || day.trim() === "0" || opponent.trim() === ""
             }
             onClick={() => {
-              console.log(
-                JSON.stringify({
+              fetch(`/api/game`, {
+                method: "POST",
+                headers: {
+                  Accept: "*/*",
+                  "Content-Type": "application/json; charset=UTF-8",
+                },
+                body: JSON.stringify({
                   day,
                   year,
                   opponent,
-                  date: date?.toISOString(),
+                  date: dayjs(date).format("YYYY-MM-DDT[00:00:00]"),
                   lounges: [
                     { id: 1, utilization: utilizationLounge0 },
                     { id: 2, utilization: utilizationLounge1 },
                   ],
-                })
-              );
+                }),
+              });
               close();
             }}
             leftSection={<IconDeviceFloppy size={16} />}

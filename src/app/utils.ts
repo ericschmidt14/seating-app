@@ -59,6 +59,6 @@ export const getNextGame = (games: Game[]) => {
 };
 
 export const getUtilization = (game: Game, id: number) => {
-  const u = game.lounges.find((l) => l.id === id)?.utilization;
+  const u = game.lounges!.find((l) => l.id === id)?.utilization;
   return u ? u : "1";
 };

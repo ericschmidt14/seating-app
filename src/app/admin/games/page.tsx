@@ -1,6 +1,7 @@
 "use client";
 import GameDrawer from "@/app/components/drawer";
 import GameRow from "@/app/components/game";
+import { useSeating } from "@/app/context/seatingContext";
 import { Game } from "@/app/interfaces";
 import { Button, Paper, Table } from "@mantine/core";
 import { DatesProvider } from "@mantine/dates";
@@ -8,9 +9,9 @@ import { useDisclosure } from "@mantine/hooks";
 import { IconCirclePlus } from "@tabler/icons-react";
 import "dayjs/locale/de";
 import Header from "../../components/header";
-import games from "../../games.json";
 
 export default function Home() {
+  const { games } = useSeating();
   const [opened, { open, close }] = useDisclosure(false);
 
   return (

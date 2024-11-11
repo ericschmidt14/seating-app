@@ -3,7 +3,7 @@ export interface Game {
   day: number;
   opponent: string;
   date: string;
-  lounges: Array<Lounge>;
+  lounges?: Array<Lounge>;
 }
 
 export interface Lounge {
@@ -15,12 +15,14 @@ export interface Lounge {
 
 export interface Table {
   id: number;
+  name: string;
+  loungeId: number;
   capacity?: number;
   isRound?: boolean;
   isRight?: boolean;
   x?: number;
   y?: number;
-  seats: Seat[];
+  seats: Seat[] | null;
 }
 
 export interface Seat {

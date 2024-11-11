@@ -1,38 +1,19 @@
 "use client";
-import {
-  ActionIcon,
-  Autocomplete,
-  Button,
-  Paper,
-  TextInput,
-  Tooltip,
-} from "@mantine/core";
+import { ActionIcon, Button, Paper, TextInput, Tooltip } from "@mantine/core";
 import {
   IconBuildingFactory2,
   IconDeselect,
   IconDeviceFloppy,
   IconTrash,
 } from "@tabler/icons-react";
-import { useEffect } from "react";
 import Grid from "../../components/grid";
 import Header from "../../components/header";
 import SeatInfo from "../../components/seatInfo";
 import { useSeating } from "../../context/seatingContext";
-import data from "../../data.json";
 
 export default function Home() {
-  const {
-    tables,
-    setTables,
-    selectedSeats,
-    setSelectedSeats,
-    handleSeatClick,
-  } = useSeating();
-
-  useEffect(() => {
-    setTables(data.lounges.flatMap((l) => l.tables));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { tables, selectedSeats, setSelectedSeats, handleSeatClick } =
+    useSeating();
 
   const handleInputChange = (
     tabledId: number,
@@ -56,51 +37,54 @@ export default function Home() {
   };
 
   const handleSubmit = () => {
-    const updatedTables = [...tables];
+    // TODO: handle seat submit
+    console.log(selectedSeats);
+    // const updatedTables = [...tables];
 
-    selectedSeats.forEach(({ tableId, seatNumber, occupant }) => {
-      const isOccupantEmpty =
-        !occupant!.firstName.trim() &&
-        !occupant!.lastName.trim() &&
-        !occupant!.company.trim();
+    // selectedSeats.forEach(({ tableId, seatNumber, occupant }) => {
+    //   const isOccupantEmpty =
+    //     !occupant!.firstName.trim() &&
+    //     !occupant!.lastName.trim() &&
+    //     !occupant!.company.trim();
 
-      let newTable = updatedTables.find((t) => t.id === tableId);
-      if (!newTable) {
-        if (isOccupantEmpty) {
-          return;
-        }
+    //   let newTable = updatedTables.find((t) => t.id === tableId);
+    //   if (!newTable) {
+    //     if (isOccupantEmpty) {
+    //       return;
+    //     }
 
-        newTable = {
-          id: tableId!,
-          seats: [],
-        };
-        updatedTables.push(newTable);
-      }
+    //     newTable = {
+    //       id: tableId!,
+    //       name: tableId!.toString(),
+    //       seats: [],
+    //     };
+    //     updatedTables.push(newTable);
+    //   }
 
-      let newSeat = newTable.seats.find((s) => s.seatNumber === seatNumber);
-      if (isOccupantEmpty) {
-        if (newSeat) {
-          newTable.seats = newTable.seats.filter(
-            (s) => s.seatNumber !== seatNumber
-          );
-        }
-      } else {
-        if (!newSeat) {
-          newSeat = {
-            seatNumber,
-            occupant: null,
-          };
-          newTable.seats.push(newSeat);
-        }
-        newSeat.occupant = occupant;
-      }
-    });
-    const cleanedTables = updatedTables.filter(
-      (table) => table.seats.length > 0
-    );
+    //   let newSeat = newTable.seats.find((s) => s.seatNumber === seatNumber);
+    //   if (isOccupantEmpty) {
+    //     if (newSeat) {
+    //       newTable.seats = newTable.seats.filter(
+    //         (s) => s.seatNumber !== seatNumber
+    //       );
+    //     }
+    //   } else {
+    //     if (!newSeat) {
+    //       newSeat = {
+    //         seatNumber,
+    //         occupant: null,
+    //       };
+    //       newTable.seats.push(newSeat);
+    //     }
+    //     newSeat.occupant = occupant;
+    //   }
+    // });
+    // const cleanedTables = updatedTables.filter(
+    //   (table) => table.seats.length > 0
+    // );
 
-    setTables(cleanedTables);
-    setSelectedSeats([]);
+    // setTables(cleanedTables);
+    // setSelectedSeats([]);
   };
 
   return (
@@ -146,7 +130,9 @@ export default function Home() {
                   >
                     <div className="col-span-2 flex justify-between">
                       <SeatInfo
-                        tableId={s.tableId!}
+                        tableName={
+                          tables.find((t) => t.id === s.tableId)?.name || ""
+                        }
                         seatNumber={s.seatNumber}
                       />
                       <ActionIcon.Group>
@@ -202,7 +188,7 @@ export default function Home() {
                         </Tooltip>
                       </ActionIcon.Group>
                     </div>
-                    <Autocomplete
+                    <TextInput
                       className="col-span-2"
                       size="xs"
                       placeholder="Firma"
@@ -212,18 +198,9 @@ export default function Home() {
                           s.tableId!,
                           s.seatNumber,
                           "company",
-                          e
+                          e.target.value
                         )
                       }
-                      data={Array.from(
-                        new Set(
-                          tables.flatMap((t) =>
-                            t.seats.flatMap((s) => s.occupant!.company)
-                          )
-                        )
-                      ).sort((a, b) =>
-                        a.localeCompare(b, undefined, { sensitivity: "base" })
-                      )}
                       rightSection={<IconBuildingFactory2 size={16} />}
                     />
                     <TextInput

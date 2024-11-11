@@ -2,7 +2,6 @@ import { ActionIcon, Slider } from "@mantine/core";
 import { IconZoomIn, IconZoomOut } from "@tabler/icons-react";
 import { useState } from "react";
 import { useSeating } from "../context/seatingContext";
-import lounges from "../lounges.json";
 import TableGroup from "./table";
 
 export default function Grid() {
@@ -11,10 +10,10 @@ export default function Grid() {
   const zoomInit = 0.8;
   const zoomMax = 1.2;
 
-  const { lounge } = useSeating();
+  const { tables, lounge } = useSeating();
   const [zoom, setZoom] = useState(zoomInit);
 
-  const selectedLounge = lounges.find((l) => l.id === lounge)!;
+  const selectedLounge = tables.filter((t) => t.loungeId === lounge)!;
 
   const handleZoomChange = (newZoom: number) => {
     const clampedZoom = Math.min(zoomMax, Math.max(zoomMin, newZoom));
@@ -28,13 +27,14 @@ export default function Grid() {
         style={{
           transform: `scale(${zoom})`,
           transition: "300ms transform ease-in-out",
-          minWidth: selectedLounge.id === 1 ? "200%" : "300%",
+          minWidth: lounge === 1 ? "200%" : "300%",
         }}
       >
-        {selectedLounge.tables.map((t, index) => (
+        {selectedLounge.map((t, index) => (
           <TableGroup
             key={index}
             id={t.id}
+            name={t.name}
             capacity={t.capacity || 0}
             x={t.x || 0}
             y={t.y || 0}

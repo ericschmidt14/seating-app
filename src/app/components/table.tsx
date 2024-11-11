@@ -6,6 +6,7 @@ import Seat from "./seat";
 
 export default function TableGroup({
   id,
+  name,
   capacity,
   x,
   y,
@@ -13,6 +14,7 @@ export default function TableGroup({
   right,
 }: {
   id: number;
+  name: string;
   capacity: number;
   x: number;
   y: number;
@@ -41,10 +43,15 @@ export default function TableGroup({
       style={{ top: tableHeight * y, left: tableWidth * x, width: tableWidth }}
     >
       {right && capacity % 2 === 1 && (
-        <Seat seatNumber={capacity} tableId={id} />
+        <Seat seatNumber={capacity} tableId={id} tableName={name} />
       )}
       <div className="flex flex-col gap-2">
-        <SeatRow capacity={capacity / 2} firstId={1} tabledId={id} />
+        <SeatRow
+          capacity={capacity / 2}
+          firstId={1}
+          tabledId={id}
+          tableName={name}
+        />
         <div
           className={`w-full h-12 rounded flex justify-center items-center bg-white/30 ${
             isAdminPage(path) ? "cursor-pointer" : "cursor-default"
@@ -54,12 +61,17 @@ export default function TableGroup({
           }}
           onClick={() => isAdminPage(path) && handleTableClick(id, capacity)}
         >
-          {id}
+          {name}
         </div>
-        <SeatRow capacity={capacity / 2} firstId={2} tabledId={id} />
+        <SeatRow
+          capacity={capacity / 2}
+          firstId={2}
+          tabledId={id}
+          tableName={name}
+        />
       </div>
       {!right && capacity % 2 === 1 && (
-        <Seat seatNumber={capacity} tableId={id} />
+        <Seat seatNumber={capacity} tableId={id} tableName={name} />
       )}
     </div>
   );
@@ -79,7 +91,7 @@ export default function TableGroup({
         }}
         onClick={() => isAdminPage(path) && handleTableClick(id, capacity)}
       >
-        {id}
+        {name}
       </div>
 
       {Array.from({ length: capacity }).map((_, index) => {
@@ -90,7 +102,7 @@ export default function TableGroup({
             style={{ transform: `translate(${x}px, ${y}px)` }}
             className="absolute top-12 left-12 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center"
           >
-            <Seat seatNumber={index + 1} tableId={id} />
+            <Seat seatNumber={index + 1} tableId={id} tableName={name} />
           </div>
         );
       })}
