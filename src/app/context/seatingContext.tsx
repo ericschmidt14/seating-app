@@ -67,7 +67,7 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
         setGame(res.game[0]);
         setSelectedGame(res.game[0].day.toString());
         setTables(res.tables);
-        setGames(res.games);
+        setGames(res.games.sort((a, b) => a.day - b.day));
       })
       .catch((error) => console.error(error));
   };

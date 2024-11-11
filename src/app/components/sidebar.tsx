@@ -9,7 +9,11 @@ import {
 import { useSeating } from "./../context/seatingContext";
 import SeatInfo from "./seatInfo";
 
-export default function Sidebar() {
+export default function Sidebar({
+  seasonTickets,
+}: {
+  seasonTickets?: boolean;
+}) {
   const { game, tables, selectedSeats, setSelectedSeats, handleSeatClick } =
     useSeating();
 
@@ -39,7 +43,7 @@ export default function Sidebar() {
       s.occupant!.firstName.trim() ||
       s.occupant!.lastName.trim() ||
       s.occupant!.company.trim()
-        ? s
+        ? { ...s, occupant: { ...s.occupant, seasonTicket: seasonTickets } }
         : { ...s, occupant: null }
     );
 
@@ -51,7 +55,7 @@ export default function Sidebar() {
       )
     );
 
-    // fetch(`/api/game`, {
+    // fetch(`/api/seat`, {
     //   method: "POST",
     //   headers: {
     //     Accept: "*/*",
@@ -108,6 +112,7 @@ export default function Sidebar() {
                         tables.find((t) => t.id === s.tableId)?.name || ""
                       }
                       seatNumber={s.seatNumber}
+                      seasonTicket={seasonTickets || s.occupant?.seasonTicket}
                     />
                     <ActionIcon.Group>
                       {(s.occupant?.company !== "" ||

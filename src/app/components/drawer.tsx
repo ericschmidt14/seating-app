@@ -4,6 +4,7 @@ import { DatePickerInput } from "@mantine/dates";
 import { IconCalendar, IconDeviceFloppy } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { useState } from "react";
+import { useSeating } from "../context/seatingContext";
 import { Game } from "../interfaces";
 import { getCurrentSeason, getSeasons, getUtilization } from "../utils";
 
@@ -16,6 +17,7 @@ export default function GameDrawer({
   opened: boolean;
   close: () => void;
 }) {
+  const { loadData } = useSeating();
   const [day, setDay] = useState<string>(
     game && game.day ? game.day.toString() : "1"
   );
@@ -58,6 +60,7 @@ export default function GameDrawer({
     })
       .then((res) => res.text())
       .then(() => {
+        loadData();
         close();
       })
       .catch((error) => console.error(error));
@@ -79,23 +82,29 @@ export default function GameDrawer({
     >
       <div className="flex flex-col gap-4">
         <h2 className="text-2xl">Spiel {game ? "bearbeiten" : "hinzufügen"}</h2>
-        <TextInput
-          label="Spieltag"
-          value={day}
-          onChange={(event) => setDay(event.currentTarget.value)}
-          error={day === "0" && "Spieltag 0 ist reserviert für Saisontickets"}
-          data-autofocus
-        />
-        <Select
-          label="Saison"
-          data={getSeasons().map((s) => {
-            return { label: s.label, value: s.value.toString() };
-          })}
-          value={year}
-          onChange={setYear}
-          allowDeselect={false}
-          checkIconPosition="right"
-        />
+        {!game && (
+          <>
+            <TextInput
+              label="Spieltag"
+              value={day}
+              onChange={(event) => setDay(event.currentTarget.value)}
+              error={
+                day === "0" && "Spieltag 0 ist reserviert für Saisontickets"
+              }
+              data-autofocus
+            />
+            <Select
+              label="Saison"
+              data={getSeasons().map((s) => {
+                return { label: s.label, value: s.value.toString() };
+              })}
+              value={year}
+              onChange={setYear}
+              allowDeselect={false}
+              checkIconPosition="right"
+            />
+          </>
+        )}
         <TextInput
           label="Gegner"
           value={opponent}
