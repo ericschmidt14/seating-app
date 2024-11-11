@@ -38,6 +38,31 @@ export default function GameDrawer({
     { label: "Vollauslastung", value: "2" },
   ];
 
+  const handleSubmit = () => {
+    fetch(`/api/game`, {
+      method: "POST",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({
+        day,
+        year,
+        opponent,
+        date: dayjs(date).format("YYYY-MM-DDT[00:00:00]"),
+        lounges: [
+          { id: 1, utilization: utilizationLounge0 },
+          { id: 2, utilization: utilizationLounge1 },
+        ],
+      }),
+    })
+      .then((res) => res.text())
+      .then(() => {
+        close();
+      })
+      .catch((error) => console.error(error));
+  };
+
   return (
     <Drawer
       opened={opened}
@@ -108,26 +133,7 @@ export default function GameDrawer({
             disabled={
               day.trim() === "" || day.trim() === "0" || opponent.trim() === ""
             }
-            onClick={() => {
-              fetch(`/api/game`, {
-                method: "POST",
-                headers: {
-                  Accept: "*/*",
-                  "Content-Type": "application/json; charset=UTF-8",
-                },
-                body: JSON.stringify({
-                  day,
-                  year,
-                  opponent,
-                  date: dayjs(date).format("YYYY-MM-DDT[00:00:00]"),
-                  lounges: [
-                    { id: 1, utilization: utilizationLounge0 },
-                    { id: 2, utilization: utilizationLounge1 },
-                  ],
-                }),
-              });
-              close();
-            }}
+            onClick={handleSubmit}
             leftSection={<IconDeviceFloppy size={16} />}
           >
             Speichern

@@ -48,16 +48,6 @@ export const getSeason = (year: number) => {
   };
 };
 
-export const getNextGame = (games: Game[]) => {
-  const now = new Date();
-
-  const upcomingGames = games
-    .filter((game) => new Date(game.date) > now)
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-
-  return upcomingGames.length > 0 ? upcomingGames[0].day.toString() : "0";
-};
-
 export const getUtilization = (game: Game, id: number) => {
   const u = game.lounges!.find((l) => l.id === id)?.utilization;
   return u ? u : "1";

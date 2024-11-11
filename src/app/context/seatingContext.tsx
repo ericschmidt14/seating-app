@@ -8,10 +8,11 @@ import {
   useEffect,
   useState,
 } from "react";
-import { Game, Seat, Table } from "../interfaces";
+import { App, Game, Seat, Table } from "../interfaces";
 import { getCurrentSeason } from "../utils";
 
 interface SeatingContextType {
+  loadData: () => void;
   season: number;
   setSeason: Dispatch<SetStateAction<number>>;
   games: Game[];
@@ -47,24 +48,29 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
   const [selectedSeats, setSelectedSeats] = useState<Seat[]>([]);
 
   useEffect(() => {
-    fetch("/api", {
+    loadData();
+  }, []);
+
+  useEffect(() => {
+    const game = games.find((g) => g.day === +selectedGame!)?.date;
+    loadData(game?.split("T")[0]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedGame]);
+
+  const loadData = (date?: string) => {
+    fetch(`/api/data${date ? `/${date}` : ""}`, {
       method: "GET",
       cache: "no-store",
     })
       .then((res) => res.json())
-      .then((res) => {
-        setGame(res.game);
+      .then((res: App) => {
+        setGame(res.game[0]);
         setSelectedGame(res.game[0].day.toString());
         setTables(res.tables);
         setGames(res.games);
       })
       .catch((error) => console.error(error));
-  }, []);
-
-  useEffect(() => {
-    // TODO: handle game select
-    console.log(selectedGame);
-  }, [selectedGame]);
+  };
 
   const handleSeatClick = (seat: Seat, scroll?: boolean) => {
     setSelectedSeats((prevSelected: Seat[]) => {
@@ -142,6 +148,7 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
   return (
     <SeatingContext.Provider
       value={{
+        loadData,
         season,
         setSeason,
         games,
