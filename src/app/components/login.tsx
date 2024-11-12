@@ -1,5 +1,5 @@
-import { Button, Paper, PasswordInput } from "@mantine/core";
-import { IconLock, IconLogin2 } from "@tabler/icons-react";
+import { Button, Paper, PinInput } from "@mantine/core";
+import { IconLogin2 } from "@tabler/icons-react";
 import Image from "next/image";
 import { useState } from "react";
 import { useUser } from "../context/userContext";
@@ -43,13 +43,11 @@ export default function Login() {
           </div>
         </div>
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
-          <PasswordInput
-            size="lg"
+          <PinInput
+            length={8}
+            mask
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            leftSectionPointerEvents="none"
-            leftSection={<IconLock size={16} />}
-            error={error}
+            onChange={(e) => setPassword(e)}
           />
           <Button
             type="submit"
