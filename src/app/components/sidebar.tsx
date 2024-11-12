@@ -4,7 +4,6 @@ import {
   Autocomplete,
   Button,
   Paper,
-  Switch,
   Tooltip,
 } from "@mantine/core";
 import {
@@ -19,11 +18,7 @@ import { getSelectedGameDate, getUniqueArray } from "../utils";
 import { useSeating } from "./../context/seatingContext";
 import SeatInfo from "./seatInfo";
 
-export default function Sidebar({
-  seasonTickets,
-}: {
-  seasonTickets?: boolean;
-}) {
+export default function Sidebar() {
   const {
     loadData,
     game,
@@ -150,7 +145,7 @@ export default function Sidebar({
                         tables.find((t) => t.id === s.tableId)?.name || ""
                       }
                       seatNumber={s.seatNumber}
-                      seasonTicket={seasonTickets || s.occupant?.seasonTicket}
+                      seasonTicket={s.occupant?.seasonTicket}
                     />
                     <ActionIcon.Group>
                       {(s.occupant?.company !== "" ||
@@ -239,7 +234,6 @@ export default function Sidebar({
                       handleInputChange(s.tableId!, s.seatNumber, "lastName", e)
                     }
                   />
-                  <Switch label="Saisonticket" className="col-span-2" />
                 </Paper>
               ))}
           </div>
