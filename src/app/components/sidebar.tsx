@@ -78,13 +78,29 @@ export default function Sidebar() {
   };
 
   const handleSubmit = () => {
-    const seatsToSubmit = selectedSeats.map((s) =>
-      s.occupant!.firstName.trim() ||
-      s.occupant!.lastName.trim() ||
-      s.occupant!.company.trim()
-        ? { ...s, occupant: { ...s.occupant, seasonTicket: false } }
-        : { ...s, occupant: null }
-    );
+    const seatsToSubmit = selectedSeats
+      .filter((s) => {
+        if (selectedGame === "0" || !s.occupant?.seasonTicket) {
+          return s;
+        }
+        return;
+      })
+      .map((s) =>
+        s.occupant!.firstName.trim() ||
+        s.occupant!.lastName.trim() ||
+        s.occupant!.company.trim()
+          ? {
+              ...s,
+              occupant: {
+                ...s.occupant,
+                seasonTicket:
+                  selectedGame === "0" || s.occupant?.seasonTicket
+                    ? true
+                    : false,
+              },
+            }
+          : { ...s, occupant: null }
+      );
 
     fetch(`/api/seat`, {
       method: "POST",
@@ -145,7 +161,9 @@ export default function Sidebar() {
                         tables.find((t) => t.id === s.tableId)?.name || ""
                       }
                       seatNumber={s.seatNumber}
-                      seasonTicket={s.occupant?.seasonTicket}
+                      seasonTicket={
+                        selectedGame === "0" || s.occupant?.seasonTicket
+                      }
                     />
                     <ActionIcon.Group>
                       {(s.occupant?.company !== "" ||
@@ -173,6 +191,9 @@ export default function Sidebar() {
                                     ""
                                   )
                               )
+                            }
+                            disabled={
+                              selectedGame !== "0" && s.occupant?.seasonTicket
                             }
                           >
                             <IconTrash size={16} />
@@ -210,6 +231,7 @@ export default function Sidebar() {
                       handleInputChange(s.tableId!, s.seatNumber, "company", e)
                     }
                     rightSection={<IconBuildingFactory2 size={16} />}
+                    disabled={selectedGame !== "0" && s.occupant?.seasonTicket}
                   />
                   <Autocomplete
                     size="xs"
@@ -224,6 +246,7 @@ export default function Sidebar() {
                         e
                       )
                     }
+                    disabled={selectedGame !== "0" && s.occupant?.seasonTicket}
                   />
                   <Autocomplete
                     size="xs"
@@ -233,6 +256,7 @@ export default function Sidebar() {
                     onChange={(e) =>
                       handleInputChange(s.tableId!, s.seatNumber, "lastName", e)
                     }
+                    disabled={selectedGame !== "0" && s.occupant?.seasonTicket}
                   />
                 </Paper>
               ))}

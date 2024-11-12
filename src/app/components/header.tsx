@@ -52,7 +52,10 @@ export default function Header({
             <Select
               data={games.map((g) => {
                 return {
-                  label: `Spieltag ${g.day} – ${g.opponent}`,
+                  label:
+                    g.day === 0
+                      ? g.opponent
+                      : `Spieltag ${g.day} – ${g.opponent}`,
                   value: g.day.toString(),
                 };
               })}
