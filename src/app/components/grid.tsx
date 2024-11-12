@@ -1,3 +1,4 @@
+"use client";
 import { ActionIcon, Slider } from "@mantine/core";
 import { IconZoomIn, IconZoomOut } from "@tabler/icons-react";
 import { useState } from "react";
@@ -13,7 +14,9 @@ export default function Grid() {
   const { tables, lounge } = useSeating();
   const [zoom, setZoom] = useState(zoomInit);
 
-  const selectedLounge = tables.filter((t) => t.loungeId === lounge)!;
+  const selectedLounge = tables.filter(
+    (t) => t.loungeId === lounge && t.capacity! > 0
+  )!;
 
   const handleZoomChange = (newZoom: number) => {
     const clampedZoom = Math.min(zoomMax, Math.max(zoomMin, newZoom));
