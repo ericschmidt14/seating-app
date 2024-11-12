@@ -129,18 +129,18 @@ export default function GameDrawer({
           checkIconPosition="right"
         />
         <Select
-          label="Kulmbacher Lounge"
-          data={utilizations}
-          value={utilizationLounge1}
-          onChange={setUtilizationLounge1}
-          allowDeselect={false}
-          checkIconPosition="right"
-        />
-        <Select
           label="Galerie"
           data={utilizations}
           value={utilizationLounge2}
           onChange={setUtilizationLounge2}
+          allowDeselect={false}
+          checkIconPosition="right"
+        />
+        <Select
+          label="Kulmbacher Lounge"
+          data={utilizations}
+          value={utilizationLounge1}
+          onChange={setUtilizationLounge1}
           allowDeselect={false}
           checkIconPosition="right"
         />
