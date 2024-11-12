@@ -58,6 +58,7 @@ export default function GameDrawer({
         lounges: [
           { id: 1, utilization: utilizationLounge0 },
           { id: 2, utilization: utilizationLounge1 },
+          { id: 3, utilization: utilizationLounge2 },
         ],
       }),
     })
