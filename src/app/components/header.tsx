@@ -34,7 +34,7 @@ export default function Header({
           <Image src="/logo.svg" width={48} height={48} alt="1. FCN Logo" />
           <div className="flex items-center gap-8">
             <p className="text-4xl">
-              CLUB<b>SEATING</b>
+              CLUB<b>SEAT</b>
             </p>
             {showNav && (
               <div className="flex gap-8">

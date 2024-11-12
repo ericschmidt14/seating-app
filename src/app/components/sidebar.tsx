@@ -1,11 +1,20 @@
 "use client";
-import { ActionIcon, Button, Paper, TextInput, Tooltip } from "@mantine/core";
+import {
+  ActionIcon,
+  Autocomplete,
+  Button,
+  Paper,
+  Tooltip,
+} from "@mantine/core";
 import {
   IconBuildingFactory2,
   IconDeselect,
   IconDeviceFloppy,
   IconTrash,
 } from "@tabler/icons-react";
+import { useEffect, useState } from "react";
+import { Occupant } from "../interfaces";
+import { getSelectedGameDate } from "../utils";
 import { useSeating } from "./../context/seatingContext";
 import SeatInfo from "./seatInfo";
 
@@ -14,8 +23,44 @@ export default function Sidebar({
 }: {
   seasonTickets?: boolean;
 }) {
-  const { game, tables, selectedSeats, setSelectedSeats, handleSeatClick } =
-    useSeating();
+  const {
+    loadData,
+    game,
+    games,
+    selectedGame,
+    tables,
+    selectedSeats,
+    setSelectedSeats,
+    handleSeatClick,
+  } = useSeating();
+  const [occupants, setOccupants] = useState<Occupant[]>([]);
+
+  useEffect(() => {
+    getOccupants();
+  }, []);
+
+  const getUniqueArray = <T,>(array: T[]): T[] =>
+    Array.from(new Set(array)).sort();
+  const data = {
+    companies: getUniqueArray(occupants.map((occupant) => occupant.company)),
+    firstNames: getUniqueArray(occupants.map((occupant) => occupant.firstName)),
+    lastNames: getUniqueArray(occupants.map((occupant) => occupant.lastName)),
+  };
+
+  const getOccupants = () => {
+    fetch(`/api/occupant`, {
+      method: "GET",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setOccupants(data);
+      })
+      .catch((error) => console.error(error));
+  };
 
   const handleInputChange = (
     tabledId: number,
@@ -43,35 +88,29 @@ export default function Sidebar({
       s.occupant!.firstName.trim() ||
       s.occupant!.lastName.trim() ||
       s.occupant!.company.trim()
-        ? { ...s, occupant: { ...s.occupant, seasonTicket: seasonTickets } }
+        ? { ...s, occupant: { ...s.occupant, seasonTicket: false } }
         : { ...s, occupant: null }
     );
 
-    console.log(
-      JSON.stringify(
+    fetch(`/api/seat`, {
+      method: "POST",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify(
         { year: game.year, day: game.day, seats: seatsToSubmit },
         null,
         2
-      )
-    );
-
-    // fetch(`/api/seat`, {
-    //   method: "POST",
-    //   headers: {
-    //     Accept: "*/*",
-    //     "Content-Type": "application/json; charset=UTF-8",
-    //   },
-    //   body: JSON.stringify(
-    //     { year: game.year, day: game.day, seats: seatsToSubmit },
-    //     null,
-    //     2
-    //   ),
-    // })
-    //   .then((res) => res.text())
-    //   .then(() => {
-    //     setSelectedSeats([]);
-    //   })
-    //   .catch((error) => console.error(error));
+      ),
+    })
+      .then((res) => res.text())
+      .then(() => {
+        setSelectedSeats([]);
+        loadData(getSelectedGameDate(games, selectedGame));
+        getOccupants();
+      })
+      .catch((error) => console.error(error));
   };
 
   return (
@@ -167,45 +206,38 @@ export default function Sidebar({
                       </Tooltip>
                     </ActionIcon.Group>
                   </div>
-                  <TextInput
+                  <Autocomplete
                     className="col-span-2"
                     size="xs"
                     placeholder="Firma"
+                    data={data.companies}
                     value={s.occupant?.company || ""}
                     onChange={(e) =>
-                      handleInputChange(
-                        s.tableId!,
-                        s.seatNumber,
-                        "company",
-                        e.target.value
-                      )
+                      handleInputChange(s.tableId!, s.seatNumber, "company", e)
                     }
                     rightSection={<IconBuildingFactory2 size={16} />}
                   />
-                  <TextInput
+                  <Autocomplete
                     size="xs"
                     placeholder="Vorname"
+                    data={data.firstNames}
                     value={s.occupant?.firstName || ""}
                     onChange={(e) =>
                       handleInputChange(
                         s.tableId!,
                         s.seatNumber,
                         "firstName",
-                        e.target.value
+                        e
                       )
                     }
                   />
-                  <TextInput
+                  <Autocomplete
                     size="xs"
                     placeholder="Nachname"
+                    data={data.lastNames}
                     value={s.occupant?.lastName || ""}
                     onChange={(e) =>
-                      handleInputChange(
-                        s.tableId!,
-                        s.seatNumber,
-                        "lastName",
-                        e.target.value
-                      )
+                      handleInputChange(s.tableId!, s.seatNumber, "lastName", e)
                     }
                   />
                 </Paper>

@@ -52,3 +52,11 @@ export const getUtilization = (game: Game, id: number) => {
   const u = game.lounges!.find((l) => l.id === id)?.utilization;
   return u ? u : "1";
 };
+
+export const getSelectedGameDate = (
+  games: Game[],
+  selectedGame: string | null
+) => {
+  const game = games.find((g) => g.day === +selectedGame!)?.date;
+  return game?.split("T")[0];
+};

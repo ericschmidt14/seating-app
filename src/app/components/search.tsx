@@ -48,7 +48,9 @@ export default function Search() {
               <div className="flex items-start gap-2">
                 <div className="w-8 flex flex-col items-center">
                   <IconDesk size={16} className="muted" />
-                  <p className="text-white">{t.id}</p>
+                  <p className="text-white">
+                    {tables.find((table) => t.id === table.id)?.name || ""}
+                  </p>
                 </div>
                 <div className="w-8 flex flex-col items-center">
                   <IconArmchair size={16} className="muted" />

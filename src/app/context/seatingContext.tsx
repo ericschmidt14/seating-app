@@ -9,10 +9,10 @@ import {
   useState,
 } from "react";
 import { App, Game, Seat, Table } from "../interfaces";
-import { getCurrentSeason } from "../utils";
+import { getCurrentSeason, getSelectedGameDate } from "../utils";
 
 interface SeatingContextType {
-  loadData: () => void;
+  loadData: (date?: string) => void;
   season: number;
   setSeason: Dispatch<SetStateAction<number>>;
   games: Game[];
@@ -52,8 +52,7 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    const game = games.find((g) => g.day === +selectedGame!)?.date;
-    loadData(game?.split("T")[0]);
+    loadData(getSelectedGameDate(games, selectedGame));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedGame]);
 
