@@ -4,6 +4,7 @@ import {
   Autocomplete,
   Button,
   Paper,
+  Switch,
   Tooltip,
 } from "@mantine/core";
 import {
@@ -14,7 +15,7 @@ import {
 } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { Occupant } from "../interfaces";
-import { getSelectedGameDate } from "../utils";
+import { getSelectedGameDate, getUniqueArray } from "../utils";
 import { useSeating } from "./../context/seatingContext";
 import SeatInfo from "./seatInfo";
 
@@ -39,8 +40,6 @@ export default function Sidebar({
     getOccupants();
   }, []);
 
-  const getUniqueArray = <T,>(array: T[]): T[] =>
-    Array.from(new Set(array)).sort();
   const data = {
     companies: getUniqueArray(occupants.map((occupant) => occupant.company)),
     firstNames: getUniqueArray(occupants.map((occupant) => occupant.firstName)),
@@ -240,6 +239,7 @@ export default function Sidebar({
                       handleInputChange(s.tableId!, s.seatNumber, "lastName", e)
                     }
                   />
+                  <Switch label="Saisonticket" className="col-span-2" />
                 </Paper>
               ))}
           </div>

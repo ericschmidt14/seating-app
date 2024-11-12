@@ -4,6 +4,9 @@ export const isAdminPage = (path: string) => {
   return path.includes("/admin");
 };
 
+export const getUniqueArray = <T>(array: T[]): T[] =>
+  Array.from(new Set(array)).sort();
+
 export const getSeasons = () => {
   const today = new Date();
   const currentYear = today.getFullYear();

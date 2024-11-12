@@ -11,7 +11,7 @@ import { useSeating } from "../context/seatingContext";
 import { Seat } from "../interfaces";
 
 export default function Search() {
-  const { tables, lounge, handleSeatClick, setSelectedSeats } = useSeating();
+  const { tables, setLounge, handleSeatClick, setSelectedSeats } = useSeating();
   const [query, setQuery] = useState("");
 
   const keywords = query.trim().split(/\s+/);
@@ -25,7 +25,6 @@ export default function Search() {
     );
 
   const data: SpotlightActionData[] = tables
-    .filter((t) => (lounge === 1 ? +t.id < 200 : +t.id >= 200))
     .filter((t) => t.seats !== null)
     .flatMap((t) =>
       t
@@ -35,15 +34,19 @@ export default function Search() {
             id: `${index}-${t.id}-${s.seatNumber}`,
             label: `${s.occupant?.firstName} ${s.occupant?.lastName}`,
             description: s.occupant?.company,
-            onClick: () =>
-              handleSeatClick(
-                {
-                  tableId: t.id,
-                  seatNumber: s.seatNumber,
-                  occupant: s.occupant,
-                },
-                true
-              ),
+            onClick: () => {
+              setLounge(t.loungeId);
+              setTimeout(() => {
+                handleSeatClick(
+                  {
+                    tableId: t.id,
+                    seatNumber: s.seatNumber,
+                    occupant: s.occupant,
+                  },
+                  true
+                );
+              }, 300);
+            },
             rightSection: (
               <div className="flex items-start gap-2">
                 <div className="w-8 flex flex-col items-center">
