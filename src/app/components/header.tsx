@@ -1,9 +1,11 @@
 "use client";
-import { Select } from "@mantine/core";
+import { Button, Select } from "@mantine/core";
+import { IconLogout } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSeating } from "../context/seatingContext";
+import { useUser } from "../context/userContext";
 import lounges from "../lounges.json";
 import Search from "./search";
 import Tab from "./tabs";
@@ -17,6 +19,7 @@ export default function Header({
 }) {
   const { games, selectedGame, setSelectedGame, lounge, setLounge } =
     useSeating();
+  const { user, handleLogout } = useUser();
 
   const nav = [
     { label: "Begegnungen", href: "/admin/games/" },
@@ -47,27 +50,39 @@ export default function Header({
             )}
           </div>
         </div>
-        {!hideTabs && (
-          <div className="flex gap-2">
-            <Select
-              data={games.map((g) => {
-                return {
-                  label:
-                    g.day === 0
-                      ? g.opponent
-                      : `Spieltag ${g.day} – ${g.opponent}`,
-                  value: g.day.toString(),
-                };
-              })}
-              value={selectedGame}
-              onChange={setSelectedGame}
-              withCheckIcon={false}
-              allowDeselect={false}
-              w={260}
-            />
-            <Search />
-          </div>
-        )}
+        <div className="flex gap-2">
+          {user && (
+            <Button
+              variant="light"
+              color="dark"
+              leftSection={<IconLogout size={16} />}
+              onClick={handleLogout}
+            >
+              Ausloggen
+            </Button>
+          )}
+          {!hideTabs && (
+            <>
+              <Select
+                data={games.map((g) => {
+                  return {
+                    label:
+                      g.day === 0
+                        ? g.opponent
+                        : `Spieltag ${g.day} – ${g.opponent}`,
+                    value: g.day.toString(),
+                  };
+                })}
+                value={selectedGame}
+                onChange={setSelectedGame}
+                withCheckIcon={false}
+                allowDeselect={false}
+                w={260}
+              />
+              <Search />
+            </>
+          )}
+        </div>
       </div>
       {!hideTabs && (
         <div className="flex gap-8 px-8">

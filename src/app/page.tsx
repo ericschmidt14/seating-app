@@ -1,10 +1,17 @@
 "use client";
 import Grid from "./components/grid";
 import Header from "./components/header";
+import Login from "./components/login";
 import { useSeating } from "./context/seatingContext";
+import { useUser } from "./context/userContext";
 
 export default function Home() {
   const { selectedSeats } = useSeating();
+  const { user } = useUser();
+
+  if (!user) {
+    return <Login />;
+  }
 
   return (
     <div
