@@ -52,7 +52,7 @@ export default function Login() {
           <Button
             type="submit"
             leftSection={<IconLogin2 size={16} />}
-            disabled={password.length < 1}
+            disabled={password.length !== 8}
           >
             Einloggen
           </Button>
