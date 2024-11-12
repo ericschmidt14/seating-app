@@ -8,6 +8,7 @@ export interface Game {
 
 export interface Lounge {
   id: number;
+  loungeId: number;
   name?: string;
   utilization: string;
   tables: Array<Table>;

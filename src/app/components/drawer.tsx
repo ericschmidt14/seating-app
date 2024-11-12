@@ -34,6 +34,9 @@ export default function GameDrawer({
   const [utilizationLounge1, setUtilizationLounge1] = useState<string | null>(
     game ? getUtilization(game, 2) : "1"
   );
+  const [utilizationLounge2, setUtilizationLounge2] = useState<string | null>(
+    game ? getUtilization(game, 3) : "1"
+  );
 
   const utilizations = [
     { label: "Teilauslastung", value: "1" },
@@ -130,6 +133,14 @@ export default function GameDrawer({
           data={utilizations}
           value={utilizationLounge1}
           onChange={setUtilizationLounge1}
+          allowDeselect={false}
+          checkIconPosition="right"
+        />
+        <Select
+          label="Galerie"
+          data={utilizations}
+          value={utilizationLounge2}
+          onChange={setUtilizationLounge2}
           allowDeselect={false}
           checkIconPosition="right"
         />

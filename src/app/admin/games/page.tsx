@@ -35,6 +35,7 @@ export default function Home() {
                     <Table.Th>Datum</Table.Th>
                     <Table.Th>Club Lounge</Table.Th>
                     <Table.Th>Kulmbacher Lounge</Table.Th>
+                    <Table.Th>Galerie</Table.Th>
                     <Table.Th></Table.Th>
                   </Table.Tr>
                 </Table.Thead>

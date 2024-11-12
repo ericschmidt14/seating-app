@@ -52,8 +52,8 @@ export const getSeason = (year: number) => {
 };
 
 export const getUtilization = (game: Game, id: number) => {
-  const u = game.lounges!.find((l) => l.id === id)?.utilization;
-  return u ? u : "1";
+  const u = game.lounges!.find((l) => l.loungeId === id)?.utilization;
+  return u ? u.toString() : "";
 };
 
 export const getSelectedGameDate = (

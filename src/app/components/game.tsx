@@ -22,6 +22,7 @@ export default function GameRow({ game }: { game: Game }) {
         </Table.Td>
         <Table.Td>{utilization[getUtilization(game, 1)]}</Table.Td>
         <Table.Td>{utilization[getUtilization(game, 2)]}</Table.Td>
+        <Table.Td>{utilization[getUtilization(game, 3)]}</Table.Td>
         <Table.Td className="text-right">
           <ActionIcon variant="light" onClick={open}>
             <IconPencil size={16} />
