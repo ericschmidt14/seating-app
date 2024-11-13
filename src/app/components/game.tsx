@@ -3,9 +3,9 @@ import { ActionIcon, Table } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconPencil } from "@tabler/icons-react";
 import { format } from "date-fns";
+import { utilization } from "../data/values";
 import { Game } from "../interfaces";
 import { getSeason, getUtilization } from "../utils";
-import { utilization } from "../values";
 import GameDrawer from "./drawer";
 
 export default function GameRow({ game }: { game: Game }) {

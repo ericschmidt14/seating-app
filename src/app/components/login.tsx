@@ -1,10 +1,11 @@
-import { Button, Paper, PinInput } from "@mantine/core";
-import { IconLogin2 } from "@tabler/icons-react";
-import Image from "next/image";
+import { Button, Paper, PasswordInput } from "@mantine/core";
+import { IconLock, IconLogin2 } from "@tabler/icons-react";
+import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useUser } from "../context/userContext";
+import Logo from "./logo";
 
-export default function Login() {
+export default function Login({ azure }: { azure?: boolean }) {
   const { handleLogin } = useUser();
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -34,29 +35,34 @@ export default function Login() {
         shadow="xl"
         className="w-[420px] relative z-50 p-8 flex flex-col items-center gap-8"
       >
-        <div className="flex items-center gap-2">
-          <Image src="/logo.svg" width={48} height={48} alt="1. FCN Logo" />
-          <div className="flex items-center gap-8">
-            <p className="text-4xl">
-              CLUB<b>SEAT</b>
-            </p>
-          </div>
-        </div>
-        <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
-          <PinInput
-            length={8}
-            mask
-            value={password}
-            onChange={(e) => setPassword(e)}
-          />
+        <Logo />
+        {azure ? (
           <Button
-            type="submit"
+            onClick={() => signIn("azure-ad")}
             leftSection={<IconLogin2 size={16} />}
-            disabled={password.length !== 8}
+            className="w-full"
           >
-            Einloggen
+            Anmelden
           </Button>
-        </form>
+        ) : (
+          <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
+            <PasswordInput
+              size="lg"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              leftSectionPointerEvents="none"
+              leftSection={<IconLock size={16} />}
+              error={error}
+            />
+            <Button
+              type="submit"
+              leftSection={<IconLogin2 size={16} />}
+              disabled={password.length < 1}
+            >
+              Anmelden
+            </Button>
+          </form>
+        )}
       </Paper>
     </div>
   );

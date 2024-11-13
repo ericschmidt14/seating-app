@@ -1,6 +1,7 @@
 "use client";
 import GameDrawer from "@/app/components/drawer";
 import GameRow from "@/app/components/game";
+import Login from "@/app/components/login";
 import { useSeating } from "@/app/context/seatingContext";
 import { Game } from "@/app/interfaces";
 import { Button, Paper, Table } from "@mantine/core";
@@ -8,11 +9,21 @@ import { DatesProvider } from "@mantine/dates";
 import { useDisclosure } from "@mantine/hooks";
 import { IconCirclePlus } from "@tabler/icons-react";
 import "dayjs/locale/de";
+import { useSession } from "next-auth/react";
 import Header from "../../components/header";
 
 export default function Home() {
+  const { data: session, status } = useSession();
   const { games } = useSeating();
   const [opened, { open, close }] = useDisclosure(false);
+
+  if (status === "loading") {
+    return <></>;
+  }
+
+  if (!session) {
+    return <Login azure />;
+  }
 
   return (
     <DatesProvider settings={{ locale: "de" }}>

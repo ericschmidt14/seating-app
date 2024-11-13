@@ -1,11 +1,22 @@
 "use client";
+import Login from "@/app/components/login";
 import Sidebar from "@/app/components/sidebar";
+import { useSession } from "next-auth/react";
 import Grid from "../../components/grid";
 import Header from "../../components/header";
 import { useSeating } from "../../context/seatingContext";
 
 export default function Home() {
+  const { data: session, status } = useSession();
   const { selectedSeats } = useSeating();
+
+  if (status === "loading") {
+    return <></>;
+  }
+
+  if (!session) {
+    return <Login azure />;
+  }
 
   return (
     <div

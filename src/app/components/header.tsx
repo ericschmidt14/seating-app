@@ -1,12 +1,14 @@
 "use client";
-import { Button, Select } from "@mantine/core";
+import { ActionIcon, Select } from "@mantine/core";
 import { IconLogout } from "@tabler/icons-react";
-import Image from "next/image";
+import { SessionProvider, signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSeating } from "../context/seatingContext";
 import { useUser } from "../context/userContext";
-import lounges from "../lounges.json";
+import lounges from "../data/lounges.json";
+import { isAdminPage } from "../utils";
+import Logo from "./logo";
 import Search from "./search";
 import Tab from "./tabs";
 
@@ -17,28 +19,17 @@ export default function Header({
   showNav?: boolean;
   hideTabs?: boolean;
 }) {
-  const { games, selectedGame, setSelectedGame, lounge, setLounge } =
-    useSeating();
-  const { user, handleLogout } = useUser();
-
   const nav = [
     { label: "Begegnungen", href: "/admin/games/" },
     { label: "Bestuhlung", href: "/admin/seats/" },
   ];
 
   return (
-    <header className="sticky top-0 z-50 flex flex-col gap-4 backdrop-blur-md bg-black/50 shadow-md shadow-black/20">
-      <div
-        className={`flex justify-between items-center px-8 ${
-          hideTabs ? "py-8" : "pt-8"
-        }`}
-      >
-        <div className="flex items-center gap-2">
-          <Image src="/logo.svg" width={48} height={48} alt="1. FCN Logo" />
+    <SessionProvider>
+      <header className="sticky top-0 z-50 flex flex-col backdrop-blur-md bg-black/50 shadow-md shadow-black/20">
+        <div className="flex justify-between items-center px-8 py-8">
           <div className="flex items-center gap-8">
-            <p className="text-4xl">
-              CLUB<b>SEAT</b>
-            </p>
+            <Logo transparent />
             {showNav && (
               <div className="flex gap-8">
                 {nav.map((n, index) => (
@@ -49,54 +40,69 @@ export default function Header({
               </div>
             )}
           </div>
+          <Actions hideTabs={hideTabs} />
         </div>
-        <div className="flex gap-2">
-          {user && (
-            <Button
-              variant="light"
-              color="dark"
-              leftSection={<IconLogout size={16} />}
-              onClick={handleLogout}
-            >
-              Ausloggen
-            </Button>
-          )}
-          {!hideTabs && (
-            <>
-              <Select
-                data={games.map((g) => {
-                  return {
-                    label:
-                      g.day === 0
-                        ? g.opponent
-                        : `Spieltag ${g.day} – ${g.opponent}`,
-                    value: g.day.toString(),
-                  };
-                })}
-                value={selectedGame}
-                onChange={setSelectedGame}
-                withCheckIcon={false}
-                allowDeselect={false}
-                w={260}
-              />
-              <Search />
-            </>
-          )}
-        </div>
-      </div>
+        {!hideTabs && <Tabs />}
+      </header>
+    </SessionProvider>
+  );
+}
+
+function Actions({ hideTabs }: { hideTabs?: boolean }) {
+  const { games, selectedGame, setSelectedGame } = useSeating();
+  const { handleLogout } = useUser();
+  const path = usePathname();
+
+  return (
+    <div className="flex gap-2">
+      <ActionIcon
+        aria-label="Ausloggen"
+        variant="light"
+        color="dark"
+        size="input-sm"
+        onClick={() => (isAdminPage(path) ? signOut() : handleLogout())}
+      >
+        <IconLogout size={16} />
+      </ActionIcon>
       {!hideTabs && (
-        <div className="flex gap-8 px-8">
-          {lounges.map((l) => (
-            <Tab
-              key={l.id}
-              label={l.name}
-              active={lounge === l.id}
-              onClick={() => setLounge(l.id)}
-            />
-          ))}
-        </div>
+        <>
+          <Select
+            data={games.map((g) => {
+              return {
+                label:
+                  g.day === 0
+                    ? g.opponent
+                    : `Spieltag ${g.day} – ${g.opponent}`,
+                value: g.day.toString(),
+              };
+            })}
+            value={selectedGame}
+            onChange={setSelectedGame}
+            withCheckIcon={false}
+            allowDeselect={false}
+            w={260}
+          />
+          <Search />
+        </>
       )}
-    </header>
+    </div>
+  );
+}
+
+function Tabs() {
+  const { lounge, setLounge } = useSeating();
+
+  return (
+    <div className="flex gap-8 px-8 -mt-2">
+      {lounges.map((l) => (
+        <Tab
+          key={l.id}
+          label={l.name}
+          active={lounge === l.id}
+          onClick={() => setLounge(l.id)}
+        />
+      ))}
+    </div>
   );
 }
 
