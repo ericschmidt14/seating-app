@@ -3,8 +3,6 @@ import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 import "@mantine/spotlight/styles.css";
 import type { Metadata } from "next";
-import { SeatingProvider } from "./context/seatingContext";
-import { UserProvider } from "./context/userContext";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -44,9 +42,7 @@ export default function RootLayout({
       </head>
       <body>
         <MantineProvider theme={theme} defaultColorScheme="dark">
-          <UserProvider>
-            <SeatingProvider>{children}</SeatingProvider>
-          </UserProvider>
+          {children}
         </MantineProvider>
       </body>
     </html>

@@ -5,9 +5,7 @@ import { SessionProvider, signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSeating } from "../context/seatingContext";
-import { useUser } from "../context/userContext";
 import lounges from "../data/lounges.json";
-import { isAdminPage } from "../utils";
 import Logo from "./logo";
 import Search from "./search";
 import Tab from "./tabs";
@@ -50,8 +48,6 @@ export default function Header({
 
 function Actions({ hideTabs }: { hideTabs?: boolean }) {
   const { games, selectedGame, setSelectedGame } = useSeating();
-  const { handleLogout } = useUser();
-  const path = usePathname();
 
   return (
     <div className="flex gap-2">
@@ -60,7 +56,7 @@ function Actions({ hideTabs }: { hideTabs?: boolean }) {
         variant="transparent"
         color="dark"
         size="input-sm"
-        onClick={() => (isAdminPage(path) ? signOut() : handleLogout())}
+        onClick={() => signOut()}
       >
         <IconLogout size={16} />
       </ActionIcon>

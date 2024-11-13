@@ -1,5 +1,6 @@
 import { NextAuthOptions } from "next-auth";
 import AzureADProvider from "next-auth/providers/azure-ad";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -11,6 +12,22 @@ export const authOptions: NextAuthOptions = {
         params: {
           scope: "openid profile email",
         },
+      },
+    }),
+    CredentialsProvider({
+      name: "Password Login",
+      credentials: {
+        password: { label: "Password", type: "password" },
+      },
+      authorize: async (
+        credentials
+      ): Promise<{ id: string; name: string } | null> => {
+        const correctPassword = process.env.NEXT_PUBLIC_PASSWORD;
+        if (credentials?.password === correctPassword) {
+          return { id: "1", name: "Authorized User" };
+        }
+
+        return null;
       },
     }),
   ],

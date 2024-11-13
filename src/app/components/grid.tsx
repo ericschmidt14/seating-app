@@ -16,9 +16,9 @@ export default function Grid() {
   const [zoom, setZoom] = useState(zoomInit);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem(LOCAL_STORAGE_ZOOM_KEY);
-    if (storedUser) {
-      setZoom(JSON.parse(storedUser));
+    const storedZoom = localStorage.getItem(LOCAL_STORAGE_ZOOM_KEY);
+    if (storedZoom) {
+      setZoom(JSON.parse(storedZoom));
     }
   }, []);
 

@@ -2,32 +2,33 @@ import { Button, Paper, PasswordInput } from "@mantine/core";
 import { IconBrandWindows, IconLock, IconLogin2 } from "@tabler/icons-react";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
-import { useState } from "react";
-import { useUser } from "../context/userContext";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { cn } from "../utils";
 import DotPattern from "./dots";
 import Logo from "./logo";
 
 export default function Login({ azure }: { azure?: boolean }) {
-  const { handleLogin } = useUser();
+  const searchParams = useSearchParams();
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    const errorFromQuery = searchParams.get("error");
+    if (errorFromQuery === "CredentialsSignin") {
+      setError("Invalid password. Please try again.");
+    } else if (errorFromQuery) {
+      setError("An unknown error occurred. Please try again.");
+    }
+  }, [searchParams]);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError("");
+    const result = await signIn("credentials", { redirect: false, password });
 
-    const response = await fetch("/api/login", {
-      method: "POST",
-      body: JSON.stringify({
-        password,
-      }),
-    });
-
-    if (response.status === 200) {
-      const data = await response.text();
-      handleLogin(data);
-    } else {
-      setError("Passwort falsch.");
+    if (result?.error) {
+      setError("Passwort falsch. Bitte erneut versuchen.");
     }
   };
 

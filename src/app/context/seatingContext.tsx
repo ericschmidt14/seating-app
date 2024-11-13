@@ -1,4 +1,5 @@
 "use client";
+import { useSession } from "next-auth/react";
 import {
   createContext,
   Dispatch,
@@ -34,6 +35,7 @@ interface SeatingContextType {
 const SeatingContext = createContext<SeatingContextType | undefined>(undefined);
 
 export const SeatingProvider = ({ children }: { children: ReactNode }) => {
+  const { data: session } = useSession();
   const [season, setSeason] = useState<number>(getCurrentSeason());
   const [game, setGame] = useState<Game>({
     year: getCurrentSeason(),
@@ -48,11 +50,15 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
   const [selectedSeats, setSelectedSeats] = useState<Seat[]>([]);
 
   useEffect(() => {
-    loadData();
-  }, []);
+    if (session) {
+      loadData();
+    }
+  }, [session]);
 
   useEffect(() => {
-    loadData(getSelectedGameDate(games, selectedGame));
+    if (session) {
+      loadData(getSelectedGameDate(games, selectedGame));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedGame]);
 
