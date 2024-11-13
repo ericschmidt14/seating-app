@@ -1,7 +1,8 @@
 "use client";
 import { ActionIcon, Slider } from "@mantine/core";
 import { IconZoomIn, IconZoomOut } from "@tabler/icons-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { LOCAL_STORAGE_ZOOM_KEY } from "../constants";
 import { useSeating } from "../context/seatingContext";
 import TableGroup from "./table";
 
@@ -14,13 +15,22 @@ export default function Grid() {
   const { tables, lounge } = useSeating();
   const [zoom, setZoom] = useState(zoomInit);
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem(LOCAL_STORAGE_ZOOM_KEY);
+    if (storedUser) {
+      setZoom(JSON.parse(storedUser));
+    }
+  }, []);
+
   const selectedLounge = tables.filter(
     (t) => t.loungeId === lounge && t.capacity! > 0
   )!;
 
   const handleZoomChange = (newZoom: number) => {
     const clampedZoom = Math.min(zoomMax, Math.max(zoomMin, newZoom));
-    setZoom(parseFloat(clampedZoom.toFixed(1)));
+    const fixedZoom = parseFloat(clampedZoom.toFixed(1));
+    localStorage.setItem(LOCAL_STORAGE_ZOOM_KEY, JSON.stringify(fixedZoom));
+    setZoom(fixedZoom);
   };
 
   return (

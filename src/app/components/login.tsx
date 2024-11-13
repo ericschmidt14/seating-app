@@ -37,7 +37,7 @@ export default function Login({ azure }: { azure?: boolean }) {
         radius="md"
         shadow="xl"
         bg="rgba(0,0,0,0.6)"
-        className="w-[420px] relative z-50 p-8 flex flex-col items-center gap-8 backdrop-blur-md shadow-2xl shadow-black"
+        className="w-[420px] relative z-50 p-8 flex flex-col items-center gap-8 backdrop-blur-md shadow-2xl shadow-black/60"
       >
         <Logo />
         {azure ? (

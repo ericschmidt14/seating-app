@@ -7,7 +7,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { LOCAL_STORAGE_KEY } from "../constants";
+import { LOCAL_STORAGE_LOGIN_KEY } from "../constants";
 
 interface UserContextType {
   user: string | null;
@@ -25,7 +25,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   const router = useRouter();
 
   useEffect(() => {
-    const storedUser = localStorage.getItem(LOCAL_STORAGE_KEY);
+    const storedUser = localStorage.getItem(LOCAL_STORAGE_LOGIN_KEY);
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
@@ -33,12 +33,12 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
 
   const handleLogin = (userData: string) => {
     setUser(userData);
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(userData));
+    localStorage.setItem(LOCAL_STORAGE_LOGIN_KEY, JSON.stringify(userData));
   };
 
   const handleLogout = () => {
     setUser(null);
-    localStorage.removeItem(LOCAL_STORAGE_KEY);
+    localStorage.removeItem(LOCAL_STORAGE_LOGIN_KEY);
     router.push("/");
   };
 
