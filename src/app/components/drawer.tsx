@@ -1,7 +1,11 @@
 "use client";
 import { Button, Drawer, Select, TextInput } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
-import { IconCalendar, IconDeviceFloppy } from "@tabler/icons-react";
+import {
+  IconAlertTriangle,
+  IconCalendar,
+  IconDeviceFloppy,
+} from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { useSeating } from "../context/seatingContext";
@@ -42,6 +46,13 @@ export default function GameDrawer({
     { label: "Teilauslastung", value: "1" },
     { label: "Vollauslastung", value: "2" },
   ];
+
+  const warning = (
+    <div className="flex gap-1">
+      <IconAlertTriangle size={16} />
+      <p>Kann nachträglich nicht geändert werden.</p>
+    </div>
+  );
 
   const handleSubmit = () => {
     fetch(`/api/game`, {
@@ -90,15 +101,18 @@ export default function GameDrawer({
           <>
             <TextInput
               label="Spieltag"
+              description={warning}
               value={day}
               onChange={(event) => setDay(event.currentTarget.value)}
               error={
-                day === "0" && "Spieltag 0 ist reserviert für Saisontickets"
+                day.trim() === "0" &&
+                "Spieltag 0 ist reserviert für Saisontickets"
               }
               data-autofocus
             />
             <Select
               label="Saison"
+              description={warning}
               data={getSeasons().map((s) => {
                 return { label: s.label, value: s.value.toString() };
               })}

@@ -24,7 +24,7 @@ export default function GameRow({ game }: { game: Game }) {
         <Table.Td>{utilization[getUtilization(game, 3)]}</Table.Td>
         <Table.Td>{utilization[getUtilization(game, 2)]}</Table.Td>
         <Table.Td className="text-right">
-          <ActionIcon variant="light" onClick={open}>
+          <ActionIcon variant="light" onClick={open} disabled={game.day === 0}>
             <IconPencil size={16} />
           </ActionIcon>
         </Table.Td>

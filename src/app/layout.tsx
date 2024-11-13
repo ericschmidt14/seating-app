@@ -9,7 +9,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "ClubSeating",
-  description: "",
+  description: "VIP Seating App – 1. FC Nürnberg",
 };
 
 const theme = createTheme({
