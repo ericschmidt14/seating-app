@@ -35,6 +35,7 @@ export default function Sidebar() {
     getOccupants();
   }, []);
 
+  const SIDEBAR_WIDTH = "360px";
   const data = {
     companies: getUniqueArray(occupants.map((occupant) => occupant.company)),
     firstNames: getUniqueArray(occupants.map((occupant) => occupant.firstName)),
@@ -125,14 +126,14 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`fixed top-0 right-0 z-50 h-screen overflow-y-scroll flex flex-col gap-4 backdrop-blur-md bg-black/60 shadow-2xl shadow-black transition-all duration-300 ${
+      className={`fixed top-0 right-0 z-50 h-screen overflow-y-scroll flex flex-col gap-4 backdrop-blur-md bg-black/80 shadow-2xl shadow-black transition-all duration-300 ${
         selectedSeats.length > 0 && "px-8"
       } py-8`}
       style={{
         transform: `translateX(${
-          selectedSeats.length === 0 ? "400px" : "0px"
+          selectedSeats.length === 0 ? SIDEBAR_WIDTH : "0px"
         })`,
-        width: selectedSeats.length === 0 ? "0px" : "400px",
+        width: selectedSeats.length === 0 ? "0px" : SIDEBAR_WIDTH,
       }}
     >
       {selectedSeats.length > 0 && (
