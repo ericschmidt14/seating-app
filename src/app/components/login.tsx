@@ -1,8 +1,11 @@
 import { Button, Paper, PasswordInput } from "@mantine/core";
 import { IconLock, IconLogin2 } from "@tabler/icons-react";
 import { signIn } from "next-auth/react";
+import Image from "next/image";
 import { useState } from "react";
 import { useUser } from "../context/userContext";
+import { cn } from "../utils";
+import DotPattern from "./dots";
 import Logo from "./logo";
 
 export default function Login({ azure }: { azure?: boolean }) {
@@ -33,7 +36,8 @@ export default function Login({ azure }: { azure?: boolean }) {
       <Paper
         radius="md"
         shadow="xl"
-        className="w-[420px] relative z-50 p-8 flex flex-col items-center gap-8"
+        bg="rgba(0,0,0,0.6)"
+        className="w-[420px] relative z-50 p-8 flex flex-col items-center gap-8 backdrop-blur-md shadow-2xl shadow-black"
       >
         <Logo />
         {azure ? (
@@ -54,16 +58,24 @@ export default function Login({ azure }: { azure?: boolean }) {
               leftSection={<IconLock size={16} />}
               error={error}
             />
-            <Button
-              type="submit"
-              leftSection={<IconLogin2 size={16} />}
-              disabled={password.length < 1}
-            >
+            <Button type="submit" leftSection={<IconLogin2 size={16} />}>
               Anmelden
             </Button>
           </form>
         )}
+        <a href="https://como-solution.de" target="_blank">
+          <p className="text-xs flex items-center gap-1 opacity-50">
+            Ein Produkt der
+            <Image src="/como.svg" width={20} height={20} alt="CoMo Logo" />
+            CoMo Solution GmbH
+          </p>
+        </a>
       </Paper>
+      <DotPattern
+        className={cn(
+          "[mask-image:radial-gradient(640px_circle_at_center,white,transparent)]"
+        )}
+      />
     </div>
   );
 }

@@ -1,4 +1,10 @@
+import clsx, { ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 import { Game } from "./interfaces";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
 
 export const isAdminPage = (path: string) => {
   return path.includes("/admin");
