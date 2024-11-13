@@ -12,6 +12,11 @@
   src: url(/fonts/glober-extrabold.woff) format("woff2");
 }
 
+@font-face {
+  font-family: "Knile SemiBold Italic";
+  src: url(/fonts/knile-semibolditalic.woff) format("woff2");
+}
+
 :root {
   --foreground: var(--mantine-color-white);
   --background: var(--mantine-color-black);
@@ -23,6 +28,11 @@ h2,
 h4,
 b {
   font-family: "Glober ExtraBold";
+}
+
+i {
+  font-style: normal;
+  font-family: "Knile SemiBold Italic";
 }
 
 body {

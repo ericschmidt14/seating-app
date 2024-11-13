@@ -8,7 +8,7 @@ import { UserProvider } from "./context/userContext";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Club Seating App",
+  title: "ClubSeating",
   description: "",
 };
 
