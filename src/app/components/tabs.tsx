@@ -10,8 +10,8 @@ export default function Tab({
   return (
     <div
       className={`py-2 cursor-pointer ${
-        active ? "text-white/100" : "text-white/30"
-      } hover:text-white/100 transition-all`}
+        active ? "text-white" : "link"
+      } transition-all`}
       style={{
         borderBottom: active ? "1px solid white" : "",
         fontSize:
