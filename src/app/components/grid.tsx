@@ -68,7 +68,7 @@ export default function Grid() {
           </ActionIcon>
         </ActionIcon.Group>
         <Slider
-          color="yellow"
+          color="dark"
           w={120}
           label={null}
           value={zoom}

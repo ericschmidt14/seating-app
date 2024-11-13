@@ -73,6 +73,7 @@ export default function Search() {
   return (
     <>
       <Button
+        color="dark"
         onClick={() => {
           setSelectedSeats([]);
           spotlight.open();
