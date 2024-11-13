@@ -26,7 +26,7 @@ export default function Header({
 
   return (
     <SessionProvider>
-      <header className="sticky top-0 z-50 flex flex-col backdrop-blur-md bg-black/50 shadow-md shadow-black/20">
+      <header className="sticky top-0 z-50 flex flex-col backdrop-blur-md bg-black/60 shadow-md shadow-black/20">
         <div className="flex justify-between items-center px-8 py-8">
           <div className="flex items-center gap-8">
             <Logo transparent />
@@ -57,7 +57,7 @@ function Actions({ hideTabs }: { hideTabs?: boolean }) {
     <div className="flex gap-2">
       <ActionIcon
         aria-label="Ausloggen"
-        variant="light"
+        variant="transparent"
         color="dark"
         size="input-sm"
         onClick={() => (isAdminPage(path) ? signOut() : handleLogout())}

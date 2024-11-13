@@ -1,5 +1,5 @@
 import { Button, Paper, PasswordInput } from "@mantine/core";
-import { IconLock, IconLogin2 } from "@tabler/icons-react";
+import { IconBrandWindows, IconLock, IconLogin2 } from "@tabler/icons-react";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 import { useState } from "react";
@@ -43,7 +43,7 @@ export default function Login({ azure }: { azure?: boolean }) {
         {azure ? (
           <Button
             onClick={() => signIn("azure-ad")}
-            leftSection={<IconLogin2 size={16} />}
+            leftSection={<IconBrandWindows size={16} />}
             className="w-full"
           >
             Anmelden
