@@ -1,6 +1,6 @@
 import clsx, { ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { Game } from "./interfaces";
+import { Game, Table } from "./interfaces";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -69,3 +69,25 @@ export const getSelectedGameDate = (
   const game = games.find((g) => g.day === +selectedGame!)?.date;
   return game?.split("T")[0];
 };
+
+export function calculateLoungeUtilization(
+  tables: Table[],
+  loungeId: number
+): { percentage: number; maxCapacity: number; occupiedSeats: number } {
+  const loungeTables = tables.filter((t) => t.loungeId === loungeId);
+
+  const maxCapacity = loungeTables.reduce(
+    (sum, t) => sum + (t.capacity || 0),
+    0
+  );
+
+  const occupiedSeats = loungeTables.reduce((sum, t) => {
+    const occupied = t.seats?.filter((s) => s.occupant != null).length || 0;
+    return sum + occupied;
+  }, 0);
+
+  const p = maxCapacity > 0 ? (occupiedSeats / maxCapacity) * 100 : 0;
+  const percentage = parseFloat(p.toFixed(1));
+
+  return { percentage, maxCapacity, occupiedSeats };
+}

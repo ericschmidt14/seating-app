@@ -1,11 +1,12 @@
 "use client";
-import { ActionIcon, Select } from "@mantine/core";
-import { IconLogout } from "@tabler/icons-react";
+import { ActionIcon, Select, Tooltip } from "@mantine/core";
+import { IconArmchair, IconLogout } from "@tabler/icons-react";
 import { SessionProvider, signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSeating } from "../context/seatingContext";
 import lounges from "../data/lounges.json";
+import { calculateLoungeUtilization } from "../utils";
 import Logo from "./logo";
 import Search from "./search";
 import Tab from "./tabs";
@@ -86,18 +87,39 @@ function Actions({ hideTabs }: { hideTabs?: boolean }) {
 }
 
 function Tabs() {
-  const { lounge, setLounge } = useSeating();
+  const { tables, lounge, setLounge } = useSeating();
+  const stats = calculateLoungeUtilization(tables, lounge);
 
   return (
-    <div className="flex gap-8 px-8 -mt-2">
-      {lounges.map((l) => (
-        <Tab
-          key={l.id}
-          label={l.name}
-          active={lounge === l.id}
-          onClick={() => setLounge(l.id)}
-        />
-      ))}
+    <div className="flex justify-between -mt-2 px-8 bg-black/10">
+      <div className="flex gap-8">
+        {lounges.map((l) => (
+          <Tab
+            key={l.id}
+            label={l.name}
+            active={lounge === l.id}
+            onClick={() => setLounge(l.id)}
+          />
+        ))}
+      </div>
+      <Tooltip
+        label={`Auslastung: ${stats.percentage}%`}
+        color="dark"
+        position="left"
+        withArrow
+      >
+        <div className="flex items-center gap-2 py-2">
+          <IconArmchair size={16} />
+          <p
+            style={{
+              fontSize:
+                "var(--input-fz, var(--input-fz, var(--mantine-font-size-sm)))",
+            }}
+          >
+            {stats.occupiedSeats} von {stats.maxCapacity}
+          </p>
+        </div>
+      </Tooltip>
     </div>
   );
 }
