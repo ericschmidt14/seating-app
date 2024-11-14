@@ -41,16 +41,8 @@ export default function Login({ azure }: { azure?: boolean }) {
         className="w-[420px] relative z-50 p-8 flex flex-col items-center gap-8 backdrop-blur-md shadow-2xl shadow-black/60"
       >
         <Logo />
-        {azure ? (
-          <Button
-            onClick={() => signIn("azure-ad")}
-            leftSection={<IconBrandWindows size={16} />}
-            className="w-full"
-          >
-            Anmelden
-          </Button>
-        ) : (
-          <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
+        {!azure && (
+          <form onSubmit={handleSubmit} className="w-full flex flex-col gap-2">
             <PasswordInput
               size="lg"
               value={password}
@@ -64,6 +56,14 @@ export default function Login({ azure }: { azure?: boolean }) {
             </Button>
           </form>
         )}
+        <Button
+          color={azure ? "red" : "dark"}
+          onClick={() => signIn("azure-ad")}
+          leftSection={<IconBrandWindows size={16} />}
+          className="w-full"
+        >
+          Mit Azure Account anmelden
+        </Button>
         <a href="https://como-solution.de" target="_blank">
           <p className="text-xs flex items-center gap-1 opacity-50">
             Ein Produkt der
