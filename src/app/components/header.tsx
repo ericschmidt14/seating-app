@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSeating } from "../context/seatingContext";
 import lounges from "../data/lounges.json";
-import { calculateLoungeUtilization } from "../utils";
+import { getLoungeStats, getOverallStats } from "../utils";
 import Logo from "./logo";
 import Search from "./search";
 import Tab from "./tabs";
@@ -88,7 +88,8 @@ function Actions({ hideTabs }: { hideTabs?: boolean }) {
 
 function Tabs() {
   const { tables, lounge, setLounge } = useSeating();
-  const stats = calculateLoungeUtilization(tables, lounge);
+  const statsLounge = getLoungeStats(tables, lounge);
+  const statsOverall = getOverallStats(tables);
 
   return (
     <div className="flex justify-between -mt-2 px-8 bg-black/10">
@@ -103,12 +104,12 @@ function Tabs() {
         ))}
       </div>
       <Tooltip
-        label={`Auslastung: ${stats.percentage}%`}
+        label={`Auslastung: ${statsLounge.percentage}%`}
         color="dark"
         position="left"
         withArrow
       >
-        <div className="flex items-center gap-2 py-2">
+        <div className="flex items-center gap-2 py-2 cursor-default">
           <IconArmchair size={16} />
           <p
             style={{
@@ -116,7 +117,16 @@ function Tabs() {
                 "var(--input-fz, var(--input-fz, var(--mantine-font-size-sm)))",
             }}
           >
-            {stats.occupiedSeats} von {stats.maxCapacity}
+            {statsLounge.occupiedSeats} / {statsLounge.maxCapacity}
+          </p>
+          <p
+            className="muted"
+            style={{
+              fontSize:
+                "var(--input-fz, var(--input-fz, var(--mantine-font-size-xs)))",
+            }}
+          >
+            {statsOverall.occupiedSeats} / {statsOverall.maxCapacity}
           </p>
         </div>
       </Tooltip>

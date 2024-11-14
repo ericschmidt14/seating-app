@@ -70,10 +70,10 @@ export const getSelectedGameDate = (
   return game?.split("T")[0];
 };
 
-export function calculateLoungeUtilization(
+export const getLoungeStats = (
   tables: Table[],
   loungeId: number
-): { percentage: number; maxCapacity: number; occupiedSeats: number } {
+): { percentage: number; maxCapacity: number; occupiedSeats: number } => {
   const loungeTables = tables.filter((t) => t.loungeId === loungeId);
 
   const maxCapacity = loungeTables.reduce(
@@ -90,4 +90,24 @@ export function calculateLoungeUtilization(
   const percentage = parseFloat(p.toFixed(1));
 
   return { percentage, maxCapacity, occupiedSeats };
-}
+};
+
+export const getOverallStats = (
+  tables: Table[]
+): { percentage: number; maxCapacity: number; occupiedSeats: number } => {
+  const maxCapacity = tables.reduce(
+    (sum, table) => sum + (table.capacity || 0),
+    0
+  );
+
+  const occupiedSeats = tables.reduce((sum, table) => {
+    const occupied =
+      table.seats?.filter((seat) => seat.occupant != null).length || 0;
+    return sum + occupied;
+  }, 0);
+
+  const p = maxCapacity > 0 ? (occupiedSeats / maxCapacity) * 100 : 0;
+  const percentage = parseFloat(p.toFixed(1));
+
+  return { percentage, maxCapacity, occupiedSeats };
+};
