@@ -133,7 +133,7 @@ export default function Sidebar() {
         transform: `translateX(${
           selectedSeats.length === 0 ? SIDEBAR_WIDTH : "0px"
         })`,
-        width: selectedSeats.length === 0 ? "0px" : SIDEBAR_WIDTH,
+        width: SIDEBAR_WIDTH,
       }}
     >
       {selectedSeats.length > 0 && (

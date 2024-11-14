@@ -16,9 +16,11 @@ export default function Login({ azure }: { azure?: boolean }) {
   useEffect(() => {
     const errorFromQuery = searchParams.get("error");
     if (errorFromQuery === "CredentialsSignin") {
-      setError("Invalid password. Please try again.");
+      setError("Passwort falsch. Bitte erneut versuchen.");
     } else if (errorFromQuery) {
-      setError("An unknown error occurred. Please try again.");
+      setError(
+        "Ein unbekannter Fehler ist aufgetreten. Bitte erneut versuchen."
+      );
     }
   }, [searchParams]);
 
