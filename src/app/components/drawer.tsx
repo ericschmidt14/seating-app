@@ -67,9 +67,9 @@ export default function GameDrawer({
         opponent,
         date: dayjs(date).format("YYYY-MM-DDT[00:00:00]"),
         lounges: [
-          { id: 1, utilization: utilizationLounge0 },
-          { id: 2, utilization: utilizationLounge1 },
-          { id: 3, utilization: utilizationLounge2 },
+          { loungeId: 1, utilization: utilizationLounge0 },
+          { loungeId: 2, utilization: utilizationLounge1 },
+          { loungeId: 3, utilization: utilizationLounge2 },
         ],
       }),
     })
