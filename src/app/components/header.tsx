@@ -104,7 +104,7 @@ function Tabs() {
         ))}
       </div>
       <Tooltip
-        label={`Auslastung: ${statsLounge.percentage}%`}
+        label={`Auslastung: ${statsOverall.percentage}%`}
         color="dark"
         position="left"
         withArrow
