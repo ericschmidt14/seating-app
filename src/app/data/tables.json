@@ -452,7 +452,7 @@
   },
   {
     "id": 42,
-    "name": "110",
+    "name": "500",
     "loungeId": 1,
     "capacity": 0,
     "capacityFull": 8,
@@ -463,7 +463,7 @@
   },
   {
     "id": 43,
-    "name": "111",
+    "name": "501",
     "loungeId": 1,
     "capacity": 0,
     "capacityFull": 8,
@@ -474,7 +474,7 @@
   },
   {
     "id": 44,
-    "name": "122",
+    "name": "502",
     "loungeId": 1,
     "capacity": 0,
     "capacityFull": 8,
@@ -485,7 +485,7 @@
   },
   {
     "id": 45,
-    "name": "123",
+    "name": "503",
     "loungeId": 1,
     "capacity": 0,
     "capacityFull": 8,
