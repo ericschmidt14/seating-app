@@ -97,32 +97,31 @@ export default function GameDrawer({
     >
       <div className="flex flex-col gap-4">
         <h2 className="text-2xl">Spiel {game ? "bearbeiten" : "hinzufügen"}</h2>
-        {!game && (
-          <>
-            <TextInput
-              label="Spieltag"
-              description={warning}
-              value={day}
-              onChange={(event) => setDay(event.currentTarget.value)}
-              error={
-                day.trim() === "0" &&
-                "Spieltag 0 ist reserviert für Saisontickets"
-              }
-              data-autofocus
-            />
-            <Select
-              label="Saison"
-              description={warning}
-              data={getSeasons().map((s) => {
-                return { label: s.label, value: s.value.toString() };
-              })}
-              value={year}
-              onChange={setYear}
-              allowDeselect={false}
-              checkIconPosition="right"
-            />
-          </>
-        )}
+
+        <TextInput
+          label="Spieltag"
+          description={warning}
+          value={day}
+          onChange={(event) => setDay(event.currentTarget.value)}
+          error={
+            day.trim() === "0" && "Spieltag 0 ist reserviert für Saisontickets"
+          }
+          disabled={game !== undefined}
+          data-autofocus
+        />
+        <Select
+          label="Saison"
+          description={warning}
+          data={getSeasons().map((s) => {
+            return { label: s.label, value: s.value.toString() };
+          })}
+          value={year}
+          onChange={setYear}
+          disabled={game !== undefined}
+          allowDeselect={false}
+          checkIconPosition="right"
+        />
+
         <TextInput
           label="Gegner"
           value={opponent}
