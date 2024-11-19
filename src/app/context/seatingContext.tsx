@@ -9,6 +9,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { LOCAL_STORAGE_DATA_KEY } from "../constants";
 import { App, Game, Seat, Table } from "../interfaces";
 import { getCurrentSeason, getSelectedGameDate } from "../utils";
 
@@ -53,6 +54,7 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
     if (session) {
       loadData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
 
   useEffect(() => {
@@ -69,12 +71,26 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
     })
       .then((res) => res.json())
       .then((res: App) => {
-        setGame(res.game[0]);
-        setSelectedGame(res.game[0].day.toString());
-        setTables(res.tables);
-        setGames(res.games.sort((a, b) => a.day - b.day));
+        setData(res);
+        if (!date) {
+          localStorage.setItem(LOCAL_STORAGE_DATA_KEY, JSON.stringify(res));
+        }
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error("Failed to fetch data", error);
+        const storedData = localStorage.getItem(LOCAL_STORAGE_DATA_KEY);
+        if (storedData) {
+          const parsedData: App = JSON.parse(storedData);
+          setData(parsedData);
+        }
+      });
+  };
+
+  const setData = (data: App) => {
+    setGame(data.game[0]);
+    setSelectedGame(data.game[0].day.toString());
+    setTables(data.tables);
+    setGames(data.games.sort((a, b) => a.day - b.day));
   };
 
   const handleSeatClick = (seat: Seat, scroll?: boolean) => {
