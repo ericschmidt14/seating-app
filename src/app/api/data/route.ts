@@ -1,10 +1,9 @@
 import { authOptions } from "@/app/auth";
 import { FCN_WEB_API } from "@/app/constants";
-import { NextApiRequest } from "next";
 import { getServerSession } from "next-auth";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextApiRequest) {
+export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions);
 
   if (!session) {
