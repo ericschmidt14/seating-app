@@ -36,6 +36,7 @@ export interface Occupant {
   firstName: string;
   lastName: string;
   company: string;
+  info: string;
   seasonTicket?: boolean;
 }
 

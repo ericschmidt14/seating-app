@@ -106,7 +106,7 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
       } else {
         const occupant = seat.occupant
           ? seat.occupant
-          : { firstName: "", lastName: "", company: "" };
+          : { firstName: "", lastName: "", company: "", info: "" };
         seat.occupant = occupant;
         return [...prevSelected, seat];
       }
@@ -150,7 +150,7 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
             tableId,
             occupant: occupiedSeat
               ? occupiedSeat.occupant
-              : { firstName: "", lastName: "", company: "" },
+              : { firstName: "", lastName: "", company: "", info: "" },
           };
         });
         return [

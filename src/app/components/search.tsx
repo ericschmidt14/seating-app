@@ -32,8 +32,10 @@ export default function Search() {
         .map((s, index) => {
           return {
             id: `${index}-${t.id}-${s.seatNumber}`,
-            label: `${s.occupant?.firstName} ${s.occupant?.lastName}`,
-            description: s.occupant?.company,
+            label: s.occupant?.company,
+            description: `${s.occupant?.firstName} ${s.occupant?.lastName}${
+              s.occupant?.info && ` (${s.occupant?.info})`
+            }`,
             onClick: () => {
               setLounge(t.loungeId);
               setTimeout(() => {

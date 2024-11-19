@@ -4,12 +4,14 @@ import {
   Autocomplete,
   Button,
   Paper,
+  TextInput,
   Tooltip,
 } from "@mantine/core";
 import {
   IconBuildingFactory2,
   IconDeselect,
   IconDeviceFloppy,
+  IconNote,
   IconTrash,
 } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
@@ -60,7 +62,7 @@ export default function Sidebar() {
   const handleInputChange = (
     tabledId: number,
     seatId: number,
-    field: "firstName" | "lastName" | "company",
+    field: "firstName" | "lastName" | "company" | "info",
     value: string
   ) => {
     setSelectedSeats((prev) =>
@@ -68,7 +70,7 @@ export default function Sidebar() {
         if (seat.tableId === tabledId && seat.seatNumber === seatId) {
           const occupant = seat.occupant
             ? seat.occupant
-            : { firstName: "", lastName: "", company: "" };
+            : { firstName: "", lastName: "", company: "", info: "" };
           occupant[field] = value;
           return { ...seat, occupant };
         } else {
@@ -188,7 +190,8 @@ export default function Sidebar() {
                                     value as
                                       | "firstName"
                                       | "lastName"
-                                      | "company",
+                                      | "company"
+                                      | "info",
                                     ""
                                   )
                               )
@@ -223,18 +226,6 @@ export default function Sidebar() {
                     </ActionIcon.Group>
                   </div>
                   <Autocomplete
-                    className="col-span-2"
-                    size="xs"
-                    placeholder="Firma"
-                    data={data.companies}
-                    value={s.occupant?.company || ""}
-                    onChange={(e) =>
-                      handleInputChange(s.tableId!, s.seatNumber, "company", e)
-                    }
-                    rightSection={<IconBuildingFactory2 size={16} />}
-                    disabled={selectedGame !== "0" && s.occupant?.seasonTicket}
-                  />
-                  <Autocomplete
                     size="xs"
                     placeholder="Vorname"
                     data={data.firstNames}
@@ -258,6 +249,33 @@ export default function Sidebar() {
                       handleInputChange(s.tableId!, s.seatNumber, "lastName", e)
                     }
                     disabled={selectedGame !== "0" && s.occupant?.seasonTicket}
+                  />
+                  <Autocomplete
+                    className="col-span-2"
+                    size="xs"
+                    placeholder="Firma"
+                    data={data.companies}
+                    value={s.occupant?.company || ""}
+                    onChange={(e) =>
+                      handleInputChange(s.tableId!, s.seatNumber, "company", e)
+                    }
+                    rightSection={<IconBuildingFactory2 size={16} />}
+                    disabled={selectedGame !== "0" && s.occupant?.seasonTicket}
+                  />
+                  <TextInput
+                    className="col-span-2"
+                    size="xs"
+                    placeholder="Kommentar"
+                    value={s.occupant?.info || ""}
+                    onChange={(e) =>
+                      handleInputChange(
+                        s.tableId!,
+                        s.seatNumber,
+                        "info",
+                        e.target.value
+                      )
+                    }
+                    rightSection={<IconNote size={16} />}
                   />
                 </Paper>
               ))}
