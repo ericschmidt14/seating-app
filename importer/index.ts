@@ -75,7 +75,7 @@ function transformExcelToJson(
         tableId: tableId,
         seatNumber: tableSeatMap[tableId],
         occupant: {
-          company: Company,
+          company: Company.trim(),
           firstName: "",
           lastName: "",
           seasonTicket: false,
@@ -87,7 +87,6 @@ function transformExcelToJson(
   return result;
 }
 
-// Example usage
 const excelFilePath = "./importer/data.xlsx";
 const tablesFilePath = "./importer/tables.json";
 const outputFilePath = "./importer/dist/output.json";
