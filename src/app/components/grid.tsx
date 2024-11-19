@@ -4,6 +4,7 @@ import { IconZoomIn, IconZoomOut } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { LOCAL_STORAGE_ZOOM_KEY } from "../constants";
 import { useSeating } from "../context/seatingContext";
+import Pitch from "./pitch";
 import TableGroup from "./table";
 
 export default function Grid() {
@@ -43,6 +44,7 @@ export default function Grid() {
           minWidth: lounge === 1 ? "200%" : "300%",
         }}
       >
+        <Pitch />
         {selectedLounge.map((t, index) => (
           <TableGroup
             key={index}

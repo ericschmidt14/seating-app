@@ -23,6 +23,7 @@ export default function TableGroup({
 }) {
   const path = usePathname();
   const { selectedSeats, handleTableClick } = useSeating();
+  const OffsetY = 120;
   const tableWidth = 200;
   const tableHeight = 140;
 
@@ -40,7 +41,11 @@ export default function TableGroup({
     <div
       id={`table-${id}`}
       className={`absolute flex items-center gap-2 ${right && "justify-end"}`}
-      style={{ top: tableHeight * y, left: tableWidth * x, width: tableWidth }}
+      style={{
+        top: tableHeight * y + OffsetY,
+        left: tableWidth * x,
+        width: tableWidth,
+      }}
     >
       {right && capacity % 2 === 1 && (
         <Seat seatNumber={capacity} tableId={id} tableName={name} />
@@ -80,7 +85,7 @@ export default function TableGroup({
     <div
       id={`table-${id}`}
       className="absolute h-[120px]"
-      style={{ top: tableHeight * y, left: tableWidth * x }}
+      style={{ top: tableHeight * y + OffsetY, left: tableWidth * x }}
     >
       <div
         className={`w-12 h-12 top-9 left-9 bg-white/30 rounded-full absolute transform flex items-center justify-center ${
