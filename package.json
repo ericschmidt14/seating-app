@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "svg-to-ico public/logo.svg src/app/favicon.ico && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "import": "tsc ./importer/index.ts --outDir ./importer/dist && node ./importer/dist/index.js"
   },
   "dependencies": {
     "@mantine/core": "^7.13.2",
@@ -21,7 +22,8 @@
     "next-auth": "^4.24.7",
     "react": "^18",
     "react-dom": "^18",
-    "tailwind-merge": "^2.5.2"
+    "tailwind-merge": "^2.5.2",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/node": "^20",
