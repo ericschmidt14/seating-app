@@ -97,7 +97,6 @@ export default function GameDrawer({
     >
       <div className="flex flex-col gap-4">
         <h2 className="text-2xl">Spiel {game ? "bearbeiten" : "hinzufügen"}</h2>
-
         <TextInput
           label="Spieltag"
           description={warning}
@@ -121,7 +120,6 @@ export default function GameDrawer({
           allowDeselect={false}
           checkIconPosition="right"
         />
-
         <TextInput
           label="Gegner"
           value={opponent}

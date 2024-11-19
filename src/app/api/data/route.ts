@@ -1,16 +1,20 @@
 import { authOptions } from "@/app/auth";
 import { FCN_WEB_API } from "@/app/constants";
+import { NextApiRequest } from "next";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req: NextApiRequest) {
   const session = await getServerSession(authOptions);
 
   if (!session) {
     return new NextResponse(null, { status: 401 });
   }
 
-  const res = await fetch(`${FCN_WEB_API}/game`, {
+  const { searchParams } = new URL(req.url || "");
+  const date = searchParams.get("date") || "";
+
+  const res = await fetch(`${FCN_WEB_API}/game${date ? `/${date}` : ""}`, {
     method: "GET",
     headers: {
       Accept: "*/*",

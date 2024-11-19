@@ -63,7 +63,7 @@ export const SeatingProvider = ({ children }: { children: ReactNode }) => {
   }, [selectedGame]);
 
   const loadData = (date?: string) => {
-    fetch(`/api/data${date ? `/${date}` : ""}`, {
+    fetch(`/api/data${date ? `?date=${date}` : ""}`, {
       method: "GET",
       cache: "no-store",
     })
