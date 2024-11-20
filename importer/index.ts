@@ -2,8 +2,9 @@ import * as fs from "fs";
 import * as XLSX from "xlsx";
 
 interface TableEntry {
-  id: string;
+  id: number;
   name: string;
+  capacity: number;
 }
 
 interface ExcelRow {
@@ -20,7 +21,7 @@ interface Occupant {
 }
 
 interface OutputRow {
-  tableId: string;
+  tableId: number;
   seatNumber: number;
   occupant: Occupant;
 }
@@ -33,9 +34,8 @@ function transformExcelToJson(
     fs.readFileSync(tablesFilePath, "utf-8")
   );
 
-  const getTableIdByName = (tableName: number): string | null => {
-    const table = tables.find((entry) => entry.name === tableName.toString());
-    return table ? table.id : null;
+  const getTableByName = (tableName: number): TableEntry | null => {
+    return tables.find((entry) => entry.name === tableName.toString()) || null;
   };
 
   const workbook = XLSX.readFile(excelFilePath);
@@ -45,7 +45,7 @@ function transformExcelToJson(
   const rawData: ExcelRow[] = XLSX.utils.sheet_to_json(sheet) as ExcelRow[];
 
   const result: OutputRow[] = [];
-  const tableSeatMap: { [tableId: string]: number } = {};
+  const tableSeatMap: { [tableId: number]: number } = {};
 
   for (const row of rawData) {
     const { Table: tableName, Company, Amount } = row;
@@ -57,19 +57,26 @@ function transformExcelToJson(
       continue;
     }
 
-    const tableId = getTableIdByName(tableName);
-    if (!tableId) {
-      console.error(
-        `Error: Table name "${tableName}" not found in tables.json.`
-      );
+    const table = getTableByName(tableName);
+    if (!table) {
+      console.error(`Error: Table "${tableName}" not found in tables.json.`);
       continue;
     }
+
+    const tableId = table.id;
 
     if (!tableSeatMap[tableId]) {
       tableSeatMap[tableId] = 0;
     }
 
     for (let i = 1; i <= Amount; i++) {
+      if (tableSeatMap[tableId] >= table.capacity) {
+        console.error(
+          `Error: Adding seats would exceed capacity (${table.capacity}) for table "${tableName}" (ID: ${tableId}). Skipping the remaining entries.`
+        );
+        break;
+      }
+
       tableSeatMap[tableId]++;
       result.push({
         tableId: tableId,
@@ -78,7 +85,7 @@ function transformExcelToJson(
           company: Company.trim(),
           firstName: "",
           lastName: "",
-          seasonTicket: false,
+          seasonTicket: true,
         },
       });
     }

@@ -24,6 +24,16 @@ export default function Search() {
       ].some((s) => s!.toLowerCase().includes(keyword.toLowerCase()))
     );
 
+  const getDescription = (s: Seat) => {
+    let d = `${s.occupant?.firstName} ${s.occupant?.lastName}`;
+
+    if (s.occupant?.info && s.occupant?.info !== null) {
+      d += ` (${s.occupant.info})`;
+    }
+
+    return d;
+  };
+
   const data: SpotlightActionData[] = tables
     .filter((t) => t.seats !== null)
     .flatMap((t) =>
@@ -33,9 +43,7 @@ export default function Search() {
           return {
             id: `${index}-${t.id}-${s.seatNumber}`,
             label: s.occupant?.company,
-            description: `${s.occupant?.firstName} ${s.occupant?.lastName}${
-              s.occupant?.info && ` (${s.occupant?.info})`
-            }`,
+            description: getDescription(s),
             onClick: () => {
               setLounge(t.loungeId);
               setTimeout(() => {

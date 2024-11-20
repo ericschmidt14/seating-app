@@ -98,7 +98,7 @@ export default function Seat({
           <p className="font-bold">
             {occupant && `${occupant.firstName} ${occupant.lastName}`}
           </p>
-          <p className="text-sm muted">{occupant && `${occupant.company}`}</p>
+          <p className="text-sm">{occupant && `${occupant.company}`}</p>
         </div>
         <SeatInfo
           tableName={tableName}
