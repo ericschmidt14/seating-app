@@ -26,7 +26,7 @@ export default function Header({
   return (
     <SessionProvider>
       <header className="sticky top-0 z-50 flex flex-col backdrop-blur-md bg-black/60 shadow-md shadow-black/20">
-        <div className="flex justify-between items-center px-8 py-8">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 px-8 py-8">
           <div className="flex items-center gap-8">
             <Logo transparent />
             {showNav && (
@@ -57,7 +57,7 @@ function Actions({
   const { tables, games, selectedGame, setSelectedGame } = useSeating();
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 scale-75 md:scale-100">
       <ActionIcon
         aria-label="Ausloggen"
         variant="transparent"
@@ -119,33 +119,35 @@ function Tabs() {
           />
         ))}
       </div>
-      <Tooltip
-        label={`Auslastung: ${statsOverall.percentage}%`}
-        color="dark"
-        position="left"
-        withArrow
-      >
-        <div className="flex items-center gap-2 py-2 cursor-default">
-          <IconArmchair size={16} />
-          <p
-            style={{
-              fontSize:
-                "var(--input-fz, var(--input-fz, var(--mantine-font-size-sm)))",
-            }}
-          >
-            {statsLounge.occupiedSeats} / {statsLounge.maxCapacity}
-          </p>
-          <p
-            className="muted"
-            style={{
-              fontSize:
-                "var(--input-fz, var(--input-fz, var(--mantine-font-size-xs)))",
-            }}
-          >
-            {statsOverall.occupiedSeats} / {statsOverall.maxCapacity}
-          </p>
-        </div>
-      </Tooltip>
+      <div className="hidden md:flex">
+        <Tooltip
+          label={`Auslastung: ${statsOverall.percentage}%`}
+          color="dark"
+          position="left"
+          withArrow
+        >
+          <div className="flex items-center gap-2 py-2 cursor-default">
+            <IconArmchair size={16} />
+            <p
+              style={{
+                fontSize:
+                  "var(--input-fz, var(--input-fz, var(--mantine-font-size-sm)))",
+              }}
+            >
+              {statsLounge.occupiedSeats} / {statsLounge.maxCapacity}
+            </p>
+            <p
+              className="muted"
+              style={{
+                fontSize:
+                  "var(--input-fz, var(--input-fz, var(--mantine-font-size-xs)))",
+              }}
+            >
+              {statsOverall.occupiedSeats} / {statsOverall.maxCapacity}
+            </p>
+          </div>
+        </Tooltip>
+      </div>
     </div>
   );
 }
