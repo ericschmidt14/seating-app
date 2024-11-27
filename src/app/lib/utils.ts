@@ -178,7 +178,7 @@ export function exportTables(tables: Table[], selectedGame: string | null) {
       .toISOString()
       .replace(/[-:T]/g, "")
       .slice(0, 14);
-    const filename = `export_${selectedGame}_${timestamp}`;
+    const filename = `Export_${selectedGame}_${timestamp}`;
 
     const downloadFile = (blob: Blob, fileName: string) => {
       const link = document.createElement("a");
@@ -206,6 +206,6 @@ export function exportTables(tables: Table[], selectedGame: string | null) {
 
     console.log(`Excel and JSON files downloaded: ${filename}`);
   } catch {
-    console.error("Error exporting tables to Excel:");
+    console.error("Error exporting tables.");
   }
 }
