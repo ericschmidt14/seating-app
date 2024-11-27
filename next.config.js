@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 /** @type {import('next').NextConfig} */
 const isProd = process.env.NODE_ENV === "production";
+const runtimeCaching = require("next-pwa/cache");
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
 const withPWA = require("next-pwa")({
   dest: "public",
   disable: !isProd,
@@ -10,6 +11,7 @@ const withPWA = require("next-pwa")({
   fallbacks: {
     document: "/offline.html",
   },
+  runtimeCaching,
 });
 
 module.exports = withPWA({

@@ -46,36 +46,43 @@ export default function RootLayout({
         <link
           rel="apple-touch-startup-image"
           href="/splash/splash-640x1136.png"
+          sizes="640x1136"
           media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)"
         />
         <link
           rel="apple-touch-startup-image"
           href="/splash/splash-750x1334.png"
+          sizes="750x1334"
           media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)"
         />
         <link
           rel="apple-touch-startup-image"
           href="/splash/splash-1125x2436.png"
+          sizes="1125x2436"
           media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)"
         />
         <link
           rel="apple-touch-startup-image"
           href="/splash/splash-1242x2208.png"
+          sizes="1242x2208"
           media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)"
         />
         <link
           rel="apple-touch-startup-image"
           href="/splash/splash-1242x2688.png"
+          sizes="1242x2688"
           media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)"
         />
         <link
           rel="apple-touch-startup-image"
           href="/splash/splash-1536x2048.png"
+          sizes="1536x2048"
           media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)"
         />
         <link
           rel="apple-touch-startup-image"
           href="/splash/splash-2048x2732.png"
+          sizes="2048x2732"
           media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)"
         />
 
