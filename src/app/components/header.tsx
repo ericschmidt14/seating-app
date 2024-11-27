@@ -1,12 +1,12 @@
 "use client";
 import { ActionIcon, Button, Select, Tooltip } from "@mantine/core";
-import { IconArmchair, IconFileTypeCsv, IconLogout } from "@tabler/icons-react";
+import { IconArmchair, IconFileExport, IconLogout } from "@tabler/icons-react";
 import { SessionProvider, signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSeating } from "../context/seatingContext";
 import lounges from "../data/lounges.json";
-import { exportTablesToExcel, getLoungeStats, getOverallStats } from "../utils";
+import { exportTables, getLoungeStats, getOverallStats } from "../utils";
 import Logo from "./logo";
 import Search from "./search";
 import Tab from "./tabs";
@@ -90,8 +90,8 @@ function Actions({
             <Button
               variant="light"
               color="red"
-              leftSection={<IconFileTypeCsv size={16} />}
-              onClick={() => exportTablesToExcel(tables, selectedGame)}
+              leftSection={<IconFileExport size={16} />}
+              onClick={() => exportTables(tables, selectedGame)}
             >
               Export
             </Button>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx, { ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import * as XLSX from "xlsx";
@@ -113,10 +114,7 @@ export const getOverallStats = (
   return { percentage, maxCapacity, occupiedSeats };
 };
 
-export function exportTablesToExcel(
-  tables: Table[],
-  selectedGame: string | null
-) {
+export function exportTables(tables: Table[], selectedGame: string | null) {
   try {
     const rows: {
       TableID: number;
@@ -126,6 +124,20 @@ export function exportTablesToExcel(
       "Last Name": string;
       Info: string;
     }[] = [];
+
+    const modifiedTables = tables.map((table) => {
+      const {
+        name,
+        loungeId,
+        capacity,
+        x,
+        y,
+        isRight,
+        isRound,
+        ...remainingTable
+      } = table;
+      return remainingTable;
+    });
 
     for (const table of tables) {
       if (!Array.isArray(table.seats)) {
@@ -166,22 +178,33 @@ export function exportTablesToExcel(
       .toISOString()
       .replace(/[-:T]/g, "")
       .slice(0, 14);
-    const filename = `export_${selectedGame}_${timestamp}.xlsx`;
+    const filename = `export_${selectedGame}_${timestamp}`;
+
+    const downloadFile = (blob: Blob, fileName: string) => {
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
 
     const excelBuffer = XLSX.write(workbook, {
       bookType: "xlsx",
       type: "array",
     });
-    const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
+    const excelBlob = new Blob([excelBuffer], {
+      type: "application/octet-stream",
+    });
 
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    const jsonBlob = new Blob([JSON.stringify(modifiedTables, null, 2)], {
+      type: "application/json",
+    });
 
-    console.log(`Excel file downloaded: ${filename}`);
+    downloadFile(excelBlob, `${filename}.xlsx`);
+    setTimeout(() => downloadFile(jsonBlob, `${filename}.json`), 100);
+
+    console.log(`Excel and JSON files downloaded: ${filename}`);
   } catch {
     console.error("Error exporting tables to Excel:");
   }
