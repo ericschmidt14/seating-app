@@ -1,5 +1,6 @@
 import clsx, { ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import * as XLSX from "xlsx";
 import { Game, Table } from "./interfaces";
 
 export function cn(...inputs: ClassValue[]) {
@@ -111,3 +112,77 @@ export const getOverallStats = (
 
   return { percentage, maxCapacity, occupiedSeats };
 };
+
+export function exportTablesToExcel(
+  tables: Table[],
+  selectedGame: string | null
+) {
+  try {
+    const rows: {
+      TableID: number;
+      SeatNumber: number;
+      Company: string;
+      "First Name": string;
+      "Last Name": string;
+      Info: string;
+    }[] = [];
+
+    for (const table of tables) {
+      if (!Array.isArray(table.seats)) {
+        console.warn(
+          `Skipping table with ID ${table.id}: "seats" is not an array.`
+        );
+        continue;
+      }
+
+      for (const seat of table.seats) {
+        if (seat?.occupant) {
+          rows.push({
+            TableID: table.id,
+            SeatNumber: seat.seatNumber,
+            Company: seat.occupant.company,
+            "First Name": seat.occupant.firstName,
+            "Last Name": seat.occupant.lastName,
+            Info: seat.occupant.info,
+          });
+        } else {
+          rows.push({
+            TableID: table.id,
+            SeatNumber: seat?.seatNumber || 0,
+            Company: "",
+            "First Name": "",
+            "Last Name": "",
+            Info: "",
+          });
+        }
+      }
+    }
+
+    const worksheet = XLSX.utils.json_to_sheet(rows);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Tables");
+
+    const timestamp = new Date()
+      .toISOString()
+      .replace(/[-:T]/g, "")
+      .slice(0, 14);
+    const filename = `export_${selectedGame}_${timestamp}.xlsx`;
+
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+    const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
+
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    console.log(`Excel file downloaded: ${filename}`);
+  } catch {
+    console.error("Error exporting tables to Excel:");
+  }
+}

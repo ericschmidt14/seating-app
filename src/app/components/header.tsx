@@ -1,12 +1,12 @@
 "use client";
-import { ActionIcon, Select, Tooltip } from "@mantine/core";
-import { IconArmchair, IconLogout } from "@tabler/icons-react";
+import { ActionIcon, Button, Select, Tooltip } from "@mantine/core";
+import { IconArmchair, IconFileTypeCsv, IconLogout } from "@tabler/icons-react";
 import { SessionProvider, signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSeating } from "../context/seatingContext";
 import lounges from "../data/lounges.json";
-import { getLoungeStats, getOverallStats } from "../utils";
+import { exportTablesToExcel, getLoungeStats, getOverallStats } from "../utils";
 import Logo from "./logo";
 import Search from "./search";
 import Tab from "./tabs";
@@ -39,7 +39,7 @@ export default function Header({
               </div>
             )}
           </div>
-          <Actions hideTabs={hideTabs} />
+          <Actions showNav={showNav} hideTabs={hideTabs} />
         </div>
         {!hideTabs && <Tabs />}
       </header>
@@ -47,8 +47,14 @@ export default function Header({
   );
 }
 
-function Actions({ hideTabs }: { hideTabs?: boolean }) {
-  const { games, selectedGame, setSelectedGame } = useSeating();
+function Actions({
+  showNav,
+  hideTabs,
+}: {
+  showNav?: boolean;
+  hideTabs?: boolean;
+}) {
+  const { tables, games, selectedGame, setSelectedGame } = useSeating();
 
   return (
     <div className="flex gap-2">
@@ -80,6 +86,16 @@ function Actions({ hideTabs }: { hideTabs?: boolean }) {
             w={260}
           />
           <Search />
+          {showNav && (
+            <Button
+              variant="light"
+              color="red"
+              leftSection={<IconFileTypeCsv size={16} />}
+              onClick={() => exportTablesToExcel(tables, selectedGame)}
+            >
+              Export
+            </Button>
+          )}
         </>
       )}
     </div>
