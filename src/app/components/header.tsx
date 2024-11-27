@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSeating } from "../context/seatingContext";
 import lounges from "../data/lounges.json";
-import { exportTables, getLoungeStats, getOverallStats } from "../utils";
+import { exportTables, getLoungeStats, getOverallStats } from "../lib/utils";
 import Logo from "./logo";
 import Search from "./search";
 import Tab from "./tabs";

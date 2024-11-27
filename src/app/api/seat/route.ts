@@ -1,4 +1,4 @@
-import { FCN_WEB_API } from "@/app/constants";
+import { FCN_WEB_API } from "@/app/lib/constants";
 
 export async function POST(request: Request) {
   const res = await fetch(`${FCN_WEB_API}/seat/save`, {

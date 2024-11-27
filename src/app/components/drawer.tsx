@@ -9,8 +9,8 @@ import {
 import dayjs from "dayjs";
 import { useState } from "react";
 import { useSeating } from "../context/seatingContext";
-import { Game } from "../interfaces";
-import { getCurrentSeason, getSeasons, getUtilization } from "../utils";
+import { Game } from "../lib/interfaces";
+import { getCurrentSeason, getSeasons, getUtilization } from "../lib/utils";
 
 export default function GameDrawer({
   game,

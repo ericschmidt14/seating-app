@@ -1,5 +1,5 @@
-import { authOptions } from "@/app/auth";
-import { FCN_WEB_API } from "@/app/constants";
+import { authOptions } from "@/app/lib/auth";
+import { FCN_WEB_API } from "@/app/lib/constants";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 

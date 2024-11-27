@@ -8,7 +8,7 @@ import {
 } from "@tabler/icons-react";
 import { useState } from "react";
 import { useSeating } from "../context/seatingContext";
-import { Seat } from "../interfaces";
+import { Seat } from "../lib/interfaces";
 
 export default function Search() {
   const { tables, setLounge, handleSeatClick, setSelectedSeats } = useSeating();

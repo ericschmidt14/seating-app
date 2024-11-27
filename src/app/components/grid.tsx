@@ -2,8 +2,8 @@
 import { ActionIcon, Slider } from "@mantine/core";
 import { IconZoomIn, IconZoomOut } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
-import { LOCAL_STORAGE_ZOOM_KEY } from "../constants";
 import { useSeating } from "../context/seatingContext";
+import { LOCAL_STORAGE_ZOOM_KEY } from "../lib/constants";
 import Pitch from "./pitch";
 import TableGroup from "./table";
 

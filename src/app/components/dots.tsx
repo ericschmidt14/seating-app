@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useId } from "react";
-import { cn } from "../utils";
+import { cn } from "../lib/utils";
 
 interface DotPatternProps {
   width?: any;

@@ -4,7 +4,7 @@ import { signIn } from "next-auth/react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { cn } from "../utils";
+import { cn } from "../lib/utils";
 import DotPattern from "./dots";
 import Logo from "./logo";
 

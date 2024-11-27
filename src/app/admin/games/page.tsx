@@ -3,7 +3,7 @@ import GameDrawer from "@/app/components/drawer";
 import GameRow from "@/app/components/game";
 import Login from "@/app/components/login";
 import { useSeating } from "@/app/context/seatingContext";
-import { Game } from "@/app/interfaces";
+import { Game } from "@/app/lib/interfaces";
 import { Button, Paper, Table } from "@mantine/core";
 import { DatesProvider } from "@mantine/dates";
 import { useDisclosure } from "@mantine/hooks";

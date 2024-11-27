@@ -1,6 +1,6 @@
 import { usePathname } from "next/navigation";
 import { useSeating } from "../context/seatingContext";
-import { isAdminPage } from "../utils";
+import { isAdminPage } from "../lib/utils";
 import SeatRow from "./row";
 import Seat from "./seat";
 

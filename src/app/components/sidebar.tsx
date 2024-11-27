@@ -15,8 +15,8 @@ import {
   IconTrash,
 } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
-import { Occupant } from "../interfaces";
-import { getSelectedGameDate, getUniqueArray } from "../utils";
+import { Occupant } from "../lib/interfaces";
+import { getSelectedGameDate, getUniqueArray } from "../lib/utils";
 import { useSeating } from "./../context/seatingContext";
 import SeatInfo from "./seatInfo";
 

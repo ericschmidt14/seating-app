@@ -3,7 +3,7 @@ import { Popover } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { usePathname } from "next/navigation";
 import { useSeating } from "../context/seatingContext";
-import { isAdminPage } from "../utils";
+import { isAdminPage } from "../lib/utils";
 import SeatInfo from "./seatInfo";
 
 export default function Seat({

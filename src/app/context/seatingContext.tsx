@@ -9,9 +9,9 @@ import {
   useEffect,
   useState,
 } from "react";
-import { LOCAL_STORAGE_DATA_KEY } from "../constants";
-import { App, Game, Seat, Table } from "../interfaces";
-import { getCurrentSeason, getSelectedGameDate } from "../utils";
+import { LOCAL_STORAGE_DATA_KEY } from "../lib/constants";
+import { App, Game, Seat, Table } from "../lib/interfaces";
+import { getCurrentSeason, getSelectedGameDate } from "../lib/utils";
 
 interface SeatingContextType {
   loadData: (date?: string) => void;
