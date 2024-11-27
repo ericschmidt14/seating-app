@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
+const isProd = process.env.NODE_ENV === "production";
+
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const withPWA = require("next-pwa")({
   dest: "public",
+  disable: !isProd,
   register: true,
   skipWaiting: true,
   fallbacks: {
