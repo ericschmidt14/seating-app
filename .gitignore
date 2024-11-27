@@ -39,3 +39,8 @@ next-env.d.ts
 # importer
 /importer/dist
 /importer/data.xlsx
+
+# sw
+/public/sw.js
+/public/workbox-*.js
+/public/fallback-*.js
