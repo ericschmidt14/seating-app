@@ -22,6 +22,7 @@ export default function Search() {
         seat.occupant?.firstName,
         seat.occupant?.lastName,
         seat.occupant?.company,
+        seat.occupant?.info || "",
       ].some((s) => s!.toLowerCase().includes(keyword.toLowerCase()))
     );
 
