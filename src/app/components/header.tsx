@@ -54,7 +54,8 @@ function Actions({
   showNav?: boolean;
   hideTabs?: boolean;
 }) {
-  const { tables, games, selectedGame, setSelectedGame } = useSeating();
+  const { selectedSeats, tables, games, selectedGame, setSelectedGame } =
+    useSeating();
 
   return (
     <div className="flex gap-2 scale-75 md:scale-100">
@@ -84,6 +85,7 @@ function Actions({
             withCheckIcon={false}
             allowDeselect={false}
             w={260}
+            disabled={selectedSeats.length > 0}
           />
           <Search />
           {showNav && (
