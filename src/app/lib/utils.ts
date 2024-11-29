@@ -2,7 +2,7 @@
 import clsx, { ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import * as XLSX from "xlsx";
-import { Game, Table } from "./interfaces";
+import { Game, Occupant, Table } from "./interfaces";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -10,6 +10,16 @@ export function cn(...inputs: ClassValue[]) {
 
 export const isAdminPage = (path: string) => {
   return path.includes("/admin");
+};
+
+export const getDescription = (occupant: Occupant | null | undefined) => {
+  let d = `${occupant?.firstName} ${occupant?.lastName}`;
+
+  if (occupant?.info && occupant?.info !== null) {
+    d += ` (${occupant.info})`;
+  }
+
+  return d;
 };
 
 export const getUniqueArray = <T>(array: T[]): T[] =>

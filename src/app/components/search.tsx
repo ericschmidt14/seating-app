@@ -9,6 +9,7 @@ import {
 import { useState } from "react";
 import { useSeating } from "../context/seatingContext";
 import { Seat } from "../lib/interfaces";
+import { getDescription } from "../lib/utils";
 
 export default function Search() {
   const { tables, setLounge, handleSeatClick, setSelectedSeats } = useSeating();
@@ -24,16 +25,6 @@ export default function Search() {
       ].some((s) => s!.toLowerCase().includes(keyword.toLowerCase()))
     );
 
-  const getDescription = (s: Seat) => {
-    let d = `${s.occupant?.firstName} ${s.occupant?.lastName}`;
-
-    if (s.occupant?.info && s.occupant?.info !== null) {
-      d += ` (${s.occupant.info})`;
-    }
-
-    return d;
-  };
-
   const data: SpotlightActionData[] = tables
     .filter((t) => t.seats !== null)
     .flatMap((t) =>
@@ -43,7 +34,7 @@ export default function Search() {
           return {
             id: `${index}-${t.id}-${s.seatNumber}`,
             label: s.occupant?.company,
-            description: getDescription(s),
+            description: getDescription(s.occupant),
             onClick: () => {
               setLounge(t.loungeId);
               setTimeout(() => {

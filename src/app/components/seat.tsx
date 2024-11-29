@@ -3,7 +3,7 @@ import { Popover } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { usePathname } from "next/navigation";
 import { useSeating } from "../context/seatingContext";
-import { isAdminPage } from "../lib/utils";
+import { getDescription, isAdminPage } from "../lib/utils";
 import SeatInfo from "./seatInfo";
 
 export default function Seat({
@@ -95,10 +95,8 @@ export default function Seat({
         className="flex flex-col gap-2"
       >
         <div className="flex flex-col">
-          <p className="font-bold">
-            {occupant && `${occupant.firstName} ${occupant.lastName}`}
-          </p>
           <p className="text-sm">{occupant && `${occupant.company}`}</p>
+          <p className="text-xs muted">{getDescription(occupant)}</p>
         </div>
         <SeatInfo
           tableName={tableName}
