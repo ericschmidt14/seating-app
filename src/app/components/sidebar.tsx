@@ -276,6 +276,7 @@ export default function Sidebar() {
                       )
                     }
                     rightSection={<IconNote size={16} />}
+                    disabled={selectedGame !== "0" && s.occupant?.seasonTicket}
                   />
                 </Paper>
               ))}
