@@ -22,12 +22,16 @@ export default function TableGroup({
   right?: boolean;
 }) {
   const path = usePathname();
-  const { selectedSeats, handleTableClick } = useSeating();
+  const { lounge, selectedSeats, handleTableClick } = useSeating();
   const OffsetY = 120;
   const tableWidth = 200;
   const tableHeight = 140;
 
   const selected = selectedSeats.find((s) => s.tableId === id);
+  const rotate = lounge === 3;
+
+  const posX = rotate ? 1800 - tableWidth * x : tableWidth * x;
+  const posY = rotate ? 360 - tableHeight * y : tableHeight * y;
 
   const calculateSeatPosition = (index: number, totalSeats: number) => {
     const angle = (360 / totalSeats) * index;
@@ -42,8 +46,8 @@ export default function TableGroup({
       id={`table-${id}`}
       className={`absolute flex items-center gap-2 ${right && "justify-end"}`}
       style={{
-        top: tableHeight * y + OffsetY,
-        left: tableWidth * x,
+        top: posY + OffsetY,
+        left: posX,
         width: tableWidth,
       }}
     >

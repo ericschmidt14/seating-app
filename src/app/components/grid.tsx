@@ -37,9 +37,10 @@ export default function Grid() {
   return (
     <main className="p-8 w-full h-full overflow-scroll">
       <div
-        className="relative min-h-screen transform origin-top-left"
+        className="relative min-h-screen"
         style={{
           transform: `scale(${zoom})`,
+          transformOrigin: "top left",
           transition: "300ms transform ease-in-out",
           minWidth: lounge === 1 ? "200%" : "300%",
         }}
