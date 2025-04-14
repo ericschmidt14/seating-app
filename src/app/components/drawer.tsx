@@ -45,6 +45,7 @@ export default function GameDrawer({
   const utilizations = [
     { label: "Teilauslastung", value: "1" },
     { label: "Vollauslastung", value: "2" },
+    { label: "Sonderauslastung Derby", value: "3" },
   ];
 
   const warning = (
