@@ -6,7 +6,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSeating } from "../context/seatingContext";
 import lounges from "../data/lounges.json";
-import { exportTables, getLoungeStats, getOverallStats } from "../lib/utils";
+import {
+  exportTables,
+  getCurrentSeason,
+  getLoungeStats,
+  getOverallStats,
+  getSeasons,
+} from "../lib/utils";
 import Logo from "./logo";
 import Search from "./search";
 import Tab from "./tabs";
@@ -26,7 +32,7 @@ export default function Header({
   return (
     <SessionProvider>
       <header className="sticky top-0 z-50 flex flex-col backdrop-blur-md bg-black/60 shadow-md shadow-black/20">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 px-8 py-8">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 p-8">
           <div className="flex items-center gap-8">
             <Logo transparent />
             {showNav && (
@@ -54,8 +60,15 @@ function Actions({
   showNav?: boolean;
   hideTabs?: boolean;
 }) {
-  const { selectedSeats, tables, games, selectedGame, setSelectedGame } =
-    useSeating();
+  const {
+    season,
+    setSeason,
+    selectedSeats,
+    tables,
+    games,
+    selectedGame,
+    setSelectedGame,
+  } = useSeating();
 
   return (
     <div className="flex gap-2 scale-75 md:scale-100">
@@ -71,19 +84,28 @@ function Actions({
       {!hideTabs && (
         <>
           <Select
-            data={games.map((g) => {
-              return {
-                label:
-                  g.day === 0
-                    ? g.opponent
-                    : `Spieltag ${g.day} – ${g.opponent}`,
-                value: g.day.toString(),
-              };
-            })}
+            data={getSeasons().reverse()}
+            value={season.toString()}
+            onChange={(value) => setSeason(value ? +value : getCurrentSeason())}
+            withCheckIcon={false}
+            allowDeselect={false}
+            w={100}
+          />
+          <Select
+            data={games
+              .filter((g) => g.year === season)
+              .map((g) => {
+                return {
+                  label:
+                    g.day === 0
+                      ? g.opponent
+                      : `Spieltag ${g.day} – ${g.opponent}`,
+                  value: g.day.toString(),
+                };
+              })}
             value={selectedGame}
             onChange={setSelectedGame}
             withCheckIcon={false}
-            allowDeselect={false}
             w={260}
             disabled={selectedSeats.length > 0}
           />

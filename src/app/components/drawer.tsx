@@ -1,11 +1,7 @@
 "use client";
 import { Button, Drawer, Select, TextInput } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
-import {
-  IconAlertTriangle,
-  IconCalendar,
-  IconDeviceFloppy,
-} from "@tabler/icons-react";
+import { IconCalendar, IconDeviceFloppy } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { useSeating } from "../context/seatingContext";
@@ -29,8 +25,8 @@ export default function GameDrawer({
     game?.year ? game.year.toString() : getCurrentSeason().toString()
   );
   const [opponent, setOpponent] = useState<string>(game ? game.opponent : "");
-  const [date, setDate] = useState<Date | null>(
-    game ? new Date(game.date) : new Date()
+  const [date, setDate] = useState<string | null>(
+    game ? game.date : new Date().toISOString()
   );
   const [utilizationLounge0, setUtilizationLounge0] = useState<string | null>(
     game ? getUtilization(game, 1) : "1"
@@ -48,14 +44,19 @@ export default function GameDrawer({
     { label: "Sonderauslastung Derby", value: "3" },
   ];
 
-  const warning = (
-    <div className="flex gap-1">
-      <IconAlertTriangle size={16} />
-      <p>Kann nachträglich nicht geändert werden.</p>
-    </div>
-  );
-
   const handleSubmit = () => {
+    const loungeData = game
+      ? [
+          { loungeId: 1, utilization: utilizationLounge0 },
+          { loungeId: 2, utilization: utilizationLounge1 },
+          { loungeId: 3, utilization: utilizationLounge2 },
+        ]
+      : [
+          { id: 1, utilization: utilizationLounge0 },
+          { id: 2, utilization: utilizationLounge1 },
+          { id: 3, utilization: utilizationLounge2 },
+        ];
+
     fetch(`/api/game`, {
       method: "POST",
       headers: {
@@ -67,11 +68,7 @@ export default function GameDrawer({
         year,
         opponent,
         date: dayjs(date).format("YYYY-MM-DDT[00:00:00]"),
-        lounges: [
-          { loungeId: 1, utilization: utilizationLounge0 },
-          { loungeId: 2, utilization: utilizationLounge1 },
-          { loungeId: 3, utilization: utilizationLounge2 },
-        ],
+        lounges: loungeData,
       }),
     })
       .then((res) => res.text())
@@ -100,7 +97,6 @@ export default function GameDrawer({
         <h2 className="text-2xl">Spiel {game ? "bearbeiten" : "hinzufügen"}</h2>
         <TextInput
           label="Spieltag"
-          description={warning}
           value={day}
           onChange={(event) => setDay(event.currentTarget.value)}
           error={
@@ -111,7 +107,6 @@ export default function GameDrawer({
         />
         <Select
           label="Saison"
-          description={warning}
           data={getSeasons().map((s) => {
             return { label: s.label, value: s.value.toString() };
           })}

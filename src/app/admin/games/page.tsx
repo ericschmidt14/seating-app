@@ -4,18 +4,23 @@ import GameRow from "@/app/components/game";
 import Login from "@/app/components/login";
 import { useSeating } from "@/app/context/seatingContext";
 import { Game } from "@/app/lib/interfaces";
-import { Button, Paper, Table } from "@mantine/core";
+import { getSeasons } from "@/app/lib/utils";
+import { Button, Paper, Table, Tabs } from "@mantine/core";
 import { DatesProvider } from "@mantine/dates";
 import { useDisclosure } from "@mantine/hooks";
 import { IconCirclePlus } from "@tabler/icons-react";
 import "dayjs/locale/de";
 import { useSession } from "next-auth/react";
+import { useState } from "react";
 import Header from "../../components/header";
 
 export default function Home() {
   const { data: session, status } = useSession();
-  const { games } = useSeating();
+  const { season, games } = useSeating();
+  const [activeTab, setActiveTab] = useState<string | null>(season.toString());
   const [opened, { open, close }] = useDisclosure(false);
+
+  const seasons = getSeasons().reverse();
 
   if (status === "loading") {
     return <></>;
@@ -31,40 +36,54 @@ export default function Home() {
         <div className="w-screen min-h-screen flex flex-col">
           <Header showNav={true} hideTabs={true} />
           <main className="p-8">
-            <Paper
-              p="lg"
-              radius="md"
-              shadow="xl"
-              className="flex flex-col gap-4"
-            >
-              <Table>
-                <Table.Thead>
-                  <Table.Tr>
-                    <Table.Th>Spieltag</Table.Th>
-                    <Table.Th>Saison</Table.Th>
-                    <Table.Th>Gegner</Table.Th>
-                    <Table.Th>Datum</Table.Th>
-                    <Table.Th>Club Lounge</Table.Th>
-                    <Table.Th>Galerie</Table.Th>
-                    <Table.Th>Kulmbacher Lounge</Table.Th>
-                    <Table.Th></Table.Th>
-                  </Table.Tr>
-                </Table.Thead>
-                <Table.Tbody>
-                  {games.map((g, index) => (
-                    <GameRow key={index} game={g as Game} />
-                  ))}
-                </Table.Tbody>
-              </Table>
-              <Button
-                variant="light"
-                color="white"
-                leftSection={<IconCirclePlus size={16} />}
-                fullWidth
-                onClick={open}
-              >
-                Weiteres Spiel hinzufügen
-              </Button>
+            <Paper p="lg" radius="md" shadow="xl">
+              <Tabs value={activeTab} onChange={setActiveTab}>
+                <div className="flex flex-col gap-8">
+                  <Tabs.List>
+                    {seasons.map((s) => {
+                      return (
+                        <Tabs.Tab key={s.value} value={s.value}>
+                          {s.label}
+                        </Tabs.Tab>
+                      );
+                    })}
+                  </Tabs.List>
+
+                  <Table>
+                    <Table.Thead>
+                      <Table.Tr>
+                        <Table.Th>Spieltag</Table.Th>
+                        <Table.Th>Saison</Table.Th>
+                        <Table.Th>Gegner</Table.Th>
+                        <Table.Th>Datum</Table.Th>
+                        <Table.Th>Club Lounge</Table.Th>
+                        <Table.Th>Galerie</Table.Th>
+                        <Table.Th>Kulmbacher Lounge</Table.Th>
+                        <Table.Th></Table.Th>
+                      </Table.Tr>
+                    </Table.Thead>
+                    <Table.Tbody>
+                      {games
+                        .filter((g) => g.year.toString() === activeTab)
+                        .map((g, index) => (
+                          <GameRow
+                            key={`${index}-${g.year}`}
+                            game={g as Game}
+                          />
+                        ))}
+                    </Table.Tbody>
+                  </Table>
+                  <Button
+                    variant="light"
+                    color="white"
+                    leftSection={<IconCirclePlus size={16} />}
+                    fullWidth
+                    onClick={open}
+                  >
+                    Weiteres Spiel hinzufügen
+                  </Button>
+                </div>
+              </Tabs>
             </Paper>
           </main>
         </div>

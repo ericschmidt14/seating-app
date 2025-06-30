@@ -29,16 +29,16 @@ export const getSeasons = () => {
   const today = new Date();
   const currentYear = today.getFullYear();
   const startYear = 2024;
-  const seasons: { value: number; label: string }[] = [];
+  const seasons: { value: string; label: string }[] = [];
 
   for (let year = startYear; year <= currentYear; year++) {
-    const seasonStart = new Date(year, 6, 1);
+    const seasonStart = new Date(year, 5, 1);
     const seasonEnd = new Date(year + 1, 4, 31);
 
     if ((today >= seasonStart && today <= seasonEnd) || today > seasonEnd) {
       seasons.push({
-        value: year,
-        label: `Saison ${year}/${year + 1 - 2000}`,
+        value: year.toString(),
+        label: `${year}/${year + 1 - 2000}`,
       });
     }
   }
@@ -65,7 +65,7 @@ export const getCurrentSeason = () => {
 export const getSeason = (year: number) => {
   return {
     value: year,
-    label: `Saison ${year}/${year + 1 - 2000}`,
+    label: `${year}/${year + 1 - 2000}`,
   };
 };
 

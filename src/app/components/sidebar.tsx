@@ -151,133 +151,147 @@ export default function Sidebar() {
                 return a.seatNumber - b.seatNumber;
               })
               .map((s, index) => (
-                <Paper
-                  key={index}
-                  p="xs"
-                  bg="#181818"
-                  radius="md"
-                  className="relative grid grid-cols-2 justify-between items-center gap-2"
-                >
-                  <div className="col-span-2 flex justify-between">
-                    <SeatInfo
-                      tableName={
-                        tables.find((t) => t.id === s.tableId)?.name || ""
-                      }
-                      seatNumber={s.seatNumber}
-                      seasonTicket={
-                        selectedGame === "0" || s.occupant?.seasonTicket
-                      }
-                    />
-                    <ActionIcon.Group>
-                      {(s.occupant?.company !== "" ||
-                        s.occupant?.firstName !== "" ||
-                        s.occupant?.lastName !== "") && (
+                <Paper key={index} p="xs" bg="#181818" radius="md">
+                  <div className="relative grid grid-cols-2 justify-between items-center gap-2">
+                    <div className="col-span-2 flex justify-between">
+                      <SeatInfo
+                        tableName={
+                          tables.find((t) => t.id === s.tableId)?.name || ""
+                        }
+                        seatNumber={s.seatNumber}
+                        seasonTicket={
+                          selectedGame === "0" || s.occupant?.seasonTicket
+                        }
+                      />
+                      <ActionIcon.Group>
+                        {(s.occupant?.company !== "" ||
+                          s.occupant?.firstName !== "" ||
+                          s.occupant?.lastName !== "") && (
+                          <Tooltip
+                            label="Zuordnung löschen"
+                            color="dark"
+                            position="left"
+                            withArrow
+                          >
+                            <ActionIcon
+                              aria-label="Löschen"
+                              variant="light"
+                              onClick={() =>
+                                ["company", "firstName", "lastName"].forEach(
+                                  (value) =>
+                                    handleInputChange(
+                                      s.tableId!,
+                                      s.seatNumber,
+                                      value as
+                                        | "firstName"
+                                        | "lastName"
+                                        | "company"
+                                        | "info",
+                                      ""
+                                    )
+                                )
+                              }
+                              disabled={
+                                selectedGame !== "0" && s.occupant?.seasonTicket
+                              }
+                            >
+                              <IconTrash size={16} />
+                            </ActionIcon>
+                          </Tooltip>
+                        )}
                         <Tooltip
-                          label="Zuordnung löschen"
+                          label="Sitz abwählen"
                           color="dark"
                           position="left"
                           withArrow
                         >
                           <ActionIcon
-                            aria-label="Löschen"
-                            variant="light"
+                            aria-label="Abwählen"
+                            variant="default"
                             onClick={() =>
-                              ["company", "firstName", "lastName"].forEach(
-                                (value) =>
-                                  handleInputChange(
-                                    s.tableId!,
-                                    s.seatNumber,
-                                    value as
-                                      | "firstName"
-                                      | "lastName"
-                                      | "company"
-                                      | "info",
-                                    ""
-                                  )
-                              )
-                            }
-                            disabled={
-                              selectedGame !== "0" && s.occupant?.seasonTicket
+                              handleSeatClick({
+                                seatNumber: s.seatNumber,
+                                tableId: s.tableId,
+                              })
                             }
                           >
-                            <IconTrash size={16} />
+                            <IconDeselect size={16} />
                           </ActionIcon>
                         </Tooltip>
-                      )}
-                      <Tooltip
-                        label="Sitz abwählen"
-                        color="dark"
-                        position="left"
-                        withArrow
-                      >
-                        <ActionIcon
-                          aria-label="Abwählen"
-                          variant="default"
-                          onClick={() =>
-                            handleSeatClick({
-                              seatNumber: s.seatNumber,
-                              tableId: s.tableId,
-                            })
-                          }
-                        >
-                          <IconDeselect size={16} />
-                        </ActionIcon>
-                      </Tooltip>
-                    </ActionIcon.Group>
+                      </ActionIcon.Group>
+                    </div>
+                    <Autocomplete
+                      size="xs"
+                      placeholder="Vorname"
+                      data={data.firstNames}
+                      value={s.occupant?.firstName || ""}
+                      onChange={(e) =>
+                        handleInputChange(
+                          s.tableId!,
+                          s.seatNumber,
+                          "firstName",
+                          e
+                        )
+                      }
+                      disabled={
+                        selectedGame !== "0" && s.occupant?.seasonTicket
+                      }
+                    />
+                    <Autocomplete
+                      size="xs"
+                      placeholder="Nachname"
+                      data={data.lastNames}
+                      value={s.occupant?.lastName || ""}
+                      onChange={(e) =>
+                        handleInputChange(
+                          s.tableId!,
+                          s.seatNumber,
+                          "lastName",
+                          e
+                        )
+                      }
+                      disabled={
+                        selectedGame !== "0" && s.occupant?.seasonTicket
+                      }
+                    />
+                    <Autocomplete
+                      className="col-span-2"
+                      size="xs"
+                      placeholder="Firma"
+                      data={data.companies}
+                      value={s.occupant?.company || ""}
+                      onChange={(e) =>
+                        handleInputChange(
+                          s.tableId!,
+                          s.seatNumber,
+                          "company",
+                          e
+                        )
+                      }
+                      rightSection={<IconBuildingFactory2 size={16} />}
+                      disabled={
+                        selectedGame !== "0" && s.occupant?.seasonTicket
+                      }
+                    />
+                    <TextInput
+                      className="col-span-2"
+                      size="xs"
+                      placeholder="Kommentar"
+                      value={s.occupant?.info || ""}
+                      onChange={(e) =>
+                        handleInputChange(
+                          s.tableId!,
+                          s.seatNumber,
+                          "info",
+                          e.target.value
+                        )
+                      }
+                      rightSection={<IconNote size={16} />}
+                      disabled={
+                        selectedGame !== "0" && s.occupant?.seasonTicket
+                      }
+                    />
                   </div>
-                  <Autocomplete
-                    size="xs"
-                    placeholder="Vorname"
-                    data={data.firstNames}
-                    value={s.occupant?.firstName || ""}
-                    onChange={(e) =>
-                      handleInputChange(
-                        s.tableId!,
-                        s.seatNumber,
-                        "firstName",
-                        e
-                      )
-                    }
-                    disabled={selectedGame !== "0" && s.occupant?.seasonTicket}
-                  />
-                  <Autocomplete
-                    size="xs"
-                    placeholder="Nachname"
-                    data={data.lastNames}
-                    value={s.occupant?.lastName || ""}
-                    onChange={(e) =>
-                      handleInputChange(s.tableId!, s.seatNumber, "lastName", e)
-                    }
-                    disabled={selectedGame !== "0" && s.occupant?.seasonTicket}
-                  />
-                  <Autocomplete
-                    className="col-span-2"
-                    size="xs"
-                    placeholder="Firma"
-                    data={data.companies}
-                    value={s.occupant?.company || ""}
-                    onChange={(e) =>
-                      handleInputChange(s.tableId!, s.seatNumber, "company", e)
-                    }
-                    rightSection={<IconBuildingFactory2 size={16} />}
-                    disabled={selectedGame !== "0" && s.occupant?.seasonTicket}
-                  />
-                  <TextInput
-                    className="col-span-2"
-                    size="xs"
-                    placeholder="Kommentar"
-                    value={s.occupant?.info || ""}
-                    onChange={(e) =>
-                      handleInputChange(
-                        s.tableId!,
-                        s.seatNumber,
-                        "info",
-                        e.target.value
-                      )
-                    }
-                    rightSection={<IconNote size={16} />}
-                    disabled={selectedGame !== "0" && s.occupant?.seasonTicket}
-                  />
                 </Paper>
               ))}
           </div>
